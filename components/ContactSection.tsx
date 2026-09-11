@@ -7,7 +7,7 @@ export default function ContactSection() {
   return (
     <Section id="contact">
       <SectionHeading
-        index="05"
+        index="07"
         route="contact"
         title="Let's talk"
         description="Backend, platform or AI-systems work — permanent or contract, Malaysia or remote. I reply to everything that isn't a template."
@@ -117,6 +117,16 @@ export default function ContactSection() {
                   className="inline-flex items-center gap-1 text-text transition-colors hover:text-accent"
                 >
                   {profile.githubLabel}
+                  <ArrowIcon className="text-dim" />
+                </ExternalLink>
+              </ContactRow>
+              <ContactRow label="linkedin">
+                <ExternalLink
+                  href={profile.linkedin}
+                  logAs="linkedin profile"
+                  className="inline-flex items-center gap-1 text-text transition-colors hover:text-accent"
+                >
+                  {profile.linkedinLabel}
                   <ArrowIcon className="text-dim" />
                 </ExternalLink>
               </ContactRow>

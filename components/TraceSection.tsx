@@ -60,7 +60,7 @@ export default function TraceSection() {
   return (
     <Section id="trace">
       <SectionHeading
-        index="01"
+        index="02"
         route="trace"
         title="Career trace"
         description={

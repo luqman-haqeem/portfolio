@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { profile } from "@/lib/resume";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,17 +15,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
 });
-
-/**
- * Needed so the OG image resolves to an absolute URL. Set NEXT_PUBLIC_SITE_URL
- * in your host; Netlify's `URL` and Vercel's `VERCEL_URL` are picked up
- * automatically.
- */
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  process.env.URL ??
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined) ??
-  "http://localhost:3000";
 
 const title = `${profile.name} — ${profile.role}`;
 const description =
@@ -80,7 +70,7 @@ const personSchema = {
   email: `mailto:${profile.email}`,
   telephone: profile.phoneHref,
   url: profile.github,
-  sameAs: [profile.github],
+  sameAs: [profile.github, profile.linkedin],
   address: {
     "@type": "PostalAddress",
     addressLocality: "Selangor",

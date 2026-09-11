@@ -28,8 +28,8 @@ export default function About() {
   return (
     <Section id="about">
       <SectionHeading
-        index="04"
-        route="about"
+        index="06"
+        route="how-i-work"
         title="How I actually work"
         description="Four things that show up in most of my work. Each one maps to something in the trace above."
       />

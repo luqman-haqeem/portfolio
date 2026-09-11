@@ -1,0 +1,655 @@
+{
+  "syncedAt": "2026-09-11T06:27:58.546Z",
+  "profile": {
+    "login": "luqman-haqeem",
+    "name": "Luqman",
+    "location": "Selangor",
+    "createdAt": "2020-03-13T15:08:20Z",
+    "publicRepos": 9,
+    "followers": 1
+  },
+  "repos": [
+    {
+      "name": "water-level",
+      "description": "A  system monitoring Selangor river levels with camera feeds and alerts, using data from the JPS Selangor portal.",
+      "url": "https://github.com/luqman-haqeem/water-level",
+      "homepage": "https://riverlevel.netlify.app/",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 404499,
+        "JavaScript": 16842,
+        "CSS": 7635,
+        "HTML": 1748
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2024-08-23T08:37:21Z",
+      "pushedAt": "2026-09-09T15:12:41Z",
+      "commitCount": 284
+    },
+    {
+      "name": "career-agent",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/career-agent",
+      "homepage": null,
+      "language": "Python",
+      "languages": {
+        "Python": 280027,
+        "Jinja": 2733,
+        "Dockerfile": 1716,
+        "Shell": 950
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2026-06-05T02:38:45Z",
+      "pushedAt": "2026-09-04T12:02:17Z",
+      "commitCount": 83
+    },
+    {
+      "name": "smart-locker",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/smart-locker",
+      "homepage": null,
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 67716,
+        "CSS": 10195,
+        "Dockerfile": 1517,
+        "HTML": 663
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2026-07-11T13:56:23Z",
+      "pushedAt": "2026-07-11T14:43:10Z",
+      "commitCount": 2
+    },
+    {
+      "name": "se-take-home-assignment",
+      "description": "The take-home assignment for SE interview",
+      "url": "https://github.com/luqman-haqeem/se-take-home-assignment",
+      "homepage": null,
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 14770,
+        "Shell": 1032
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": true,
+      "archived": false,
+      "createdAt": "2026-06-06T16:12:09Z",
+      "pushedAt": "2026-06-06T17:15:08Z",
+      "commitCount": null
+    },
+    {
+      "name": "rag",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/rag",
+      "homepage": null,
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 5213,
+        "HTML": 1377,
+        "Dockerfile": 277
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2026-05-22T09:27:34Z",
+      "pushedAt": "2026-05-22T14:16:29Z",
+      "commitCount": 5
+    },
+    {
+      "name": "luqman-haqeem",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/luqman-haqeem",
+      "homepage": null,
+      "language": null,
+      "languages": {},
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2023-05-28T04:57:14Z",
+      "pushedAt": "2025-09-18T14:23:28Z",
+      "commitCount": 8
+    },
+    {
+      "name": "WaterLevel",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/WaterLevel",
+      "homepage": "https://water-level.onrender.com/",
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 1350625,
+        "CSS": 338150,
+        "PHP": 282183,
+        "Blade": 100939,
+        "Vue": 552,
+        "Shell": 371,
+        "Dockerfile": 345,
+        "SCSS": 345
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2022-12-16T03:07:56Z",
+      "pushedAt": "2024-12-10T03:32:59Z",
+      "commitCount": 129
+    },
+    {
+      "name": "laravel-evoting",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/laravel-evoting",
+      "homepage": null,
+      "language": "PHP",
+      "languages": {
+        "PHP": 149427,
+        "Blade": 140499,
+        "Vue": 552
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2022-02-15T13:34:24Z",
+      "pushedAt": "2023-04-05T07:44:52Z",
+      "commitCount": 115
+    },
+    {
+      "name": "voting-system",
+      "description": "an online voting system for my final project",
+      "url": "https://github.com/luqman-haqeem/voting-system",
+      "homepage": null,
+      "language": "PHP",
+      "languages": {
+        "PHP": 434917,
+        "CSS": 203950,
+        "SCSS": 21977,
+        "JavaScript": 9410,
+        "Hack": 7649
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2020-08-07T16:37:48Z",
+      "pushedAt": "2022-11-01T06:07:55Z",
+      "commitCount": 185
+    }
+  ],
+  "commits": {
+    "water-level": [
+      {
+        "sha": "877a30e",
+        "date": "2026-09-02T08:28:28Z",
+        "message": "Merge pull request #72 from luqman-haqeem/security/reduce-public-query-surface",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/877a30e76064ead895ebbfc81729347dd941d92d"
+      },
+      {
+        "sha": "90b69d1",
+        "date": "2026-09-02T08:10:49Z",
+        "message": "security: shrink public query surface, add headers, fix district race",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/90b69d167b5d329b4b1b40f5263e1c2b4ac22692"
+      },
+      {
+        "sha": "54b2051",
+        "date": "2026-09-02T08:05:13Z",
+        "message": "Merge pull request #71 from luqman-haqeem/security/harden-netlify-edge-surface",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/54b2051af3f0e1b7d395735a0fe5640e5583fe71"
+      },
+      {
+        "sha": "f45bc4b",
+        "date": "2026-09-02T07:40:44Z",
+        "message": "security: fix SSRF in image proxy and spoofing in OG endpoint",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/f45bc4b0b1896769db12d06b3c982921a21fdba0"
+      },
+      {
+        "sha": "c817376",
+        "date": "2026-09-02T07:33:57Z",
+        "message": "Merge pull request #70 from luqman-haqeem/fix/weekly-sync-wipes-station-metadata",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/c817376c96bec7b7171256c552117a86f9dd142a"
+      },
+      {
+        "sha": "df80e2f",
+        "date": "2026-09-02T07:19:53Z",
+        "message": "fix: weekly station sync no longer wipes coordinates and thresholds",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/df80e2fed23eef3fb7ef9eb73898bf1df5ed5151"
+      },
+      {
+        "sha": "c749c35",
+        "date": "2026-09-02T07:14:27Z",
+        "message": "Merge pull request #68 from luqman-haqeem/security/close-public-write-surface",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/c749c359cd244ed224dff55ab82d21c2bf041895"
+      },
+      {
+        "sha": "93e2fae",
+        "date": "2026-09-02T06:52:00Z",
+        "message": "security: close the public write surface — 9 endpoints to 0 (#66 C-1, C-2, H-1, H-2)",
+        "url": "https://github.com/luqman-haqeem/water-level/commit/93e2fae665808cef51548f0ce6063e38511a5d17"
+      }
+    ],
+    "career-agent": [
+      {
+        "sha": "0f3adc3",
+        "date": "2026-09-04T12:02:16Z",
+        "message": "fix: stop the redaction tests passing vacuously",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/0f3adc367f49cda67a645e21724af965cb0f5b38"
+      },
+      {
+        "sha": "fd0c35c",
+        "date": "2026-09-04T11:58:22Z",
+        "message": "fix: replace the live bot token in a test with a fake one",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/fd0c35c3e55a70fe6de7ef1e68fb57f9122388c0"
+      },
+      {
+        "sha": "2244d0b",
+        "date": "2026-09-04T11:46:16Z",
+        "message": "chore: stop tracking the learned preferences file",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/2244d0bb68c64068259ae38a671d4de04d54b5f0"
+      },
+      {
+        "sha": "fadae1b",
+        "date": "2026-09-04T11:39:41Z",
+        "message": "feat: give certifications their own section on the resume",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/fadae1b9152abbd4d10f7c62470900bd09c3e350"
+      },
+      {
+        "sha": "5f7d953",
+        "date": "2026-08-24T02:35:35Z",
+        "message": "feat: pre-draft a resume for each scan's best match",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/5f7d953682d11866d429d17a40b059ea86b1dded"
+      },
+      {
+        "sha": "f1012ba",
+        "date": "2026-08-24T02:21:06Z",
+        "message": "fix: stop printing the bot token, and answer the user when a handler crashes",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/f1012ba49fd024a422ca3391cb34f705c7185693"
+      },
+      {
+        "sha": "d0df67b",
+        "date": "2026-08-21T10:11:05Z",
+        "message": "feat: pull JobStreet listings from its search API instead of scraping",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/d0df67bc7f39c0822dc1eed9d975fb4fc2debdb6"
+      },
+      {
+        "sha": "93ef459",
+        "date": "2026-08-21T10:04:09Z",
+        "message": "feat: run two job threads at once, and hard-cap it at two",
+        "url": "https://github.com/luqman-haqeem/career-agent/commit/93ef4596d084116199548d31ee0e8f6d909fb893"
+      }
+    ],
+    "smart-locker": [
+      {
+        "sha": "276ab17",
+        "date": "2026-07-11T14:11:09Z",
+        "message": "docs: document OpenAPI and event ledger; wire ALREADY_PICKED_UP into web client",
+        "url": "https://github.com/luqman-haqeem/smart-locker/commit/276ab175f9f342b772773cc9047cfb3335b0a0fe"
+      },
+      {
+        "sha": "692249b",
+        "date": "2026-07-11T13:58:43Z",
+        "message": "feat: initial implementation of Smart Package coding challenge",
+        "url": "https://github.com/luqman-haqeem/smart-locker/commit/692249ba1b14a497edcd7865384a88d1413e1270"
+      }
+    ],
+    "rag": [
+      {
+        "sha": "7fe371c",
+        "date": "2026-05-22T14:16:25Z",
+        "message": "fix issue cannot  delete",
+        "url": "https://github.com/luqman-haqeem/rag/commit/7fe371cbf14862504261be054d9bf42fed33c1e3"
+      },
+      {
+        "sha": "dc55810",
+        "date": "2026-05-22T14:10:17Z",
+        "message": "fix issue",
+        "url": "https://github.com/luqman-haqeem/rag/commit/dc5581039418423688d3be34a86100636d5cbaf3"
+      },
+      {
+        "sha": "03e2b0d",
+        "date": "2026-05-22T13:57:34Z",
+        "message": "add README",
+        "url": "https://github.com/luqman-haqeem/rag/commit/03e2b0d163edbba1e39f61c06e3cba4e5ffbe2a2"
+      },
+      {
+        "sha": "87a7ff2",
+        "date": "2026-05-22T13:28:19Z",
+        "message": "add README",
+        "url": "https://github.com/luqman-haqeem/rag/commit/87a7ff294f692338b0a5d5c1aefc02e94b2df73a"
+      },
+      {
+        "sha": "d2290c0",
+        "date": "2026-05-22T09:48:59Z",
+        "message": "init",
+        "url": "https://github.com/luqman-haqeem/rag/commit/d2290c014f68c973cf2bd206694b6ba8e082d02e"
+      }
+    ],
+    "luqman-haqeem": [
+      {
+        "sha": "59c3fb3",
+        "date": "2025-09-18T14:23:28Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/59c3fb39919c454c9e5ae8d57b97a6c5ae9e5406"
+      },
+      {
+        "sha": "55d8f63",
+        "date": "2024-10-28T13:40:39Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/55d8f63b1850078f10137221a5cdbc1e08f25607"
+      },
+      {
+        "sha": "d5ee9e0",
+        "date": "2023-10-13T06:42:05Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/d5ee9e072b85dc235ba4129e271ca0da1eb10d0c"
+      },
+      {
+        "sha": "fc8acd5",
+        "date": "2023-10-13T06:41:35Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/fc8acd59aa5f38968f93d5f85cc0c9466118a87a"
+      },
+      {
+        "sha": "c350c53",
+        "date": "2023-05-28T12:44:19Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/c350c53a5f70caedcf60081a65eb11a803c00a6a"
+      },
+      {
+        "sha": "87e21b9",
+        "date": "2023-05-28T05:25:45Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/87e21b93c39ff873f564c8c800fe321bfa8665d4"
+      },
+      {
+        "sha": "b1cc6c7",
+        "date": "2023-05-28T04:57:45Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/b1cc6c7e1319b77feaab10ed59433b76650553ba"
+      },
+      {
+        "sha": "bec3505",
+        "date": "2023-05-28T04:57:15Z",
+        "message": "Initial commit",
+        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/bec35054aa893c94113fa82a009625013acc82e0"
+      }
+    ]
+  },
+  "starred": [
+    {
+      "fullName": "career-ops-hq/career-ops",
+      "description": "Open-source AI job search: scan job portals, evaluate listings into a structured A-H report with a global 1-5 score, tailor your CV, track applications — runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity…)",
+      "language": "JavaScript",
+      "stars": 71185,
+      "url": "https://github.com/career-ops-hq/career-ops"
+    },
+    {
+      "fullName": "tirth8205/code-review-graph",
+      "description": "Local-first code intelligence graph for MCP and CLI. Builds a persistent map of your codebase so AI coding tools read only what matters, with benchmarked context reductions on reviews and large-repo workflows.",
+      "language": "Python",
+      "stars": 31316,
+      "url": "https://github.com/tirth8205/code-review-graph"
+    },
+    {
+      "fullName": "affaan-m/ECC",
+      "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
+      "language": "JavaScript",
+      "stars": 256038,
+      "url": "https://github.com/affaan-m/ECC"
+    },
+    {
+      "fullName": "robinebers/openusage",
+      "description": "Burning through your subscriptions too fast? Paying for stuff you never use? Stop guessing. OpenUsage is free and open source.",
+      "language": "Swift",
+      "stars": 4106,
+      "url": "https://github.com/robinebers/openusage"
+    },
+    {
+      "fullName": "bmad-code-org/BMAD-METHOD",
+      "description": "Breakthrough Method for Agile Ai Driven Development",
+      "language": "Python",
+      "stars": 52875,
+      "url": "https://github.com/bmad-code-org/BMAD-METHOD"
+    },
+    {
+      "fullName": "Morsmalleo/AhMyth",
+      "description": "Cross-Platform Android Remote Administration Tool | Official maintained repository for the AhMyth R.A.T Project | A dedicated revival of the original repository at https://GitHub.com/AhMyth/AhMyth-Android-RAT",
+      "language": "Smali",
+      "stars": 1397,
+      "url": "https://github.com/Morsmalleo/AhMyth"
+    },
+    {
+      "fullName": "snarktank/ralph",
+      "description": "Ralph is an autonomous AI agent loop that runs repeatedly until all PRD items are complete. ",
+      "language": "TypeScript",
+      "stars": 21757,
+      "url": "https://github.com/snarktank/ralph"
+    },
+    {
+      "fullName": "tonghohin/tour",
+      "description": "A component for building onboarding tours. Designed to integrate with shadcn/ui.",
+      "language": "TypeScript",
+      "stars": 70,
+      "url": "https://github.com/tonghohin/tour"
+    },
+    {
+      "fullName": "Agenta-AI/agenta",
+      "description": "Agenta is a workspace where you and your team build agents and automations.",
+      "language": "TypeScript",
+      "stars": 4743,
+      "url": "https://github.com/Agenta-AI/agenta"
+    },
+    {
+      "fullName": "Kiyoraka/Project-AI-MemoryCore",
+      "description": null,
+      "language": "Shell",
+      "stars": 372,
+      "url": "https://github.com/Kiyoraka/Project-AI-MemoryCore"
+    },
+    {
+      "fullName": "pixochi/native-camera-in-mobile-browsers",
+      "description": null,
+      "language": "HTML",
+      "stars": 15,
+      "url": "https://github.com/pixochi/native-camera-in-mobile-browsers"
+    },
+    {
+      "fullName": "gilbarbara/react-joyride",
+      "description": "Create guided tours in your apps",
+      "language": "TypeScript",
+      "stars": 7862,
+      "url": "https://github.com/gilbarbara/react-joyride"
+    },
+    {
+      "fullName": "sadn1ck/bg-removal-bodypix",
+      "description": "🎉 Remove that pesky background from your webcam stream, right in your browser!",
+      "language": "JavaScript",
+      "stars": 21,
+      "url": "https://github.com/sadn1ck/bg-removal-bodypix"
+    },
+    {
+      "fullName": "reactive-resume/app",
+      "description": "A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!",
+      "language": "TypeScript",
+      "stars": 42449,
+      "url": "https://github.com/reactive-resume/app"
+    },
+    {
+      "fullName": "muxinc/media-elements",
+      "description": "A collection of HTMLMediaElement compatible elements and add-ons",
+      "language": "JavaScript",
+      "stars": 264,
+      "url": "https://github.com/muxinc/media-elements"
+    },
+    {
+      "fullName": "pocketbase/pocketbase",
+      "description": "Open Source realtime backend in 1 file",
+      "language": "Go",
+      "stars": 61014,
+      "url": "https://github.com/pocketbase/pocketbase"
+    },
+    {
+      "fullName": "birobirobiro/awesome-shadcn-ui",
+      "description": "A curated list of awesome things related to shadcn/ui.",
+      "language": "TypeScript",
+      "stars": 20475,
+      "url": "https://github.com/birobirobiro/awesome-shadcn-ui"
+    },
+    {
+      "fullName": "amittam104/BentoHub",
+      "description": "BentoHub is a application where you can create a bento grid for your GitHub profile readme.",
+      "language": "JavaScript",
+      "stars": 140,
+      "url": "https://github.com/amittam104/BentoHub"
+    },
+    {
+      "fullName": "cursor/community-plugins",
+      "description": "Plugins from the Cursor community",
+      "language": "TypeScript",
+      "stars": 3992,
+      "url": "https://github.com/cursor/community-plugins"
+    },
+    {
+      "fullName": "midday-ai/packrun",
+      "description": "npm for agents and humans",
+      "language": "TypeScript",
+      "stars": 3839,
+      "url": "https://github.com/midday-ai/packrun"
+    },
+    {
+      "fullName": "sdil/open-production-web-projects",
+      "description": "List of Open Source production-ready web projects",
+      "language": "HTML",
+      "stars": 493,
+      "url": "https://github.com/sdil/open-production-web-projects"
+    },
+    {
+      "fullName": "useplunk/plunk",
+      "description": "The Open-Source Email Platform",
+      "language": "TypeScript",
+      "stars": 5457,
+      "url": "https://github.com/useplunk/plunk"
+    },
+    {
+      "fullName": "supermemoryai/cloudflare-saas-stack",
+      "description": "Quickly make and deploy full-stack apps with database, auth, styling, storage etc. figured out for you. Add all primitives you want.",
+      "language": "TypeScript",
+      "stars": 3741,
+      "url": "https://github.com/supermemoryai/cloudflare-saas-stack"
+    },
+    {
+      "fullName": "bezkoder/nodejs-express-sequelize-mysql",
+      "description": "Rest CRUD API for a simple application using Node. js, Express, Sequelize and MySQL",
+      "language": "JavaScript",
+      "stars": 411,
+      "url": "https://github.com/bezkoder/nodejs-express-sequelize-mysql"
+    },
+    {
+      "fullName": "AdminTurnedDevOps/DevOps-The-Hard-Way-AWS",
+      "description": "This repository contains free labs for setting up an entire workflow and DevOps environment from a real-world perspective in AWS",
+      "language": "HCL",
+      "stars": 2428,
+      "url": "https://github.com/AdminTurnedDevOps/DevOps-The-Hard-Way-AWS"
+    },
+    {
+      "fullName": "nuxt-modules/turnstile",
+      "description": "🔥 Cloudflare Turnstile integration for Nuxt",
+      "language": "TypeScript",
+      "stars": 297,
+      "url": "https://github.com/nuxt-modules/turnstile"
+    },
+    {
+      "fullName": "codeigniter4/queue",
+      "description": "Queues for the CodeIgniter 4 framework",
+      "language": "PHP",
+      "stars": 75,
+      "url": "https://github.com/codeigniter4/queue"
+    },
+    {
+      "fullName": "karanpratapsingh/system-design",
+      "description": "Learn how to design systems at scale and prepare for system design interviews",
+      "language": null,
+      "stars": 46020,
+      "url": "https://github.com/karanpratapsingh/system-design"
+    },
+    {
+      "fullName": "ashishps1/awesome-system-design-resources",
+      "description": "Learn System Design concepts and prepare for interviews using free resources.",
+      "language": "Java",
+      "stars": 41329,
+      "url": "https://github.com/ashishps1/awesome-system-design-resources"
+    },
+    {
+      "fullName": "wmthor/mykad",
+      "description": "Library to validate, parse, generate, and format Malaysian Identity Card (MyKad) numbers.",
+      "language": "JavaScript",
+      "stars": 59,
+      "url": "https://github.com/wmthor/mykad"
+    },
+    {
+      "fullName": "ejbeaty/CellEdit",
+      "description": "Allows datatable cells to be edited inline",
+      "language": "JavaScript",
+      "stars": 254,
+      "url": "https://github.com/ejbeaty/CellEdit"
+    },
+    {
+      "fullName": "chriskacerguis/codeigniter-restserver",
+      "description": "A fully RESTful server implementation for CodeIgniter using one library, one config file and one controller.",
+      "language": "PHP",
+      "stars": 4867,
+      "url": "https://github.com/chriskacerguis/codeigniter-restserver"
+    },
+    {
+      "fullName": "vicenteguerra/git-deploy",
+      "description": "Php Script for Auto-Pull in server (Using WebHook from GitLab, GitHub and Bitbucket)",
+      "language": "PHP",
+      "stars": 645,
+      "url": "https://github.com/vicenteguerra/git-deploy"
+    },
+    {
+      "fullName": "ThingEngineer/PHP-MySQLi-Database-Class",
+      "description": "Wrapper for a PHP MySQL class, which utilizes MySQLi and prepared statements. ",
+      "language": "PHP",
+      "stars": 3297,
+      "url": "https://github.com/ThingEngineer/PHP-MySQLi-Database-Class"
+    },
+    {
+      "fullName": "vlucas/valitron",
+      "description": "Valitron is a simple, elegant, stand-alone validation library with NO dependencies",
+      "language": "PHP",
+      "stars": 1603,
+      "url": "https://github.com/vlucas/valitron"
+    },
+    {
+      "fullName": "alexeymezenin/laravel-best-practices",
+      "description": "Laravel best practices",
+      "language": null,
+      "stars": 12321,
+      "url": "https://github.com/alexeymezenin/laravel-best-practices"
+    },
+    {
+      "fullName": "LaravelDaily/laravel-tips",
+      "description": "Awesome tips for Laravel",
+      "language": null,
+      "stars": 6471,
+      "url": "https://github.com/LaravelDaily/laravel-tips"
+    },
+    {
+      "fullName": "kidino/buku-git",
+      "description": "Usaha kolektif untuk membangunkan bahan rujukan untuk Git dalam bahasa Melayu",
+      "language": "JavaScript",
+      "stars": 34,
+      "url": "https://github.com/kidino/buku-git"
+    }
+  ]
+}

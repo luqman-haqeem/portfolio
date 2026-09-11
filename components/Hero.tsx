@@ -76,10 +76,10 @@ export default function Hero() {
             style={{ "--reveal-delay": "260ms" } as React.CSSProperties}
           >
             <a
-              href="#trace"
+              href="#now"
               className="group inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-accent/85"
             >
-              Read the career trace
+              See what I&apos;m building now
               <svg
                 viewBox="0 0 16 16"
                 fill="none"
@@ -96,10 +96,10 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href={`mailto:${profile.email}`}
+              href="#trace"
               className="inline-flex items-center gap-2 rounded-lg border border-line-2 bg-panel px-4 py-2.5 text-sm text-text transition-colors hover:border-accent/40 hover:bg-panel-2"
             >
-              Email me
+              Career trace
             </a>
             <a
               href={profile.github}
@@ -108,6 +108,15 @@ export default function Hero() {
               className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-panel px-4 py-2.5 text-sm text-text transition-colors hover:border-accent/40 hover:bg-panel-2"
             >
               GitHub
+              <ArrowIcon className="text-dim" />
+            </a>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-panel px-4 py-2.5 text-sm text-text transition-colors hover:border-accent/40 hover:bg-panel-2"
+            >
+              LinkedIn
               <ArrowIcon className="text-dim" />
             </a>
             <PrintButton className="inline-flex items-center gap-1.5 px-1 font-mono text-2xs text-dim underline decoration-line-2 underline-offset-4 transition-colors hover:text-muted">

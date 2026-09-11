@@ -17,6 +17,8 @@ export const profile = {
   phoneHref: "REDACTED",
   github: "https://github.com/luqman-haqeem",
   githubLabel: "github.com/luqman-haqeem",
+  linkedin: "https://linkedin.com/in/luqman-haqeem-7713991b8",
+  linkedinLabel: "linkedin.com/in/luqman-haqeem",
   /** Career start — the root span's t0. */
   careerStart: "2020-12",
   status: "Open to backend / platform roles",
@@ -462,6 +464,8 @@ export type Project = {
   name: string;
   slug: string;
   url: string;
+  /** GitHub repo name, when the source is public. */
+  repo?: string;
   status: "live" | "wip";
   tagline: string;
   detail: string;
@@ -493,16 +497,26 @@ export const projects: Project[] = [
     name: "River Level Monitoring",
     slug: "riverlevel.netlify.app",
     url: "https://riverlevel.netlify.app/stations",
+    repo: "water-level",
     status: "live",
     tagline: "Live water levels for Selangor rivers, refreshed every 15 minutes",
     detail:
       "A real-time dashboard showing live water levels across Selangor river stations, so people near flood-prone areas can see conditions at a glance.",
     highlights: [
       "Ingests external JPS Selangor station data on a 15-minute cycle",
-      "Dynamic station UI with live camera feeds",
-      "Reactive data layer on Convex",
+      "Dynamic station UI with live camera feeds and danger-level push alerts",
+      "Reactive data layer on Convex, PWA with offline support",
     ],
-    stack: ["Next.js", "Convex", "Tailwind CSS", "Shadcn/ui", "Netlify"],
+    // Migrated off Next.js to Vite + TanStack Router in Aug 2026.
+    stack: [
+      "Vite",
+      "TanStack Router",
+      "Convex",
+      "Tailwind CSS",
+      "Shadcn/ui",
+      "Vitest",
+      "Netlify",
+    ],
     accent: "var(--color-info)",
   },
 ];
@@ -538,9 +552,385 @@ export const entityLabels: Record<string, string> = {
 };
 
 export const navItems = [
-  { id: "trace", label: "Career trace" },
+  { id: "now", label: "Now" },
+  { id: "trace", label: "Career" },
   { id: "stack", label: "Stack" },
-  { id: "deployments", label: "Projects" },
-  { id: "about", label: "About" },
+  { id: "builds", label: "Builds" },
+  { id: "beyond", label: "Beyond code" },
+  { id: "about", label: "How I work" },
   { id: "contact", label: "Contact" },
 ];
+
+
+/* ==========================================================================
+ * Everything below is the part a résumé can't tell you: what I'm writing this
+ * month, what I actually reach for, what I keep rebuilding, and what I read.
+ * Facts (dates, commits, repos) come live from the GitHub API — see lib/github.ts.
+ * ======================================================================== */
+
+export type ComfortLevel = "daily" | "fluent" | "working" | "learning";
+
+export const comfortMeta: Record<
+  ComfortLevel,
+  { label: string; className: string; bar: string; weight: number }
+> = {
+  daily: {
+    label: "reach for by default",
+    className: "text-accent border-accent/30 bg-accent/8",
+    bar: "var(--color-accent)",
+    weight: 100,
+  },
+  fluent: {
+    label: "fluent, not my first pick now",
+    className: "text-teal border-teal/25 bg-teal/8",
+    bar: "var(--color-teal)",
+    weight: 72,
+  },
+  working: {
+    label: "productive, supporting cast",
+    className: "text-info border-info/25 bg-info/8",
+    bar: "var(--color-info)",
+    weight: 55,
+  },
+  learning: {
+    label: "actively learning",
+    className: "text-violet border-violet/25 bg-violet/8",
+    bar: "var(--color-violet)",
+    weight: 34,
+  },
+};
+
+export type LanguageComfort = {
+  name: string;
+  level: ComfortLevel;
+  period: string;
+  note: string;
+  /** Repo names on GitHub that back this up. */
+  evidence: string[];
+};
+
+export const languageComfort: LanguageComfort[] = [
+  {
+    name: "TypeScript / Node.js",
+    level: "daily",
+    period: "2024 — now",
+    note: "What I start new things in. Both of my last two builds are TypeScript-first, and I'd rather spend the extra minute on types than debug a shape mismatch at 2am.",
+    evidence: ["water-level", "smart-locker"],
+  },
+  {
+    name: "Python",
+    level: "daily",
+    period: "2025 — now",
+    note: "Where all my AI work lives — FastAPI review pipelines at Inmagine, and a Telegram bot at home that I've written 80+ commits of tests for.",
+    evidence: ["career-agent"],
+  },
+  {
+    name: "SQL",
+    level: "daily",
+    period: "2021 — now",
+    note: "MySQL and Postgres. The 50% speedup on that booking calendar was an index and a rewritten join, not a new framework.",
+    evidence: ["smart-locker", "voting-system"],
+  },
+  {
+    name: "PHP / Laravel / CodeIgniter",
+    level: "fluent",
+    period: "2021 — 2024",
+    note: "Three years and a few hundred commits. I could be productive in it tomorrow, I just don't reach for it when starting something new. Nothing against it — my stack moved.",
+    evidence: ["laravel-evoting", "voting-system", "WaterLevel"],
+  },
+  {
+    name: "Docker / Bash",
+    level: "working",
+    period: "2023 — now",
+    note: "Every side project ships with a Dockerfile and a compose file, because \"works on my machine\" is not a deployment strategy.",
+    evidence: ["career-agent", "smart-locker", "rag"],
+  },
+  {
+    name: "Go",
+    level: "learning",
+    period: "2026",
+    note: "Reading more of it than writing it so far — mostly because the self-hosted tools I like keep turning out to be single Go binaries.",
+    evidence: [],
+  },
+];
+
+/**
+ * Curated commentary keyed by GitHub repo name. Repos without an entry still
+ * render from their API description, so a new repo shows up on its own.
+ */
+export type BuildNote = {
+  title: string;
+  blurb: string;
+  highlights?: string[];
+  accent: string;
+  liveUrl?: string;
+  liveLabel?: string;
+  /** Shown as a small honesty note where it matters. */
+  caveat?: string;
+};
+
+export const buildNotes: Record<string, BuildNote> = {
+  "water-level": {
+    title: "River Level Monitoring",
+    blurb:
+      "Live water levels for every JPS station in Selangor, with camera feeds, danger-level push alerts and offline support. I built it because I live in Selangor and \"is the river rising?\" is a question with a real answer that nobody had made easy to check.",
+    highlights: [
+      "284 commits across three rewrites — Laravel, then Next.js, now Vite + TanStack Router on a reactive Convex backend",
+      "PWA with offline caching, error boundaries, and OneSignal alerts when a station crosses its danger threshold",
+      "Spent a week in September auditing my own code: closed 9 public write endpoints, fixed an SSRF in the image proxy and OG spoofing",
+      "Vitest + Testing Library + MSW, with a CI step that dry-runs the Convex schema before merge",
+    ],
+    accent: "var(--color-info)",
+    liveUrl: "https://riverlevel.netlify.app/stations",
+    liveLabel: "riverlevel.netlify.app",
+  },
+  "career-agent": {
+    title: "Career Agent",
+    blurb:
+      "A private Telegram bot that remembers my career, turns real experiences into structured CV points, rates how well a job actually fits, and writes tailored résumés — with a hard rule that it never invents experience I don't have.",
+    highlights: [
+      "Metrics carry provenance — verified, self-reported or estimate — so nothing silently inflates",
+      "A corrections log means any fact I've fixed stays fixed, and gaps get flagged instead of faked",
+      "Learns from my Apply / Skip decisions to rank future matches, but only ever learns preferences",
+      "Pulls JobStreet listings through its search API rather than scraping, and runs two job threads at a time",
+      "83 commits, 12+ test files, pytest, Docker, LaTeX résumé templates via Jinja2",
+    ],
+    caveat:
+      "Auto-apply is deliberately left out. A bot spraying applications is not a feature, it's a way to waste other people's time.",
+    accent: "var(--color-accent)",
+  },
+  "smart-locker": {
+    title: "Package Locker Service",
+    blurb:
+      "A parcel-locker API: smallest-fit locker allocation, unique pickup codes, tiered storage fees. Written as an exercise in keeping a domain core genuinely pure — and in proving the concurrency actually holds.",
+    highlights: [
+      "Three strict layers: pure domain core, a repository interface, then Prisma and HTTP at the edges",
+      "Concurrent stores never double-book a locker or hand out a duplicate pickup code — with tests that prove it",
+      "Injected clock, so the tiered day-rate billing is testable without waiting eleven days",
+      "OpenAPI spec and an append-only event ledger",
+    ],
+    accent: "var(--color-violet)",
+  },
+  rag: {
+    title: "RAG over patient records",
+    blurb:
+      "A retrieval-augmented pipeline that chunks patient records by section, embeds them into Supabase pgvector, and retrieves real context before the LLM answers — so it can't hallucinate a diagnosis.",
+    highlights: [
+      "Chunked by meaning, not character count: symptoms, consultation history, lifestyle, treatment plan",
+      "Every chunk carries patient name, ID and age, so retrieved context always knows who it belongs to",
+      "Chose a multilingual embedding model because the records mix English and Malay",
+    ],
+    caveat:
+      "A learning build, and I wrote down what I'd change for production: locally hosted models instead of third-party APIs, row-level security per doctor, and rate limiting on the query endpoint.",
+    accent: "var(--color-rose)",
+  },
+  "voting-system": {
+    title: "KUIS E-Voting",
+    blurb:
+      "My diploma final-year project — an online voting system modelled on how my college actually ran its elections. 185 commits, and I kept coming back to fix bugs long after it was graded.",
+    accent: "var(--color-lime)",
+  },
+  "laravel-evoting": {
+    title: "E-Voting, take two",
+    blurb:
+      "The same voting problem, rebuilt in Laravel a year later once I'd learned what a framework buys you. First time I felt the difference between writing PHP and architecting it.",
+    accent: "var(--color-teal)",
+  },
+  WaterLevel: {
+    title: "River monitoring, v1",
+    blurb:
+      "The Laravel original. Archived, and honest about why in its own README: Render's free tier put the server to sleep after 15 minutes, which is useless for something people check during a flood.",
+    accent: "var(--color-slate)",
+  },
+};
+
+/** Repos I keep coming back to with better tools. */
+export type Lineage = {
+  problem: string;
+  why: string;
+  generations: {
+    repo: string;
+    label: string;
+    period: string;
+    stack: string;
+    host?: string;
+    note: string;
+    current?: boolean;
+  }[];
+};
+
+export const lineages: Lineage[] = [
+  {
+    problem: "Are the rivers in Selangor rising?",
+    why: "Four years, three stacks, one question. Each rewrite happened because the last one hit a real wall, not because a new framework got popular.",
+    generations: [
+      {
+        repo: "WaterLevel",
+        label: "v1",
+        period: "Dec 2022",
+        stack: "Laravel · jQuery · MySQL",
+        host: "Render free tier",
+        note: "Worked, until the free tier slept after 15 minutes of inactivity — the exact moment you need it is the moment nobody has visited it.",
+      },
+      {
+        repo: "water-level",
+        label: "v2",
+        period: "Aug 2024",
+        stack: "Next.js · React",
+        host: "Vercel",
+        note: "Faster and always awake. But polling for data I wanted to be live meant fighting the framework.",
+      },
+      {
+        repo: "water-level",
+        label: "v3",
+        period: "Aug 2026",
+        stack: "Vite · TanStack Router · Convex",
+        host: "Netlify",
+        note: "Reactive backend, so station updates push instead of poll. Added PWA offline support, danger-level alerts, and a real test suite.",
+        current: true,
+      },
+    ],
+  },
+  {
+    problem: "Can a college run its elections online?",
+    why: "My final-year project, then the same thing again once I understood frameworks. The second attempt taught me more than the first.",
+    generations: [
+      {
+        repo: "voting-system",
+        label: "v1",
+        period: "Aug 2020",
+        stack: "Vanilla PHP · MySQL",
+        note: "Built for how KUIS actually voted. 185 commits, and I was still fixing bugs in it two years after submitting it.",
+      },
+      {
+        repo: "laravel-evoting",
+        label: "v2",
+        period: "Feb 2022",
+        stack: "Laravel · Blade",
+        note: "Same domain, rebuilt properly. This is where the difference between writing code and structuring it finally landed.",
+        current: true,
+      },
+    ],
+  },
+];
+
+/** What my starred repos say about where my attention goes. */
+export type StarTheme = {
+  label: string;
+  note: string;
+  accent: string;
+  repos: string[];
+};
+
+export const starThemes: StarTheme[] = [
+  {
+    label: "AI agents and the tooling around them",
+    note: "Where most of my curiosity goes right now. Not the chatbot layer — the harness: memory, loops, evaluation, letting an agent do real work without lying about it.",
+    accent: "var(--color-accent)",
+    repos: [
+      "career-ops-hq/career-ops",
+      "bmad-code-org/BMAD-METHOD",
+      "snarktank/ralph",
+      "affaan-m/ECC",
+      "Agenta-AI/agenta",
+      "tirth8205/code-review-graph",
+      "Kiyoraka/Project-AI-MemoryCore",
+      "midday-ai/packrun",
+      "cursor/community-plugins",
+    ],
+  },
+  {
+    label: "System design, done deliberately",
+    note: "I came up through PHP shops where architecture was something you inherited. These are me filling that in on purpose.",
+    accent: "var(--color-violet)",
+    repos: [
+      "karanpratapsingh/system-design",
+      "ashishps1/awesome-system-design-resources",
+      "AdminTurnedDevOps/DevOps-The-Hard-Way-AWS",
+    ],
+  },
+  {
+    label: "Malaysian dev community",
+    note: "Local problems need local tooling — IC validation, a Git handbook in Bahasa Malaysia, production projects from Malaysian devs. I build for where I live.",
+    accent: "var(--color-teal)",
+    repos: [
+      "wmthor/mykad",
+      "kidino/buku-git",
+      "sdil/open-production-web-projects",
+    ],
+  },
+  {
+    label: "Infrastructure you can host yourself",
+    note: "A soft spot for tools that are one binary or one container and don't need a vendor. Probably a side effect of shipping side projects on free tiers.",
+    accent: "var(--color-ok)",
+    repos: [
+      "pocketbase/pocketbase",
+      "useplunk/plunk",
+      "reactive-resume/app",
+      "robinebers/openusage",
+      "supermemoryai/cloudflare-saas-stack",
+    ],
+  },
+  {
+    label: "Cameras and media in the browser",
+    note: "Direct research for the river dashboard's camera feeds — getting a live stream out of a mobile browser is fussier than it sounds.",
+    accent: "var(--color-info)",
+    repos: [
+      "pixochi/native-camera-in-mobile-browsers",
+      "sadn1ck/bg-removal-bodypix",
+      "muxinc/media-elements",
+    ],
+  },
+  {
+    label: "The PHP years",
+    note: "CodeIgniter queues, Laravel best practices, a MySQLi wrapper. I haven't opened these in a long time, and I'm leaving them here rather than curating my history.",
+    accent: "var(--color-slate)",
+    repos: [
+      "codeigniter4/queue",
+      "chriskacerguis/codeigniter-restserver",
+      "alexeymezenin/laravel-best-practices",
+      "LaravelDaily/laravel-tips",
+      "ThingEngineer/PHP-MySQLi-Database-Class",
+      "vlucas/valitron",
+      "vicenteguerra/git-deploy",
+    ],
+  },
+];
+
+/** The non-work side. Grounded in things I've actually done or written. */
+export type BeyondItem = {
+  tag: string;
+  title: string;
+  body: string;
+  accent: string;
+};
+
+export const beyondCode: BeyondItem[] = [
+  {
+    tag: "where I live",
+    title: "I build for Selangor first",
+    body: "The river dashboard exists because Selangor floods and I wanted my own answer to \"is it rising?\" without digging through a government portal on a phone. The most useful thing I've built has an audience of my neighbours.",
+    accent: "var(--color-info)",
+  },
+  {
+    tag: "long games",
+    title: "I don't abandon projects, I re-do them",
+    body: "My diploma final-year project has 185 commits, most of them after it was graded — my own README says I put it on GitHub \"so that I can keep maintain it and fix bug that i found\". Four years later I'm still rewriting the river app.",
+    accent: "var(--color-teal)",
+  },
+  {
+    tag: "in the open",
+    title: "Everything I learn ends up in a public repo",
+    body: "The RAG pipeline, the locker service, the résumé bot — none of them were assignments. I learn by building the smallest real version of a thing and writing down what I'd change before it goes near production.",
+    accent: "var(--color-accent)",
+  },
+];
+
+
+/** Hand-written, and meant to be rewritten whenever it stops being true. */
+export const nowFocus = {
+  updated: "September 2026",
+  body: "Two things have my evenings right now. I spent September hardening the river dashboard — auditing my own code and closing nine public write endpoints I'd left open, plus an SSRF in the image proxy. The rest goes into career-agent, a Telegram bot that writes résumés from my real experience and is architecturally incapable of inventing any. At work it's LLM review pipelines on AWS Bedrock.",
+  learning:
+    "Reading a lot about agent harnesses — memory, evaluation, and how to let a model do real work without letting it lie.",
+};

@@ -18,6 +18,25 @@ npm run build    # production build
 npm start        # serve the production build
 ```
 
+## Live GitHub data
+
+This is not just an online résumé, so the parts that go stale fastest are pulled from the GitHub API rather than typed by hand:
+
+- **`/now`** — a merged commit feed across my active repos, newest first, with merge commits filtered out. If I stop pushing, this section visibly stops moving.
+- **Language eras** — real language byte counts in the repos I started each year, which is the evidence behind "my stack moved from PHP to TypeScript and Python".
+- **`/builds`** — every public repo, its commit count and last push. A new repo appears on its own; no code change needed.
+- **`/beyond`** — starred repos, grouped into themes by hand in `starThemes`.
+
+Facts come from the API; the voice (why a project exists, what I'd change) stays hand-written in `lib/resume.ts`.
+
+```bash
+npm run sync:github    # refresh lib/github-snapshot.json
+```
+
+`lib/github-snapshot.json` is the committed fallback. The live fetch uses an explicit `next: { revalidate }`, because this Next version does not cache `fetch` by default — without it the page would become dynamic. With it, `/` stays prerendered and refreshes every 6 hours. If GitHub is unreachable or rate-limited (60 req/hr unauthenticated), the snapshot renders instead and the footer says so, so the build can never fail on a network hiccup.
+
+Set `GITHUB_TOKEN` before `npm run sync:github` if you hit the rate limit.
+
 ## Editing content
 
 All résumé content lives in one typed file: **`lib/resume.ts`**. Nothing is hardcoded in components.
@@ -30,6 +49,12 @@ All résumé content lives in one typed file: **`lib/resume.ts`**. Nothing is ha
 | Skill layers and their `usedIn` cross-references | `skillLayers` |
 | Side projects | `projects` |
 | Education, certifications, tools | `education`, `certifications`, `practices` |
+| What I'm focused on this month (rewrite freely) | `nowFocus` |
+| Honest language rankings + the repos that prove them | `languageComfort` |
+| Per-repo write-ups, keyed by GitHub repo name | `buildNotes` |
+| Projects I've rebuilt more than once | `lineages` |
+| Themed grouping of starred repos | `starThemes` |
+| Non-work personality cards | `beyondCode` |
 
 Dates drive the waterfall geometry automatically — `lib/trace.ts` turns `YYYY-MM` strings into bar offsets, durations, year ticks and overlap detection. Adding a role is enough; no layout changes needed.
 
