@@ -1,0 +1,3 @@
+# Copy to .dev.vars (gitignored) for local Workers development.
+# Selects which Next.js .env file loads; defaults to "production" when unset.
+NEXTJS_ENV=development

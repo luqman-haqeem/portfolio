@@ -100,11 +100,17 @@ function withoutHidden<T extends Omit<GithubData, "live" | "now">>(data: T): T {
 const fallbackBase = { live: false as const, ...withoutHidden(cached) };
 
 async function gh<T>(path: string): Promise<T> {
+  // Unauthenticated GitHub allows 60 requests/hour per IP, which is plenty for
+  // one machine but not for shared CI runners. A token lifts it to 5,000 and is
+  // entirely optional — without one we just fall back to the snapshot.
+  const token = process.env.GITHUB_TOKEN;
+
   const res = await fetch(`${API}${path}`, {
     headers: {
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
       "User-Agent": `${USER}-portfolio`,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     next: { revalidate: REVALIDATE_SECONDS },
   });

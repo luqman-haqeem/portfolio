@@ -60,15 +60,54 @@ Dates drive the waterfall geometry automatically — `lib/trace.ts` turns `YYYY-
 
 The `usedIn` arrays are what make the stack inspector work. Each entry is a `roles[].id` or `projects[].id`, and `metrics[].roleId` is what makes each number link back to the span it came from.
 
-## Deploy
+## Deploy (Cloudflare Workers)
 
-Static output, so any host works. Set `NEXT_PUBLIC_SITE_URL` to the final domain so the Open Graph card resolves to an absolute URL (Netlify's `URL` and Vercel's `VERCEL_URL` are picked up automatically).
+Deployed to Cloudflare Workers through the [OpenNext adapter](https://opennext.js.org/cloudflare), which runs the real `next build` output. Cloudflare's newer `vinext` was considered and rejected: it is beta, its own README says the code is largely AI-written and unreviewed, and it loads Google Fonts from a CDN — which would quietly break this site's claim of no third-party requests.
+
+### One-time setup
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://your-domain.com npm run build
+npx wrangler login                              # authenticate
+npx wrangler r2 bucket create portfolio-cache   # incremental cache for ISR
+npm run deploy                                  # build + deploy
 ```
 
-The share image at `/opengraph-image` is generated at build time from the same `lib/resume.ts` data as the page, so it can't drift out of sync.
+The R2 bucket is the only resource you create by hand. The Durable Object that runs revalidation is created automatically by the migration in `wrangler.jsonc`.
+
+Set the canonical origin so the sitemap and OG image resolve to absolute URLs:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-domain.com npm run deploy
+```
+
+### How caching is wired
+
+Three components exist in OpenNext; this app needs two:
+
+| Component | Used | Why |
+| --- | --- | --- |
+| Incremental cache (R2) | yes | Holds the prerendered page between revalidations. |
+| Queue (Durable Object) | yes | Runs the 6-hourly revalidation in the background, so no visitor waits on the GitHub API. |
+| Tag cache (D1) | **no** | Only needed for `revalidateTag` / `revalidatePath`. This app uses time-based revalidation only, which saves a database and a migration. |
+
+### Local development
+
+```bash
+npm run dev        # normal Next.js dev server
+npm run preview    # build, then run the real Worker locally via workerd
+```
+
+`npm run preview` is worth using before any deploy — it runs the actual Workers runtime with R2 and the Durable Object emulated locally, which catches anything that works in Node but not on the edge.
+
+### CI
+
+`.github/workflows/deploy.yml` type-checks, lints, then deploys on every push to `main`. It needs:
+
+| Secret / variable | Purpose |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` (secret) | Workers deploy permission |
+| `CLOUDFLARE_ACCOUNT_ID` (secret) | Target account |
+| `SITE_URL` (variable) | Canonical origin |
 
 ## Stack
 
