@@ -42,9 +42,19 @@ export default function PrintResume() {
               {role.title} — {role.location}
               {role.employment ? ` (${role.employment})` : ""}
             </p>
+            {/* Context first, then one bullet per system — ATS parsers want
+                plain sentences, so the trace's structure is flattened here. */}
             <ul className="mt-1 list-disc pl-5 text-xs leading-snug">
-              {role.achievements.map((a) => (
-                <li key={a.text}>{a.text}</li>
+              {role.context.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+              {role.projects.map((project) => (
+                <li key={project.slug}>
+                  <span className="font-bold">{project.name}: </span>
+                  {project.what}
+                  {project.outcome ? ` (${project.outcome})` : ""}
+                  {` Built with ${project.stack.join(", ")}.`}
+                </li>
               ))}
             </ul>
           </div>

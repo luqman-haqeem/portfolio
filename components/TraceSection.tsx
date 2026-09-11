@@ -57,6 +57,11 @@ export default function TraceSection() {
     [order, timeline.spans],
   );
 
+  const totalProjects = useMemo(
+    () => roles.reduce((sum, role) => sum + role.projects.length, 0),
+    [],
+  );
+
   return (
     <Section id="trace">
       <SectionHeading
@@ -65,10 +70,13 @@ export default function TraceSection() {
         title="Career trace"
         description={
           <>
-            One root span, {timeline.spans.length} children,{" "}
-            {timeline.totalDuration} of wall-clock time. Bars are positioned by
-            real dates — so you can see where work overlapped. Open any span to
-            read its logs.
+            {timeline.spans.length} companies as parent spans,{" "}
+            {totalProjects} systems as their children,{" "}
+            {timeline.totalDuration} of wall-clock time. Bars sit at real dates,
+            so you can see where work overlapped. Open a company and you get the
+            job context and the things I actually built, kept separate —
+            because &quot;led a team of 3&quot; and &quot;shipped a warehouse
+            system&quot; are not the same kind of fact.
           </>
         }
         aside={
@@ -192,8 +200,11 @@ export default function TraceSection() {
         <p className="mt-3 flex items-start gap-1.5 font-mono text-2xs text-dim">
           <CornerArrow className="mt-0.5 shrink-0" />
           <span>
-            bar length = duration, bar position = when. The short red span in
-            late 2023 ran in parallel with a full-time role.
+            Bar length = duration, bar position = when. The short red span in
+            late 2023 ran in parallel with a full-time role. Child spans have no
+            bars on purpose — I don&apos;t have reliable start and end dates for
+            individual systems, and inventing them to fill the chart would make
+            the whole timeline worth less.
           </span>
         </p>
       </div>
@@ -218,20 +229,40 @@ export default function TraceSection() {
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 {span.role.summary}
               </p>
-              <ul className="mt-3 space-y-1.5">
-                {span.role.achievements.map((a) => (
-                  <li
-                    key={a.text}
-                    className="flex gap-2.5 text-sm leading-relaxed text-text"
-                  >
+              {span.role.context.length > 0 ? (
+                <ul className="mt-2 space-y-1">
+                  {span.role.context.map((line) => (
+                    <li
+                      key={line}
+                      className="flex gap-2.5 text-sm leading-relaxed text-muted"
+                    >
+                      <span className="mt-2 size-1 shrink-0 rounded-full bg-line-2" />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              <ul className="mt-3 space-y-2.5">
+                {span.role.projects.map((project) => (
+                  <li key={project.slug} className="flex gap-2.5">
                     <span className="mt-2 size-1 shrink-0 rounded-full bg-dim" />
-                    <span>{a.text}</span>
+                    <div className="min-w-0">
+                      <p className="text-sm leading-relaxed text-text">
+                        <span className="font-medium">{project.name}</span>
+                        {project.outcome ? (
+                          <span className="text-accent"> — {project.outcome}</span>
+                        ) : null}
+                      </p>
+                      <p className="text-sm leading-relaxed text-muted">
+                        {project.what}
+                      </p>
+                      <p className="mt-0.5 font-mono text-2xs text-dim">
+                        {project.stack.join(" · ")}
+                      </p>
+                    </div>
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 font-mono text-2xs text-dim">
-                {span.role.stack.join(" · ")}
-              </p>
             </article>
           ))}
         </div>
@@ -256,6 +287,9 @@ function SpanRow({
   const { role, offsetPct, widthPct, duration, period, months } = span;
   const wide = widthPct > 16;
   const panelId = `span-detail-${role.id}`;
+  // Tint the child-span rail with the company colour — at full strength it
+  // competes with the text, at line-2 grey it disappears entirely.
+  const rail = `color-mix(in oklab, ${role.color} 45%, transparent)`;
 
   return (
     <div
@@ -289,9 +323,13 @@ function SpanRow({
             >
               {role.service}
             </span>
-            <span className="mt-0.5 block truncate text-2xs text-dim">
+            {/* wraps on phones, truncates from sm up where the column is fixed */}
+            <span className="mt-0.5 block text-2xs text-dim sm:truncate">
               {role.title}
-              <span className="sm:hidden"> · {duration}</span>
+              <span className="sm:hidden">
+                {" "}
+                · {duration} · {role.projects.length} systems
+              </span>
             </span>
           </span>
           {span.open ? (
@@ -338,8 +376,11 @@ function SpanRow({
           ) : null}
         </span>
 
-        <span className="hidden text-right font-mono text-2xs text-muted tabular sm:block">
-          {months}mo
+        <span className="hidden text-right font-mono text-2xs sm:block">
+          <span className="block text-muted tabular">{months}mo</span>
+          <span className="block text-line-2 tabular">
+            {role.projects.length} sys
+          </span>
         </span>
       </button>
 
@@ -381,48 +422,96 @@ function SpanRow({
             </dl>
 
             <div className="min-w-0 lg:col-span-8">
-              <p className="pb-2 font-mono text-2xs text-dim">
-                logs ({role.achievements.length})
-              </p>
               <p className="mb-3 text-sm leading-relaxed text-muted">
                 {role.summary}
               </p>
-              <ul className="space-y-2.5">
-                {role.achievements.map((a) => {
-                  const meta = achievementMeta[a.kind];
-                  return (
+
+              {role.context.length > 0 ? (
+                <ul className="mb-5 space-y-1.5 border-t border-line/60 pt-3">
+                  {role.context.map((line) => (
                     <li
-                      key={a.text}
-                      className="flex flex-col gap-1.5 border-t border-line/60 pt-2.5 sm:flex-row sm:items-start sm:gap-3"
+                      key={line}
+                      className="flex gap-2 text-xs leading-relaxed text-muted"
                     >
+                      <span className="mt-1.5 size-1 shrink-0 rounded-full bg-line-2" />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+
+              <p className="border-t border-line/60 pt-3 font-mono text-2xs text-dim">
+                child spans ({role.projects.length}) — what I actually built
+              </p>
+
+              <ol className="mt-3">
+                {role.projects.map((project, i) => {
+                  const meta = achievementMeta[project.kind];
+                  const last = i === role.projects.length - 1;
+                  return (
+                    <li key={project.slug} className="flex gap-3">
+                      {/* tree rail */}
                       <span
-                        className={`inline-flex h-4.5 shrink-0 items-center rounded border px-1.5 font-mono text-2xs ${meta.className}`}
+                        className="relative flex w-3 shrink-0 flex-col items-center"
+                        aria-hidden="true"
                       >
-                        {meta.label}
+                        <span
+                          className="h-3.5 w-px"
+                          style={{ background: rail }}
+                        />
+                        <span
+                          className="size-1.5 shrink-0 rounded-full"
+                          style={{ background: role.color }}
+                        />
+                        {!last ? (
+                          <span
+                            className="w-px flex-1"
+                            style={{ background: rail }}
+                          />
+                        ) : null}
                       </span>
-                      <p className="flex-1 text-sm leading-relaxed text-text">
-                        {a.text}
-                      </p>
-                      {a.metric ? (
-                        <span className="shrink-0 rounded bg-panel px-1.5 py-0.5 font-mono text-2xs text-accent tabular">
-                          {a.metric}
-                        </span>
-                      ) : null}
+
+                      <div className={last ? "min-w-0 pb-0" : "min-w-0 pb-5"}>
+                        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                          <span className="font-mono text-2xs text-line-2 tabular">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="font-mono text-xs text-text">
+                            {project.slug}
+                          </span>
+                          <span
+                            className={`inline-flex shrink-0 items-center rounded border px-1.5 font-mono text-2xs ${meta.className}`}
+                          >
+                            {meta.label}
+                          </span>
+                          {project.outcome ? (
+                            <span className="ml-auto shrink-0 rounded bg-panel px-1.5 py-0.5 font-mono text-2xs text-accent tabular">
+                              {project.outcome}
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <p className="mt-1 text-sm font-medium text-text">
+                          {project.name}
+                        </p>
+                        <p className="mt-1 text-sm leading-relaxed text-muted">
+                          {project.what}
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {project.stack.map((tech) => (
+                            <span
+                              key={tech}
+                              className="rounded border border-line bg-panel px-1.5 py-0.5 font-mono text-2xs text-dim"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </li>
                   );
                 })}
-              </ul>
-
-              <div className="mt-4 flex flex-wrap gap-1.5 border-t border-line/60 pt-3">
-                {role.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-md border border-line-2 bg-panel px-2 py-0.5 font-mono text-2xs text-muted"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
+              </ol>
             </div>
           </div>
         </div>
@@ -443,7 +532,7 @@ function Attr({
   return (
     <div className="flex gap-2">
       <dt className="w-20 shrink-0 text-dim">{label}</dt>
-      <dd className={`min-w-0 flex-1 ${valueClass}`}>{value}</dd>
+      <dd className={`min-w-0 flex-1 break-words ${valueClass}`}>{value}</dd>
     </div>
   );
 }

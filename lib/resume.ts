@@ -44,17 +44,21 @@ export const achievementMeta: Record<
   ops: { label: "OPS", className: "text-lime border-lime/25 bg-lime/8", dot: "bg-lime" },
 };
 
-export type Achievement = {
+export type RoleProject = {
+  /** Short identifier, rendered as a child span name in the trace. */
+  slug: string;
+  name: string;
+  what: string;
+  stack: string[];
+  /** The number this shipped, when there is one worth pulling out. */
+  outcome?: string;
   kind: AchievementKind;
-  text: string;
-  /** Short pull-quote metric rendered beside the log line. */
-  metric?: string;
 };
 
 export type Role = {
   id: string;
   company: string;
-  /** Trace-flavoured service name for the span row. */
+  /** Trace-flavoured service name for the parent span row. */
   service: string;
   title: string;
   location: string;
@@ -63,8 +67,14 @@ export type Role = {
   end: string | null;
   employment?: string;
   summary: string;
-  achievements: Achievement[];
-  stack: string[];
+  /**
+   * Facts about the job rather than the work — team size, who I led, how the
+   * role was shaped. Kept separate from `projects` so the two don't blur into
+   * one résumé bullet list.
+   */
+  context: string[];
+  /** The actual systems built, as child spans. */
+  projects: RoleProject[];
   color: string;
 };
 
@@ -78,22 +88,35 @@ export const roles: Role[] = [
     start: "2020-12",
     end: "2021-02",
     employment: "Internship",
-    summary: "Logistics tracking, reservations and content tooling for a movers company.",
-    achievements: [
+    summary:
+      "Three months at a movers company, and the first time code I wrote was used by people whose job depended on it.",
+    context: [
+      "First professional codebase. No team — I shipped straight to the tools dispatchers used that day.",
+    ],
+    projects: [
       {
+        slug: "lorry-tracking",
+        name: "Real-time lorry tracking",
+        what: "Live location for the fleet, so dispatchers could answer \"where is my delivery\" without phoning the driver.",
+        stack: ["PHP", "Laravel", "MySQL"],
+        outcome: "real-time",
         kind: "build",
-        text: "Built a real-time lorry location tracking system in PHP and Laravel, improving logistics transparency for dispatchers.",
       },
       {
+        slug: "reservations",
+        name: "Online reservation management",
+        what: "Customer-facing booking flow with an admin side behind it for confirming and rescheduling.",
+        stack: ["PHP", "Laravel"],
         kind: "build",
-        text: "Designed and built an online reservation management feature for customer bookings.",
       },
       {
+        slug: "blog-cms",
+        name: "Blog publishing tool",
+        what: "A small CMS so marketing could publish without a developer in the loop.",
+        stack: ["PHP", "Laravel"],
         kind: "build",
-        text: "Developed a blog post management system for content publishing.",
       },
     ],
-    stack: ["PHP", "Laravel", "MySQL"],
     color: "var(--color-slate)",
   },
   {
@@ -105,34 +128,52 @@ export const roles: Role[] = [
     start: "2021-04",
     end: "2022-12",
     summary:
-      "Web-based admin and business modules, legacy migrations and client-facing retail features.",
-    achievements: [
+      "Nearly two years of internal business systems: migrating what existed, then building the modules the business kept asking for.",
+    context: [
+      "Individual contributor across five separate systems, each with its own stakeholders inside the business.",
+    ],
+    projects: [
       {
+        slug: "php5-migration",
+        name: "PHP 5 to CodeIgniter migration",
+        what: "Moved legacy systems off PHP 5 onto CodeIgniter — the unglamorous work that made everything after it possible.",
+        stack: ["PHP", "CodeIgniter 4", "MySQL"],
+        outcome: "+20% perf",
+        kind: "arch",
+      },
+      {
+        slug: "hr-eletter",
+        name: "HR eLetter APIs",
+        what: "REST APIs behind an HR letter request and approval workflow, replacing a paper trail for the whole company.",
+        stack: ["PHP", "REST APIs", "MySQL"],
+        outcome: "20k employees",
+        kind: "build",
+      },
+      {
+        slug: "voucher-module",
+        name: "Voucher management",
+        what: "Issue and redeem vouchers consistently across three surfaces — Qube POS in-store, the mobile app, and web.",
+        stack: ["PHP", "Qube POS", "REST APIs"],
+        outcome: "3 channels",
+        kind: "build",
+      },
+      {
+        slug: "training-quiz",
+        name: "Training platform quiz module",
+        what: "Quizzes with push notifications for a trainer platform. Tight deadline, and it held.",
+        stack: ["PHP", "OneSignal"],
+        outcome: "shipped in 2 weeks",
+        kind: "build",
+      },
+      {
+        slug: "fresh-item-markdown",
+        name: "Fresh-item markdown & reorder",
+        what: "Markdown, disposal and reorder flows for perishable stock, rolled out across the retail estate.",
+        stack: ["PHP", "MySQL"],
+        outcome: "12 stores",
         kind: "impact",
-        text: "Migrated legacy PHP 5 systems to CodeIgniter, improving performance by ~20%.",
-        metric: "+20% perf",
-      },
-      {
-        kind: "build",
-        text: "Built RESTful APIs for an HR eLetter module serving ~20,000 employees, streamlining request and approval workflows.",
-        metric: "20k employees",
-      },
-      {
-        kind: "build",
-        text: "Developed a voucher management module integrated with Qube POS, mobile apps and web platforms.",
-      },
-      {
-        kind: "build",
-        text: "Built a quiz module with OneSignal push notifications for a training platform used by ~100 trainers — shipped in ~2 weeks.",
-        metric: "shipped in 2 weeks",
-      },
-      {
-        kind: "build",
-        text: "Built a fresh-item markdown, disposal and reorder system rolled out across 12 retail stores.",
-        metric: "12 stores",
       },
     ],
-    stack: ["PHP", "CodeIgniter 4", "MySQL", "REST APIs", "OneSignal"],
     color: "var(--color-teal)",
   },
   {
@@ -144,29 +185,30 @@ export const roles: Role[] = [
     start: "2023-01",
     end: "2024-05",
     summary:
-      "Led a team of 3 engineers, owned system architecture and delivered multiple client-facing systems.",
-    achievements: [
+      "Promoted into owning architecture and a team. Two large client-facing systems, and the first time the design decisions were mine to defend.",
+    context: [
+      "Led a team of 3 engineers and owned the system architecture.",
+      "Coordinated across 3 cross-functional teams, including one based in India.",
+      "Mentored juniors on system design, code quality and implementation practice.",
+    ],
+    projects: [
       {
-        kind: "lead",
-        text: "Led 3 engineers to design and deliver a warehouse management system covering 6 core modules: receiving, put away, relocation, picking, audit and status inquiry.",
-        metric: "6 modules",
+        slug: "wms",
+        name: "Warehouse management system",
+        what: "Six modules covering the full floor workflow — receiving, put away, relocation, picking, audit and status inquiry — integrated with SBClient POS for purchase orders.",
+        stack: ["PHP", "MySQL", "REST APIs", "SBClient POS"],
+        outcome: "+20% receiving · +30% onboarding",
+        kind: "arch",
       },
       {
-        kind: "impact",
-        text: "Sped up item receiving by 20% and onboarding by 30% through the WMS; integrated SBClient POS for purchase-order workflows.",
-        metric: "+20% / +30%",
-      },
-      {
+        slug: "super-app-portal",
+        name: "Client super app — APIs & portal",
+        what: "Led the web team building the APIs and admin portal for a client's super app, with the work split across three teams in two countries.",
+        stack: ["PHP", "REST APIs", "MySQL"],
+        outcome: "3 teams",
         kind: "lead",
-        text: "Led the web team building APIs and the web portal for a client super app, coordinating across 3 cross-functional teams including one based in India.",
-        metric: "3 teams",
-      },
-      {
-        kind: "lead",
-        text: "Mentored junior developers on system architecture, code quality and implementation best practices.",
       },
     ],
-    stack: ["PHP", "REST APIs", "MySQL", "System design", "Team leadership"],
     color: "var(--color-violet)",
   },
   {
@@ -178,19 +220,28 @@ export const roles: Role[] = [
     start: "2023-09",
     end: "2023-10",
     employment: "Part-time · concurrent",
-    summary: "Short engagement on booking calendar performance and checkout UX.",
-    achievements: [
+    summary:
+      "A two-month side engagement, run in parallel with the Cloone role. Small scope, measurable brief.",
+    context: [
+      "Ran alongside a full-time job — deliberately scoped to two clear problems rather than open-ended work.",
+    ],
+    projects: [
       {
+        slug: "calendar-queries",
+        name: "Booking calendar query tuning",
+        what: "Profiled and rewrote the queries behind a booking calendar. An index and a reshaped join, not a rewrite.",
+        stack: ["SQL", "PHP"],
+        outcome: "-50% retrieval time",
         kind: "impact",
-        text: "Optimised SQL queries behind a booking calendar system, cutting data-retrieval time by 50%.",
-        metric: "-50% query time",
       },
       {
+        slug: "view-receipt",
+        name: "Checkout receipt access",
+        what: "Added a View Receipt step so customers got proof of payment immediately instead of waiting on an email.",
+        stack: ["PHP"],
         kind: "build",
-        text: "Enhanced checkout with a View Receipt feature for instant receipt access after payment.",
       },
     ],
-    stack: ["SQL", "Query optimisation", "PHP"],
     color: "var(--color-rose)",
   },
   {
@@ -202,45 +253,36 @@ export const roles: Role[] = [
     start: "2024-06",
     end: "2025-04",
     summary:
-      "Backend and full-stack work on an in-house music streaming platform and high-traffic Samsung campaigns.",
-    achievements: [
-      {
-        kind: "build",
-        text: "Designed and built scalable RESTful APIs with Express.js for the in-house music streaming platform.",
-      },
-      {
-        kind: "ops",
-        text: "Cached chart data in Redis and served S3-hosted images via CloudFront, improving response times and image load speed.",
-      },
-      {
-        kind: "ops",
-        text: "Instrumented production services with New Relic for observability and monitoring.",
-      },
-      {
-        kind: "ops",
-        text: "Deployed and maintained applications on AWS EC2, and built serverless APIs with Lambda and API Gateway.",
-      },
-      {
-        kind: "impact",
-        text: "Shipped full-stack Next.js apps for high-traffic Samsung marketing campaigns, including a lucky draw handling ~10,000 daily visitors.",
-        metric: "10k daily visitors",
-      },
-      {
-        kind: "ops",
-        text: "Built CI/CD pipelines with GitHub Actions for automated testing and deployment of backend services.",
-      },
+      "The switch to TypeScript and AWS. An in-house streaming product on one side, high-traffic Samsung campaigns on the other.",
+    context: [
+      "Backend-leaning full-stack, split between one long-lived product and short-fuse client campaigns.",
+      "Where I stopped treating infrastructure as someone else's job.",
     ],
-    stack: [
-      "Node.js",
-      "Express.js",
-      "TypeScript",
-      "Next.js",
-      "Redis",
-      "AWS EC2",
-      "AWS Lambda",
-      "CloudFront",
-      "New Relic",
-      "GitHub Actions",
+    projects: [
+      {
+        slug: "streaming-api",
+        name: "Music streaming platform APIs",
+        what: "REST APIs for the in-house streaming product, with Redis holding chart data and CloudFront fronting S3 artwork so the app felt instant.",
+        stack: ["Node.js", "Express.js", "Redis", "AWS S3", "CloudFront"],
+        outcome: "faster responses",
+        kind: "build",
+      },
+      {
+        slug: "samsung-campaigns",
+        name: "Samsung campaign sites",
+        what: "Full-stack Next.js builds for marketing pushes, including a lucky draw that had to survive a national ad campaign pointing at it.",
+        stack: ["Next.js", "TypeScript", "React"],
+        outcome: "10k visitors/day",
+        kind: "impact",
+      },
+      {
+        slug: "platform-observability",
+        name: "Deployment & observability",
+        what: "EC2 deploys, serverless APIs on Lambda and API Gateway, New Relic on production, and GitHub Actions doing the testing and shipping.",
+        stack: ["AWS EC2", "AWS Lambda", "API Gateway", "New Relic", "GitHub Actions"],
+        outcome: "CI/CD",
+        kind: "ops",
+      },
     ],
     color: "var(--color-info)",
   },
@@ -253,43 +295,53 @@ export const roles: Role[] = [
     start: "2025-04",
     end: null,
     summary:
-      "AI-powered review pipelines and a marketing automation platform for 123RF.",
-    achievements: [
-      {
-        kind: "build",
-        text: "Built 3 LLM-powered review pipelines for 123RF with Python, FastAPI and AWS Bedrock — covering submission review, contributor registration review and release workflow review.",
-        metric: "3 pipelines",
-      },
-      {
-        kind: "arch",
-        text: "Architected a distributed, event-driven system on AWS SQS with auto-scaling ECS workers, cutting the review backlog from over a week to under 24 hours.",
-        metric: "7d -> <24h",
-      },
-      {
-        kind: "impact",
-        text: "Achieved ~30% more daily processing and ~3× cost reduction through model migration, prompt optimisation and batching.",
-        metric: "~3× cheaper",
-      },
-      {
-        kind: "build",
-        text: "Built an AI platform in TypeScript, Node.js and Next.js for marketing planning, asset generation and automated publishing across 6 social media platforms.",
-        metric: "6 platforms",
-      },
+      "Current role. Replacing human review queues at 123RF with LLM pipelines, and making them cheap enough to leave running.",
+    context: [
+      "Working on 123RF, where the review queue was the bottleneck for every contributor.",
+      "The first role where the interesting problems are cost-per-request and throughput, not features.",
     ],
-    stack: [
-      "Python",
-      "FastAPI",
-      "AWS Bedrock",
-      "AWS SQS",
-      "AWS ECS",
-      "TypeScript",
-      "Node.js",
-      "Next.js",
-      "Docker",
+    projects: [
+      {
+        slug: "review-pipelines",
+        name: "LLM review pipelines",
+        what: "Three pipelines that read a submission and decide: submission review, contributor registration review, and release workflow review.",
+        stack: ["Python", "FastAPI", "AWS Bedrock"],
+        outcome: "3 pipelines",
+        kind: "build",
+      },
+      {
+        slug: "event-driven-workers",
+        name: "Event-driven review infrastructure",
+        what: "SQS queues feeding ECS workers that scale on queue depth, so a spike in submissions costs time rather than a backlog.",
+        stack: ["AWS SQS", "AWS ECS", "Docker"],
+        outcome: "7d -> <24h",
+        kind: "arch",
+      },
+      {
+        slug: "inference-cost",
+        name: "Inference cost reduction",
+        what: "Migrated models, rewrote prompts and batched requests. No new architecture — just reading the numbers and acting on them.",
+        stack: ["AWS Bedrock", "Prompt optimisation"],
+        outcome: "~3× cheaper · +30% throughput",
+        kind: "impact",
+      },
+      {
+        slug: "ai-marketing-platform",
+        name: "AI marketing platform",
+        what: "Campaign planning, asset generation and automated publishing out to six social platforms from one place.",
+        stack: ["TypeScript", "Node.js", "Next.js"],
+        outcome: "6 platforms",
+        kind: "build",
+      },
     ],
     color: "var(--color-accent)",
   },
 ];
+
+/** Distinct technologies across a role's projects — derived, never duplicated. */
+export function roleStack(role: Role): string[] {
+  return [...new Set(role.projects.flatMap((p) => p.stack))];
+}
 
 /** Headline numbers, each traceable back to a real span. */
 export const metrics: {
