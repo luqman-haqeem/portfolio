@@ -44,7 +44,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
         }
         aside={
           <span className="hidden font-mono text-2xs text-dim sm:inline">
-            {repos.length + closedSource.length} builds
+            {repos.length + closedSource.length} builds · newest first
           </span>
         }
       />
@@ -59,7 +59,15 @@ export default function BuildsSection({ data }: { data: GithubData }) {
             delay={i * 60}
           />
         ))}
+      </div>
 
+      {/* Kept in its own group rather than sorted into the grid: a private repo
+          emits no push date, so it has no place in a "newest first" ordering. */}
+      <div className="mt-10">
+        <p className="mb-4 font-mono text-2xs text-dim" data-reveal>
+          live, source not public
+        </p>
+        <div className="grid gap-5 lg:grid-cols-2">
         {closedSource.map((project, i) => (
           <article
             key={project.id}
@@ -126,93 +134,99 @@ export default function BuildsSection({ data }: { data: GithubData }) {
             </div>
           </article>
         ))}
+        </div>
       </div>
 
       {/* --------------------------- rebuild lineage --------------------------- */}
       <div className="mt-16 border-t border-line pt-12">
-        <div className="mb-8" data-reveal>
-          <h3 className="text-xl font-semibold tracking-tight text-text">
-            The things I keep rebuilding
-          </h3>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-            Two problems I&apos;ve now solved more than once. I think this says
-            more about how I work than any single project does — I don&apos;t
-            move on when something works, I come back when I know better.
-          </p>
-        </div>
-
-        <div className="space-y-5">
-          {lineages.map((lineage, li) => (
-            <div
-              key={lineage.problem}
-              className="rounded-xl border border-line bg-panel p-5"
-              data-reveal
-              style={{ "--reveal-delay": `${li * 90}ms` } as React.CSSProperties}
-            >
-              <h4 className="font-mono text-sm text-accent">
+        {lineages.map((lineage, li) => (
+          <div key={lineage.problem} className={li > 0 ? "mt-14" : ""}>
+            <div className="mb-8" data-reveal>
+              <p className="font-mono text-2xs text-accent">
+                rewritten {lineage.generations.length} times
+              </p>
+              <h3 className="mt-2 text-xl font-semibold tracking-tight text-text">
                 {lineage.problem}
-              </h4>
-              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
+              </h3>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
                 {lineage.why}
               </p>
+            </div>
 
-              <ol className="mt-5 space-y-0">
-                {lineage.generations.map((gen, i) => {
-                  const last = i === lineage.generations.length - 1;
-                  return (
-                    <li key={`${gen.repo}-${gen.label}`} className="flex gap-4">
-                      {/* rail */}
-                      <div className="flex flex-col items-center">
+            <div className="relative">
+              {/* rail the generations sit on, desktop only */}
+              <div
+                className="absolute top-1.5 left-1 hidden h-px bg-line sm:block"
+                style={{ right: "0.25rem" }}
+                aria-hidden="true"
+              />
+
+              <ol className="grid gap-6 sm:grid-cols-3 sm:gap-5">
+                {lineage.generations.map((gen, i) => (
+                  <li
+                    key={`${gen.repo}-${gen.label}`}
+                    className="relative"
+                    data-reveal
+                    style={
+                      { "--reveal-delay": `${i * 90}ms` } as React.CSSProperties
+                    }
+                  >
+                    <span
+                      className={`absolute top-0 left-0 size-3 rounded-full border-2 ${
+                        gen.current
+                          ? "border-ok bg-ok/30"
+                          : "border-line-2 bg-bg"
+                      }`}
+                      aria-hidden="true"
+                    />
+
+                    <div className="pt-7 pl-0 sm:pt-8">
+                      <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
                         <span
-                          className={`mt-1 size-2.5 shrink-0 rounded-full border-2 ${
-                            gen.current
-                              ? "border-ok bg-ok/30"
-                              : "border-line-2 bg-panel"
+                          className={`font-mono text-sm ${
+                            gen.current ? "text-ok" : "text-muted"
                           }`}
-                        />
-                        {!last ? (
-                          <span className="my-1 w-px flex-1 bg-line" />
+                        >
+                          {gen.label}
+                        </span>
+                        <span className="font-mono text-2xs text-dim">
+                          {gen.period}
+                        </span>
+                        {gen.current ? (
+                          <span className="rounded border border-ok/25 bg-ok/8 px-1.5 font-mono text-2xs text-ok">
+                            current
+                          </span>
                         ) : null}
                       </div>
 
-                      <div className={last ? "pb-0" : "pb-6"}>
-                        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-                          <span className="font-mono text-2xs text-dim">
-                            {gen.label}
-                          </span>
-                          <ExternalLink
-                            href={`${profile.github}/${gen.repo}`}
-                            logAs={`repo/${gen.repo}`}
-                            className="font-mono text-xs text-text transition-colors hover:text-accent"
-                          >
-                            {gen.repo}
-                          </ExternalLink>
-                          <span className="font-mono text-2xs text-line-2">
-                            {gen.period}
-                          </span>
-                          {gen.current ? (
-                            <span className="rounded border border-ok/25 bg-ok/8 px-1.5 font-mono text-2xs text-ok">
-                              current
-                            </span>
-                          ) : null}
-                        </div>
-                        <p className="mt-1 font-mono text-2xs text-muted">
-                          {gen.stack}
-                          {gen.host ? (
-                            <span className="text-dim"> · {gen.host}</span>
-                          ) : null}
+                      <p className="mt-2 font-mono text-xs leading-relaxed text-text">
+                        {gen.stack}
+                      </p>
+                      {gen.host ? (
+                        <p className="mt-0.5 font-mono text-2xs text-dim">
+                          on {gen.host}
                         </p>
-                        <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">
-                          {gen.note}
-                        </p>
-                      </div>
-                    </li>
-                  );
-                })}
+                      ) : null}
+
+                      <p className="mt-3 text-sm leading-relaxed text-muted">
+                        {gen.note}
+                      </p>
+
+                      <ExternalLink
+                        href={`${profile.github}/${gen.repo}`}
+                        logAs={`repo/${gen.repo}`}
+                        className="mt-3 inline-flex items-center gap-1 font-mono text-2xs text-dim transition-colors hover:text-accent"
+                      >
+                        {gen.repo}
+                        <ArrowIcon />
+                      </ExternalLink>
+                    </div>
+                  </li>
+                ))}
               </ol>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </Section>
   );

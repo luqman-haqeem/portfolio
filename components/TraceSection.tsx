@@ -17,7 +17,8 @@ const latestRole = roles.reduce((a, b) => (a.start > b.start ? a : b));
 
 export default function TraceSection() {
   const timeline = useMemo(() => buildTimeline(roles), []);
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  // Newest first by default — the current role is what anyone reads first.
+  const [order, setOrder] = useState<"asc" | "desc">("desc");
   const [view, setView] = useState<"trace" | "plain">("trace");
   const [open, setOpen] = useState<string[]>([latestRole.id]);
 
@@ -39,7 +40,7 @@ export default function TraceSection() {
     [],
   );
 
-  // Deep links from the metrics strip and stack topology land here.
+  // Deep links from the stack topology land here.
   useEffect(() => {
     const sync = () => {
       const match = window.location.hash.match(/^#role-(.+)$/);

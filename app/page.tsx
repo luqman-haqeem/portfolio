@@ -2,7 +2,6 @@ import BuildsSection from "@/components/BuildsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
-import MetricsStrip from "@/components/MetricsStrip";
 import PrintResume from "@/components/PrintResume";
 import RevealObserver from "@/components/RevealObserver";
 import Shell from "@/components/Shell";
@@ -27,7 +26,6 @@ export default async function Home() {
 
       <main className="flex-1" data-print="hide">
         <Hero />
-        <MetricsStrip />
         <TraceSection />
         <Divider />
         <StackSection data={github} />

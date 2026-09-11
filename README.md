@@ -43,17 +43,16 @@ All résumé content lives in one typed file: **`lib/resume.ts`**. Nothing is ha
 | --- | --- |
 | Name, contact, summary, tagline | `profile` |
 | Jobs, their context, and the systems built in each | `roles` (`context` + `projects`) |
-| Headline numbers on the outcomes strip | `metrics` |
 | Skill layers and their `usedIn` cross-references | `skillLayers` |
 | Side projects | `projects` |
 | Education, certifications, tools | `education`, `certifications`, `practices` |
 | Honest language rankings + the repos that prove them | `languageComfort` |
 | Per-repo write-ups, keyed by GitHub repo name | `buildNotes` |
-| Projects I've rebuilt more than once | `lineages` |
+| Rewrite history of a long-running project | `lineages` |
 
 Dates drive the waterfall geometry automatically — `lib/trace.ts` turns `YYYY-MM` strings into bar offsets, durations, year ticks and overlap detection. Adding a role is enough; no layout changes needed.
 
-The `usedIn` arrays are what make the stack inspector work. Each entry is a `roles[].id` or `projects[].id`, and `metrics[].roleId` is what makes each number link back to the span it came from.
+The `usedIn` arrays are what make the stack inspector work. Each entry is a `roles[].id` or `projects[].id`.
 
 ## Deploy (Cloudflare Workers)
 

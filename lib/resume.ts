@@ -343,58 +343,6 @@ export function roleStack(role: Role): string[] {
   return [...new Set(role.projects.flatMap((p) => p.stack))];
 }
 
-/** Headline numbers, each traceable back to a real span. */
-export const metrics: {
-  value: string;
-  unit?: string;
-  label: string;
-  source: string;
-  roleId: string;
-}[] = [
-  {
-    value: "7d",
-    unit: " -> <24h",
-    label: "Review backlog cut",
-    source: "Event-driven SQS + ECS pipeline",
-    roleId: "inmagine",
-  },
-  {
-    value: "3",
-    unit: "×",
-    label: "Inference cost reduction",
-    source: "Model migration + prompt tuning",
-    roleId: "inmagine",
-  },
-  {
-    value: "10",
-    unit: "k/day",
-    label: "Peak campaign visitors",
-    source: "Samsung lucky draw campaign",
-    roleId: "cheil",
-  },
-  {
-    value: "20",
-    unit: "k",
-    label: "Employees served by HR APIs",
-    source: "HR eLetter module",
-    roleId: "cloone-php",
-  },
-  {
-    value: "50",
-    unit: "%",
-    label: "Faster data retrieval",
-    source: "Booking calendar SQL tuning",
-    roleId: "devwiz",
-  },
-  {
-    value: "3",
-    unit: " eng",
-    label: "Team led as senior",
-    source: "Warehouse management system",
-    roleId: "cloone-senior",
-  },
-];
-
 export type SkillNode = {
   name: string;
   /** IDs of roles/projects where this was actually used. */
@@ -693,13 +641,6 @@ export const languageComfort: LanguageComfort[] = [
     note: "The Telegram bot ships as a container with a compose file, and the review pipelines at work run as ECS tasks. \"Works on my machine\" is not a deployment strategy.",
     evidence: ["career-agent"],
   },
-  {
-    name: "Go",
-    level: "learning",
-    period: "2026",
-    note: "Reading more of it than writing it so far — mostly because the self-hosted tools I like keep turning out to be single Go binaries.",
-    evidence: [],
-  },
 ];
 
 /**
@@ -798,7 +739,7 @@ export type Lineage = {
 export const lineages: Lineage[] = [
   {
     problem: "Are the rivers in Selangor rising?",
-    why: "Four years, three stacks, one question. Each rewrite happened because the last one hit a real wall, not because a new framework got popular.",
+    why: "Four years, three stacks, one question. Every rewrite happened because the previous version hit a wall I could name — not because a new framework got popular.",
     generations: [
       {
         repo: "WaterLevel",
@@ -806,7 +747,7 @@ export const lineages: Lineage[] = [
         period: "Dec 2022",
         stack: "Laravel · jQuery · MySQL",
         host: "Render free tier",
-        note: "Worked, until the free tier slept after 15 minutes of inactivity — the exact moment you need it is the moment nobody has visited it.",
+        note: "It worked. Then the free tier started sleeping after 15 minutes idle — and the moment you need a flood dashboard is the moment nobody has visited it.",
       },
       {
         repo: "water-level",
@@ -814,7 +755,7 @@ export const lineages: Lineage[] = [
         period: "Aug 2024",
         stack: "Next.js · React",
         host: "Vercel",
-        note: "Faster and always awake. But polling for data I wanted to be live meant fighting the framework.",
+        note: "Always awake and much faster. But I was polling for data I wanted to be live, which meant fighting the framework instead of using it.",
       },
       {
         repo: "water-level",
@@ -822,28 +763,7 @@ export const lineages: Lineage[] = [
         period: "Aug 2026",
         stack: "Vite · TanStack Router · Convex",
         host: "Netlify",
-        note: "Reactive backend, so station updates push instead of poll. Added PWA offline support, danger-level alerts, and a real test suite.",
-        current: true,
-      },
-    ],
-  },
-  {
-    problem: "Can a college run its elections online?",
-    why: "My final-year project, then the same thing again once I understood frameworks. The second attempt taught me more than the first.",
-    generations: [
-      {
-        repo: "voting-system",
-        label: "v1",
-        period: "Aug 2020",
-        stack: "Vanilla PHP · MySQL",
-        note: "Built for how KUIS actually voted. 185 commits, and I was still fixing bugs in it two years after submitting it.",
-      },
-      {
-        repo: "laravel-evoting",
-        label: "v2",
-        period: "Feb 2022",
-        stack: "Laravel · Blade",
-        note: "Same domain, rebuilt properly. This is where the difference between writing code and structuring it finally landed.",
+        note: "A reactive backend, so station readings push instead of being polled. Added offline support, danger-level alerts and an actual test suite.",
         current: true,
       },
     ],
