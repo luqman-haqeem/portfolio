@@ -64,21 +64,57 @@ The `usedIn` arrays are what make the stack inspector work. Each entry is a `rol
 
 Deployed to Cloudflare Workers through the [OpenNext adapter](https://opennext.js.org/cloudflare), which runs the real `next build` output. Cloudflare's newer `vinext` was considered and rejected: it is beta, its own README says the code is largely AI-written and unreviewed, and it loads Google Fonts from a CDN — which would quietly break this site's claim of no third-party requests.
 
-### One-time setup
+### Option A — Cloudflare dashboard (no CLI)
+
+Cloudflare builds and deploys on every push. Nothing to install, and the API token is generated for you.
+
+1. **Create the cache bucket.** Dashboard → **R2** → *Create bucket* → name it exactly `portfolio-cache`.
+2. **Connect the repo.** Dashboard → **Workers & Pages** → *Create* → **Import a repository** → pick `portfolio`.
+3. **Set the two commands.** The defaults are wrong for OpenNext — the deploy default is `npx wrangler deploy`, which skips OpenNext entirely and never seeds the incremental cache:
+
+   | Field | Value |
+   | --- | --- |
+   | Build command | `npx opennextjs-cloudflare build` |
+   | Deploy command | `npx opennextjs-cloudflare deploy` |
+   | Non-production branch command | `npx opennextjs-cloudflare upload` |
+
+4. **Add one build variable** under *Settings → Build → Build variables and secrets*:
+
+   ```
+   NEXT_PUBLIC_SITE_URL = https://portfolio.<your-subdomain>.workers.dev
+   ```
+
+   It only needs to exist at build time — `NEXT_PUBLIC_*` is inlined into the bundle, so a build variable is exactly right.
+
+Leave the build and deploy commands separate rather than pointing both at `npm run deploy`, or the app builds twice per deployment.
+
+**About the token:** Cloudflare creates one automatically on first build, scoped to Account Settings (read), Workers Scripts (edit), Workers KV Storage (edit), Workers R2 Storage (edit), Workers Routes (edit) and user details. That already covers R2, so there is nothing to configure by hand.
+
+If you use this path, leave the GitHub `SITE_URL` variable **unset** — that keeps the GitHub Actions workflow as a types/lint gate only, so Cloudflare and Actions never race to deploy the same commit.
+
+### Option B — CLI
 
 ```bash
-npx wrangler login                              # authenticate
-npx wrangler r2 bucket create portfolio-cache   # incremental cache for ISR
-npm run deploy                                  # build + deploy
-```
-
-The R2 bucket is the only resource you create by hand. The Durable Object that runs revalidation is created automatically by the migration in `wrangler.jsonc`.
-
-Set the canonical origin so the sitemap and OG image resolve to absolute URLs:
-
-```bash
+npx wrangler login
+npx wrangler r2 bucket create portfolio-cache
 NEXT_PUBLIC_SITE_URL=https://your-domain.com npm run deploy
 ```
+
+### Option C — GitHub Actions
+
+Set the `SITE_URL` variable and the two Cloudflare secrets (see [CI](#ci)) and every push to `main` deploys. Create the token at **My Profile → API Tokens → Create Custom Token** with:
+
+| Scope | Permission |
+| --- | --- |
+| Account | Workers Scripts — Edit |
+| Account | Workers R2 Storage — Edit |
+| Account | Account Settings — Read |
+| User | User Details — Read |
+| Zone | Workers Routes — Edit *(only for a custom domain)* |
+
+Use only one of A or C, not both.
+
+The R2 bucket is the only resource you create by hand in any path. The Durable Object that runs revalidation is created automatically by the migration in `wrangler.jsonc`.
 
 ### How caching is wired
 
@@ -101,9 +137,12 @@ npm run preview    # build, then run the real Worker locally via workerd
 
 ### CI
 
-`.github/workflows/deploy.yml` type-checks and lints on every push to `main`, then deploys.
+`.github/workflows/ci.yml` type-checks and lints on every push to `main`. It contains an **optional** deploy job.
 
-The deploy job **skips itself** until the `SITE_URL` repository variable is set, so pushes stay green while Cloudflare is still unconfigured. Once `SITE_URL` exists, a missing secret fails fast with a named error instead of a wrangler stack trace.
+The deploy job skips itself unless the `SITE_URL` repository variable is set. So:
+
+- **Deploying via the Cloudflare dashboard (Option A)?** Leave `SITE_URL` unset. This workflow stays a pure quality gate and Cloudflare owns deployment — nothing races.
+- **Want Actions to deploy (Option C)?** Set `SITE_URL` plus the two secrets. A missing secret then fails fast with a named error instead of a wrangler stack trace.
 
 | Secret / variable | Purpose |
 | --- | --- |
@@ -117,7 +156,7 @@ gh secret set CLOUDFLARE_API_TOKEN
 gh secret set CLOUDFLARE_ACCOUNT_ID
 ```
 
-Note the deploy step runs `npm run deploy`, not `opennextjs-cloudflare deploy` — the latter skips the build and fails with *"Could not find compiled Open Next config"*.
+Note the deploy step runs `npm run deploy`, not `opennextjs-cloudflare deploy` — the latter skips the build and fails with *"Could not find compiled Open Next config"*. In Workers Builds the two are separate fields, which is why the build and deploy commands there are set individually.
 
 ## Stack
 

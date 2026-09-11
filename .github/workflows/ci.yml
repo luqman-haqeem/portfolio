@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Workers
+name: CI
 
 on:
   push:
@@ -27,10 +27,15 @@ jobs:
   deploy:
     needs: check
     runs-on: ubuntu-latest
-    # Skips cleanly until Cloudflare is set up, so pushes don't fail while the
-    # account side is still pending. The `secrets` context is not available in a
-    # job-level `if`, so the SITE_URL *variable* is the gate — it's required for
-    # deploys anyway, since the sitemap and OG image need an absolute origin.
+    # Opt-in. Leave the SITE_URL repository variable unset if you deploy with
+    # Cloudflare Workers Builds (the dashboard Git integration) instead — then
+    # this workflow is purely a quality gate and Cloudflare owns deployment,
+    # so the two never race to deploy the same commit.
+    #
+    # Set SITE_URL only if you want GitHub Actions to be the deployer. The
+    # `secrets` context is not available in a job-level `if`, so the variable is
+    # the gate — and it's required for deploys anyway, since the sitemap and OG
+    # image need an absolute origin.
     if: ${{ vars.SITE_URL != '' }}
     steps:
       - uses: actions/checkout@v5
