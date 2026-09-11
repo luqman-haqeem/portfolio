@@ -101,13 +101,23 @@ npm run preview    # build, then run the real Worker locally via workerd
 
 ### CI
 
-`.github/workflows/deploy.yml` type-checks, lints, then deploys on every push to `main`. It needs:
+`.github/workflows/deploy.yml` type-checks and lints on every push to `main`, then deploys.
+
+The deploy job **skips itself** until the `SITE_URL` repository variable is set, so pushes stay green while Cloudflare is still unconfigured. Once `SITE_URL` exists, a missing secret fails fast with a named error instead of a wrangler stack trace.
 
 | Secret / variable | Purpose |
 | --- | --- |
+| `SITE_URL` (variable) | Canonical origin — also the switch that enables deploys |
 | `CLOUDFLARE_API_TOKEN` (secret) | Workers deploy permission |
 | `CLOUDFLARE_ACCOUNT_ID` (secret) | Target account |
-| `SITE_URL` (variable) | Canonical origin |
+
+```bash
+gh variable set SITE_URL --body "https://your-domain.com"
+gh secret set CLOUDFLARE_API_TOKEN
+gh secret set CLOUDFLARE_ACCOUNT_ID
+```
+
+Note the deploy step runs `npm run deploy`, not `opennextjs-cloudflare deploy` — the latter skips the build and fails with *"Could not find compiled Open Next config"*.
 
 ## Stack
 

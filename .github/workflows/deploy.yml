@@ -27,7 +27,11 @@ jobs:
   deploy:
     needs: check
     runs-on: ubuntu-latest
-    environment: production
+    # Skips cleanly until Cloudflare is set up, so pushes don't fail while the
+    # account side is still pending. The `secrets` context is not available in a
+    # job-level `if`, so the SITE_URL *variable* is the gate — it's required for
+    # deploys anyway, since the sitemap and OG image need an absolute origin.
+    if: ${{ vars.SITE_URL != '' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -36,13 +40,31 @@ jobs:
           cache: npm
       - run: npm ci
 
+      # Fail loudly and early rather than deep inside a wrangler stack trace.
+      - name: Verify Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          missing=""
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || missing="$missing CLOUDFLARE_API_TOKEN"
+          [ -n "$CLOUDFLARE_ACCOUNT_ID" ] || missing="$missing CLOUDFLARE_ACCOUNT_ID"
+          if [ -n "$missing" ]; then
+            echo "::error::SITE_URL is set but these repository secrets are missing:$missing"
+            exit 1
+          fi
+
+      # Must be `npm run deploy`, which chains the OpenNext build before the
+      # deploy. Calling `opennextjs-cloudflare deploy` on its own fails with
+      # "Could not find compiled Open Next config".
       - name: Build and deploy
-        run: npx opennextjs-cloudflare deploy
+        run: npm run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Absolute origin for canonical URLs, sitemap and the OG image.
           NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL }}
-          # Optional: lifts the GitHub API rate limit for the build's data fetch.
-          # Falls back to lib/github-snapshot.json if absent or rate-limited.
+          # Lifts the GitHub API rate limit for the build's data fetch. Shared CI
+          # runners burn through the 60 req/hr unauthenticated limit; without it
+          # the build silently falls back to lib/github-snapshot.json.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
