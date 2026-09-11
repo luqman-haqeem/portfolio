@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# luqman.service
 
-## Getting Started
+Personal portfolio for **Luqman Haqeem**, backend-focused full-stack developer.
 
-First, run the development server:
+Instead of the usual hero-image-and-card-grid, the site is built as an **observability dashboard**, because that's the work:
+
+- **Career trace** — roles render as spans in a distributed-trace waterfall. Bar length is duration, bar position is when, so overlapping work (the DevWiz engagement inside the Cloone senior role) is visible rather than hidden. Expanding a span shows its attributes and its "logs" (achievements, tagged `ARCH` / `IMPACT` / `BUILD` / `LEAD` / `OPS`).
+- **Stack topology** — skills grouped by request path instead of alphabetically. Every node is clickable and links to the jobs and projects where it was actually used; nodes with no production usage say so instead of padding the list.
+- **Session console** — press `` ` `` or click `console`. It logs real events from your own visit (page load, viewport, sections viewed, spans expanded). Nothing is simulated and nothing leaves the tab — there is no analytics on this site.
+- **Two ways to read it** — a `plain text` toggle in the career trace renders a normal résumé for anyone who just wants the facts, and the page prints to a clean, ATS-friendly document.
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm start        # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Editing content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All résumé content lives in one typed file: **`lib/resume.ts`**. Nothing is hardcoded in components.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What | Where |
+| --- | --- |
+| Name, contact, summary, tagline | `profile` |
+| Jobs (dates as `YYYY-MM`, `end: null` = current) | `roles` |
+| Headline numbers on the outcomes strip | `metrics` |
+| Skill layers and their `usedIn` cross-references | `skillLayers` |
+| Side projects | `projects` |
+| Education, certifications, tools | `education`, `certifications`, `practices` |
 
-## Learn More
+Dates drive the waterfall geometry automatically — `lib/trace.ts` turns `YYYY-MM` strings into bar offsets, durations, year ticks and overlap detection. Adding a role is enough; no layout changes needed.
 
-To learn more about Next.js, take a look at the following resources:
+The `usedIn` arrays are what make the stack inspector work. Each entry is a `roles[].id` or `projects[].id`, and `metrics[].roleId` is what makes each number link back to the span it came from.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Static output, so any host works. Set `NEXT_PUBLIC_SITE_URL` to the final domain so the Open Graph card resolves to an absolute URL (Netlify's `URL` and Vercel's `VERCEL_URL` are picked up automatically).
 
-## Deploy on Vercel
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-domain.com npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The share image at `/opengraph-image` is generated at build time from the same `lib/resume.ts` data as the page, so it can't drift out of sync.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · zero runtime dependencies beyond the framework.
+
+Most of the page is server-rendered. Client components are limited to the parts that genuinely need interactivity: the trace waterfall, the stack inspector, the status bar, the session console, and the live uptime clock.
+
+## Accessibility notes
+
+- Expandable spans are real `<button>`s with `aria-expanded` / `aria-controls`.
+- `prefers-reduced-motion` disables reveal, pulse and flow animations.
+- Skip link, visible focus rings, and a keyboard-reachable console toggle.
+- No horizontal overflow down to 320px wide.
