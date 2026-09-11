@@ -45,7 +45,15 @@ export const achievementMeta: Record<
 };
 
 export type RoleProject = {
-  /** Short identifier, rendered as a child span name in the trace. */
+  /**
+   * Short identifier, rendered as a child span name in the trace.
+   *
+   * Clients are described by sector rather than named. Naming an employer's
+   * clients alongside the internals built for them is more disclosure than
+   * agency confidentiality clauses tend to allow, and the technical substance
+   * reads the same without it. Third-party products (Kong, MiniOrange, the POS
+   * systems) are kept — those are technologies, not client identities.
+   */
   slug: string;
   name: string;
   what: string;
@@ -193,7 +201,7 @@ export const roles: Role[] = [
       {
         slug: "portal-sso",
         name: "Single sign-on between a legacy portal and WordPress",
-        what: "A training provider's portal was CodeIgniter and the new site was WordPress. Built the OAuth server APIs behind a MiniOrange SSO bridge so one set of credentials opened both instead of asking people to hold two.",
+        what: "A training provider's portal was CodeIgniter and their new site was WordPress. Built the OAuth server APIs behind a MiniOrange SSO bridge so one set of credentials opened both instead of asking people to hold two.",
         stack: ["WordPress", "CodeIgniter 3", "MiniOrange", "OAuth"],
         outcome: "one login, two portals",
         kind: "arch",
