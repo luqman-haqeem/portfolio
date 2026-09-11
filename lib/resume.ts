@@ -339,7 +339,7 @@ export const roles: Role[] = [
       {
         slug: "s26-lucky-draw",
         name: "In-store lucky draw for the S26 Ultra pre-order",
-        what: "A localised play-to-win campaign customers played on a device inside Samsung stores while pre-ordering, with a dashboard behind it for pulling participants and winners back out. Retail campaigns get one shot — there is no patching it with a queue of customers waiting.",
+        what: "A play-to-win campaign built for a Malaysian audience, played on a device inside Samsung stores while customers pre-ordered, with a dashboard behind it for pulling participants and winners back out. Retail campaigns get one shot — there is no patching it with a queue of customers waiting.",
         stack: ["Next.js", "TypeScript", "React"],
         outcome: "10k visitors/day",
         kind: "impact",
@@ -347,8 +347,16 @@ export const roles: Role[] = [
       {
         slug: "dealer-convention-rsvp",
         name: "e-RSVP and door check-in for a dealer convention",
-        what: "Two systems for Samsung's dealer convention at Sunway Pyramid. First, registration that issues each attendee an emailed QR — queued through SQS, rendered by Lambda, delivered via SES, so a burst of sign-ups never blocks the form. Second, the door: scanning that QR checks the attendee in on the day.",
-        stack: ["AWS SQS", "AWS Lambda", "AWS SES"],
+        what: "Two systems for Samsung's dealer convention at Sunway Pyramid. First, registration that issues each attendee an emailed QR — queued through SQS, rendered by Lambda, delivered via SES, so a burst of sign-ups never blocks the form. Second, the door: scanning that QR checks the attendee in on the day. Next.js front end on Vercel, Express running serverless on Lambda behind API Gateway.",
+        stack: [
+          "Next.js",
+          "Express.js",
+          "AWS Lambda",
+          "API Gateway",
+          "AWS SQS",
+          "AWS SES",
+          "Vercel",
+        ],
         outcome: "QR issued, QR scanned",
         kind: "arch",
       },
@@ -457,6 +465,7 @@ export const skillLayers: SkillLayer[] = [
       { name: "API Gateway", usedIn: ["cheil"] },
       { name: "Kong API Gateway", usedIn: ["cloone-senior"] },
       { name: "Netlify", usedIn: ["riverlevel", "simpanresit"] },
+      { name: "Vercel", usedIn: ["cheil"] },
     ],
   },
   {
