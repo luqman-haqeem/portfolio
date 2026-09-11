@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-09-11T06:27:58.546Z",
+  "syncedAt": "2026-09-11T07:11:44.691Z",
   "profile": {
     "login": "luqman-haqeem",
     "name": "Luqman",
@@ -48,63 +48,6 @@
       "createdAt": "2026-06-05T02:38:45Z",
       "pushedAt": "2026-09-04T12:02:17Z",
       "commitCount": 83
-    },
-    {
-      "name": "smart-locker",
-      "description": null,
-      "url": "https://github.com/luqman-haqeem/smart-locker",
-      "homepage": null,
-      "language": "TypeScript",
-      "languages": {
-        "TypeScript": 67716,
-        "CSS": 10195,
-        "Dockerfile": 1517,
-        "HTML": 663
-      },
-      "topics": [],
-      "stars": 0,
-      "fork": false,
-      "archived": false,
-      "createdAt": "2026-07-11T13:56:23Z",
-      "pushedAt": "2026-07-11T14:43:10Z",
-      "commitCount": 2
-    },
-    {
-      "name": "se-take-home-assignment",
-      "description": "The take-home assignment for SE interview",
-      "url": "https://github.com/luqman-haqeem/se-take-home-assignment",
-      "homepage": null,
-      "language": "TypeScript",
-      "languages": {
-        "TypeScript": 14770,
-        "Shell": 1032
-      },
-      "topics": [],
-      "stars": 0,
-      "fork": true,
-      "archived": false,
-      "createdAt": "2026-06-06T16:12:09Z",
-      "pushedAt": "2026-06-06T17:15:08Z",
-      "commitCount": null
-    },
-    {
-      "name": "rag",
-      "description": null,
-      "url": "https://github.com/luqman-haqeem/rag",
-      "homepage": null,
-      "language": "JavaScript",
-      "languages": {
-        "JavaScript": 5213,
-        "HTML": 1377,
-        "Dockerfile": 277
-      },
-      "topics": [],
-      "stars": 0,
-      "fork": false,
-      "archived": false,
-      "createdAt": "2026-05-22T09:27:34Z",
-      "pushedAt": "2026-05-22T14:16:29Z",
-      "commitCount": 5
     },
     {
       "name": "luqman-haqeem",
@@ -287,100 +230,154 @@
         "url": "https://github.com/luqman-haqeem/career-agent/commit/93ef4596d084116199548d31ee0e8f6d909fb893"
       }
     ],
-    "smart-locker": [
+    "WaterLevel": [
       {
-        "sha": "276ab17",
-        "date": "2026-07-11T14:11:09Z",
-        "message": "docs: document OpenAPI and event ledger; wire ALREADY_PICKED_UP into web client",
-        "url": "https://github.com/luqman-haqeem/smart-locker/commit/276ab175f9f342b772773cc9047cfb3335b0a0fe"
+        "sha": "98f0dac",
+        "date": "2024-12-10T03:32:39Z",
+        "message": "update README",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/98f0daca349dc0959f86d5f8be4edefbf00fdb5f"
       },
       {
-        "sha": "692249b",
-        "date": "2026-07-11T13:58:43Z",
-        "message": "feat: initial implementation of Smart Package coding challenge",
-        "url": "https://github.com/luqman-haqeem/smart-locker/commit/692249ba1b14a497edcd7865384a88d1413e1270"
+        "sha": "1dae123",
+        "date": "2024-05-01T11:22:45Z",
+        "message": "Merge pull request #21 from luqman-haqeem/dev",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/1dae1238cf087f45a170fcb5dfdf18896033fdcb"
+      },
+      {
+        "sha": "2ec7e5b",
+        "date": "2024-05-01T11:21:05Z",
+        "message": "add  indicator if  station offline",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/2ec7e5bd36c97f847d14ca0b49672498e02cc10d"
+      },
+      {
+        "sha": "28aa346",
+        "date": "2024-05-01T10:47:59Z",
+        "message": "Merge pull request #20 from luqman-haqeem/dev",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/28aa346b2ee68ad3cfd9d45a92e4d653a2c90087"
+      },
+      {
+        "sha": "0558b3c",
+        "date": "2024-05-01T10:47:29Z",
+        "message": "fix composer  and cron issue",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/0558b3c49240000362ae0929575c9a9ead286a15"
+      },
+      {
+        "sha": "b4f264e",
+        "date": "2024-02-04T03:10:09Z",
+        "message": "Merge pull request #19 from luqman-haqeem/dev",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/b4f264e8592f7db399101c60c4f68d44bcb13055"
+      },
+      {
+        "sha": "2566170",
+        "date": "2024-02-04T03:09:17Z",
+        "message": "add api for  update  the station info",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/25661702289918934b005bed78b352cc27036202"
+      },
+      {
+        "sha": "8021753",
+        "date": "2024-02-03T12:52:37Z",
+        "message": "fix  subscription issue",
+        "url": "https://github.com/luqman-haqeem/WaterLevel/commit/8021753255743c4a093fa79bd82db83651909a13"
       }
     ],
-    "rag": [
+    "laravel-evoting": [
       {
-        "sha": "7fe371c",
-        "date": "2026-05-22T14:16:25Z",
-        "message": "fix issue cannot  delete",
-        "url": "https://github.com/luqman-haqeem/rag/commit/7fe371cbf14862504261be054d9bf42fed33c1e3"
+        "sha": "ec10166",
+        "date": "2023-04-05T07:44:41Z",
+        "message": "add DS_STORE in gitignore",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/ec101660b0558c33bbbf907212a91cad2baf978b"
       },
       {
-        "sha": "dc55810",
-        "date": "2026-05-22T14:10:17Z",
-        "message": "fix issue",
-        "url": "https://github.com/luqman-haqeem/rag/commit/dc5581039418423688d3be34a86100636d5cbaf3"
+        "sha": "d7327c5",
+        "date": "2023-04-05T07:44:19Z",
+        "message": "update asset and  package.json file",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/d7327c57d38754b0b5f7c9929982d405944646f2"
       },
       {
-        "sha": "03e2b0d",
-        "date": "2026-05-22T13:57:34Z",
-        "message": "add README",
-        "url": "https://github.com/luqman-haqeem/rag/commit/03e2b0d163edbba1e39f61c06e3cba4e5ffbe2a2"
+        "sha": "30197b7",
+        "date": "2023-04-05T07:43:36Z",
+        "message": "update route and auth controller",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/30197b74897df57e125739059f274b60791c66d2"
       },
       {
-        "sha": "87a7ff2",
-        "date": "2026-05-22T13:28:19Z",
-        "message": "add README",
-        "url": "https://github.com/luqman-haqeem/rag/commit/87a7ff294f692338b0a5d5c1aefc02e94b2df73a"
+        "sha": "55383e2",
+        "date": "2023-04-05T07:43:14Z",
+        "message": "update layout",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/55383e24c5e612920f2ff25b5232e71dfb2d1cc9"
       },
       {
-        "sha": "d2290c0",
-        "date": "2026-05-22T09:48:59Z",
-        "message": "init",
-        "url": "https://github.com/luqman-haqeem/rag/commit/d2290c014f68c973cf2bd206694b6ba8e082d02e"
+        "sha": "f1864f5",
+        "date": "2023-04-05T07:42:49Z",
+        "message": "update election controller",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/f1864f5176982eddb873eab559ead7d60a254587"
+      },
+      {
+        "sha": "2f26ce1",
+        "date": "2023-04-05T07:42:23Z",
+        "message": "update seeder and  migration file",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/2f26ce127c8e89fa32f86b42dea73fd760b21185"
+      },
+      {
+        "sha": "2d5a70d",
+        "date": "2023-04-05T07:41:52Z",
+        "message": "update voter and vote module",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/2d5a70d6e0980beeaa9d994f66c21e58ae000008"
+      },
+      {
+        "sha": "4a2db31",
+        "date": "2023-04-05T07:41:12Z",
+        "message": "update faculty module",
+        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/4a2db317c52d403af3af169171c5c72116c8cd74"
       }
     ],
-    "luqman-haqeem": [
+    "voting-system": [
       {
-        "sha": "59c3fb3",
-        "date": "2025-09-18T14:23:28Z",
-        "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/59c3fb39919c454c9e5ae8d57b97a6c5ae9e5406"
+        "sha": "83e930c",
+        "date": "2022-11-01T06:07:53Z",
+        "message": "Merge branch 'master' of https://github.com/luqman1412/voting-system",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/83e930cc36fe1fdd97bd5ce14c3544f0dc84f206"
       },
       {
-        "sha": "55d8f63",
-        "date": "2024-10-28T13:40:39Z",
-        "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/55d8f63b1850078f10137221a5cdbc1e08f25607"
+        "sha": "a226a59",
+        "date": "2022-11-01T06:07:23Z",
+        "message": "Delete .DS_Store",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/a226a598289436291b7f2133f59b0de8cb7da29b"
       },
       {
-        "sha": "d5ee9e0",
-        "date": "2023-10-13T06:42:05Z",
-        "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/d5ee9e072b85dc235ba4129e271ca0da1eb10d0c"
+        "sha": "b00197b",
+        "date": "2022-11-01T06:05:33Z",
+        "message": "update git ignore",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/b00197b7ae204f658432d04c783bc9344c942e39"
       },
       {
-        "sha": "fc8acd5",
-        "date": "2023-10-13T06:41:35Z",
-        "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/fc8acd59aa5f38968f93d5f85cc0c9466118a87a"
+        "sha": "5baf5ba",
+        "date": "2022-07-29T09:32:27Z",
+        "message": "add zero as default election id",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/5baf5bae5c69cb1e7b681b7abb85570e1c9634ca"
       },
       {
-        "sha": "c350c53",
-        "date": "2023-05-28T12:44:19Z",
+        "sha": "d8a89d5",
+        "date": "2022-07-03T13:58:31Z",
         "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/c350c53a5f70caedcf60081a65eb11a803c00a6a"
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/d8a89d5c7e661a6188ed8e120dafe80e888fbc02"
       },
       {
-        "sha": "87e21b9",
-        "date": "2023-05-28T05:25:45Z",
-        "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/87e21b93c39ff873f564c8c800fe321bfa8665d4"
+        "sha": "168d026",
+        "date": "2022-03-16T12:56:10Z",
+        "message": "add input sanitizeand fix bug on import file",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/168d026ec3c3159f1ee49a2d41a8d8aaa59ba0b8"
       },
       {
-        "sha": "b1cc6c7",
-        "date": "2023-05-28T04:57:45Z",
-        "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/b1cc6c7e1319b77feaab10ed59433b76650553ba"
+        "sha": "ba61b87",
+        "date": "2022-03-16T12:41:20Z",
+        "message": "fix candidate couter in dashboard",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/ba61b874f01669e9e8d5530aff8b37fbf21eab2e"
       },
       {
-        "sha": "bec3505",
-        "date": "2023-05-28T04:57:15Z",
-        "message": "Initial commit",
-        "url": "https://github.com/luqman-haqeem/luqman-haqeem/commit/bec35054aa893c94113fa82a009625013acc82e0"
+        "sha": "c648f1e",
+        "date": "2022-03-16T12:40:58Z",
+        "message": "format code",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/c648f1e4468c264c91a13cb28e46f37cc7ec7f3e"
       }
     ]
   },
@@ -389,7 +386,7 @@
       "fullName": "career-ops-hq/career-ops",
       "description": "Open-source AI job search: scan job portals, evaluate listings into a structured A-H report with a global 1-5 score, tailor your CV, track applications — runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity…)",
       "language": "JavaScript",
-      "stars": 71185,
+      "stars": 71192,
       "url": "https://github.com/career-ops-hq/career-ops"
     },
     {
@@ -403,7 +400,7 @@
       "fullName": "affaan-m/ECC",
       "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
       "language": "JavaScript",
-      "stars": 256038,
+      "stars": 256055,
       "url": "https://github.com/affaan-m/ECC"
     },
     {
@@ -417,7 +414,7 @@
       "fullName": "bmad-code-org/BMAD-METHOD",
       "description": "Breakthrough Method for Agile Ai Driven Development",
       "language": "Python",
-      "stars": 52875,
+      "stars": 52878,
       "url": "https://github.com/bmad-code-org/BMAD-METHOD"
     },
     {
@@ -480,7 +477,7 @@
       "fullName": "reactive-resume/app",
       "description": "A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!",
       "language": "TypeScript",
-      "stars": 42449,
+      "stars": 42451,
       "url": "https://github.com/reactive-resume/app"
     },
     {
@@ -494,7 +491,7 @@
       "fullName": "pocketbase/pocketbase",
       "description": "Open Source realtime backend in 1 file",
       "language": "Go",
-      "stars": 61014,
+      "stars": 61015,
       "url": "https://github.com/pocketbase/pocketbase"
     },
     {

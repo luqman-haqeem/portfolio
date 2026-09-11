@@ -1,4 +1,5 @@
 import snapshot from "./github-snapshot.json";
+import hiddenRepos from "./hidden-repos.json";
 
 /**
  * GitHub is the source of truth for *facts* (what exists, when it was last
@@ -14,7 +15,9 @@ import snapshot from "./github-snapshot.json";
 const USER = "luqman-haqeem";
 const API = "https://api.github.com";
 const REVALIDATE_SECONDS = 60 * 60 * 6;
-const COMMIT_LOG_REPOS = 4;
+const COMMIT_LOG_REPOS = 3;
+/** The profile README repo — a bio, not a project, so it never counts as work. */
+const PROFILE_REPO = "luqman-haqeem";
 
 export type Repo = {
   name: string;
@@ -79,7 +82,22 @@ export type GithubData = {
  */
 const cached = snapshot as unknown as Omit<GithubData, "live" | "now">;
 
-const fallbackBase = { live: false as const, ...cached };
+/** Take-home assessments — see lib/hidden-repos.json for why. */
+const hidden = new Set<string>(hiddenRepos.hidden);
+
+export const isHidden = (name: string) => hidden.has(name);
+
+function withoutHidden<T extends Omit<GithubData, "live" | "now">>(data: T): T {
+  return {
+    ...data,
+    repos: data.repos.filter((r) => !hidden.has(r.name)),
+    commits: Object.fromEntries(
+      Object.entries(data.commits).filter(([name]) => !hidden.has(name)),
+    ),
+  };
+}
+
+const fallbackBase = { live: false as const, ...withoutHidden(cached) };
 
 async function gh<T>(path: string): Promise<T> {
   const res = await fetch(`${API}${path}`, {
@@ -130,8 +148,10 @@ export async function getGithubData(): Promise<GithubData> {
     // per repo, so they come from the snapshot and are merged in by name.
     const snapshotByName = new Map(cached.repos.map((r) => [r.name, r]));
 
-    const repos: Repo[] = apiRepos.map((repo) => {
-      const cached = snapshotByName.get(repo.name);
+    const repos: Repo[] = apiRepos
+      .filter((repo) => !hidden.has(repo.name))
+      .map((repo) => {
+      const cachedRepo = snapshotByName.get(repo.name);
       return {
         name: repo.name,
         description: repo.description,
@@ -139,18 +159,21 @@ export async function getGithubData(): Promise<GithubData> {
         homepage: repo.homepage || null,
         language: repo.language,
         languages:
-          cached?.languages ?? (repo.language ? { [repo.language]: 1 } : {}),
+          cachedRepo?.languages ??
+          (repo.language ? { [repo.language]: 1 } : {}),
         topics: repo.topics ?? [],
         stars: repo.stargazers_count,
         fork: repo.fork,
         archived: repo.archived,
         createdAt: repo.created_at,
         pushedAt: repo.pushed_at,
-        commitCount: cached?.commitCount ?? null,
+        commitCount: cachedRepo?.commitCount ?? null,
       };
     });
 
-    const targets = repos.filter((r) => !r.fork).slice(0, COMMIT_LOG_REPOS);
+    const targets = repos
+      .filter((r) => !r.fork && r.name !== PROFILE_REPO)
+      .slice(0, COMMIT_LOG_REPOS);
     const logs = await Promise.all(
       targets.map(async (repo) => {
         try {
@@ -190,6 +213,28 @@ export async function getGithubData(): Promise<GithubData> {
 
 export const ownRepos = (repos: Repo[]) => repos.filter((r) => !r.fork);
 
+/**
+ * Markup and styling aren't a statement about what someone writes, so they're
+ * excluded from both the language chart and the per-repo chips.
+ */
+const INCIDENTAL_LANGUAGES = new Set([
+  "CSS",
+  "SCSS",
+  "HTML",
+  "Blade",
+  "Hack",
+  "Jinja",
+]);
+
+/** Languages of a repo, biggest first, minus the incidental ones. */
+export function meaningfulLanguages(repo: Repo, limit = 4): string[] {
+  return Object.entries(repo.languages)
+    .filter(([name]) => !INCIDENTAL_LANGUAGES.has(name))
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([name]) => name);
+}
+
 export function byRecency(repos: Repo[]) {
   return [...repos].sort((a, b) => b.pushedAt.localeCompare(a.pushedAt));
 }
@@ -225,10 +270,7 @@ export function languageEras(repos: Repo[]) {
     const year = repo.createdAt.slice(0, 4);
     const bucket = buckets.get(year) ?? new Map<string, number>();
     for (const [lang, bytes] of Object.entries(repo.languages)) {
-      // Markup and styling aren't a statement about what someone writes.
-      if (["CSS", "SCSS", "HTML", "Blade", "Hack", "Jinja"].includes(lang)) {
-        continue;
-      }
+      if (INCIDENTAL_LANGUAGES.has(lang)) continue;
       bucket.set(lang, (bucket.get(lang) ?? 0) + bytes);
     }
     buckets.set(year, bucket);
@@ -278,7 +320,7 @@ const ACTIVE_WINDOW_DAYS = 90;
  */
 export function selectActive(data: GithubData, limit = 2) {
   const recent = byRecency(ownRepos(data.repos)).filter(
-    (r) => r.name !== "luqman-haqeem",
+    (r) => r.name !== PROFILE_REPO,
   );
   const cutoff =
     new Date(data.now).getTime() - ACTIVE_WINDOW_DAYS * 86_400_000;
@@ -294,14 +336,31 @@ export function selectActive(data: GithubData, limit = 2) {
 export type FeedEntry = Commit & { repo: string };
 
 /**
- * One chronological stream of commits across every repo we have a log for.
- * Merge commits are dropped — they restate a branch name the real commit
+ * One chronological stream of recent commits across the repos we have logs for.
+ *
+ * Bounded by age as well as count: the section claims to show what I'm working
+ * on *now*, so it must never pad itself out with two-year-old commits from an
+ * archived repo just to fill the list. A short feed is the honest answer.
+ *
+ * Merge commits are dropped — they restate a branch name that the real commit
  * underneath already says better.
  */
-export function commitFeed(data: GithubData, limit = 14): FeedEntry[] {
+export function commitFeed(
+  data: GithubData,
+  limit = 14,
+  maxAgeDays = 120,
+): FeedEntry[] {
+  const oldest = new Date(data.now).getTime() - maxAgeDays * 86_400_000;
+
   return Object.entries(data.commits)
+    .filter(([repo]) => repo !== PROFILE_REPO)
     .flatMap(([repo, commits]) => commits.map((c) => ({ ...c, repo })))
-    .filter((c) => c.date && !/^Merge (pull request|branch|remote)/i.test(c.message))
+    .filter(
+      (c) =>
+        c.date &&
+        new Date(c.date).getTime() >= oldest &&
+        !/^Merge (pull request|branch|remote)/i.test(c.message),
+    )
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, limit);
 }

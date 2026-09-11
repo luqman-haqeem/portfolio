@@ -117,9 +117,23 @@ export default function NowSection({ data }: { data: GithubData }) {
                 git log --all
               </span>
               <span className="ml-auto font-mono text-2xs text-line-2">
-                {feed.length} most recent
+                last {feed.length} · 120d window
               </span>
             </div>
+
+            {feed.length === 0 ? (
+              <p className="p-5 text-sm leading-relaxed text-muted">
+                Nothing pushed in the last few months — I&apos;m either heads-down
+                at work or taking a break. The archive is in{" "}
+                <a
+                  href="#builds"
+                  className="text-accent underline decoration-accent/30 underline-offset-4"
+                >
+                  builds
+                </a>
+                .
+              </p>
+            ) : null}
 
             <ul className="divide-y divide-line/60">
               {feed.map((entry) => (

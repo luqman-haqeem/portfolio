@@ -9,11 +9,17 @@
  * always render, even with no network.
  */
 
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const USER = "luqman-haqeem";
+const here = dirname(fileURLToPath(import.meta.url));
+
+/** Shared with lib/github.ts so the snapshot and the site agree. */
+const { hidden } = JSON.parse(
+  await readFile(join(here, "..", "lib", "hidden-repos.json"), "utf8"),
+);
 const API = "https://api.github.com";
 const COMMIT_REPO_COUNT = 5;
 const COMMITS_PER_REPO = 8;
@@ -53,7 +59,9 @@ async function commitCount(repo) {
 }
 
 const profile = await api(`/users/${USER}`);
-const rawRepos = await api(`/users/${USER}/repos?per_page=100&sort=pushed`);
+const rawRepos = (
+  await api(`/users/${USER}/repos?per_page=100&sort=pushed`)
+).filter((repo) => !hidden.includes(repo.name));
 const rawStars = await api(`/users/${USER}/starred?per_page=100`);
 
 const repos = [];
@@ -82,7 +90,9 @@ for (const repo of rawRepos) {
 }
 
 const commits = {};
-const active = repos.filter((r) => !r.fork).slice(0, COMMIT_REPO_COUNT);
+const active = repos
+  .filter((r) => !r.fork && r.name !== USER)
+  .slice(0, COMMIT_REPO_COUNT);
 for (const repo of active) {
   try {
     const list = await api(
@@ -120,12 +130,7 @@ const snapshot = {
   })),
 };
 
-const out = join(
-  dirname(fileURLToPath(import.meta.url)),
-  "..",
-  "lib",
-  "github-snapshot.json",
-);
+const out = join(here, "..", "lib", "github-snapshot.json");
 await writeFile(out, `${JSON.stringify(snapshot, null, 2)}\n`);
 
 console.log(

@@ -614,8 +614,8 @@ export const languageComfort: LanguageComfort[] = [
     name: "TypeScript / Node.js",
     level: "daily",
     period: "2024 — now",
-    note: "What I start new things in. Both of my last two builds are TypeScript-first, and I'd rather spend the extra minute on types than debug a shape mismatch at 2am.",
-    evidence: ["water-level", "smart-locker"],
+    note: "What I start new things in. The river dashboard is 94% TypeScript across 284 commits, and I'd rather spend the extra minute on types than debug a shape mismatch at 2am.",
+    evidence: ["water-level"],
   },
   {
     name: "Python",
@@ -629,7 +629,7 @@ export const languageComfort: LanguageComfort[] = [
     level: "daily",
     period: "2021 — now",
     note: "MySQL and Postgres. The 50% speedup on that booking calendar was an index and a rewritten join, not a new framework.",
-    evidence: ["smart-locker", "voting-system"],
+    evidence: ["voting-system", "laravel-evoting"],
   },
   {
     name: "PHP / Laravel / CodeIgniter",
@@ -642,8 +642,8 @@ export const languageComfort: LanguageComfort[] = [
     name: "Docker / Bash",
     level: "working",
     period: "2023 — now",
-    note: "Every side project ships with a Dockerfile and a compose file, because \"works on my machine\" is not a deployment strategy.",
-    evidence: ["career-agent", "smart-locker", "rag"],
+    note: "The Telegram bot ships as a container with a compose file, and the review pipelines at work run as ECS tasks. \"Works on my machine\" is not a deployment strategy.",
+    evidence: ["career-agent"],
   },
   {
     name: "Go",
@@ -698,31 +698,6 @@ export const buildNotes: Record<string, BuildNote> = {
     caveat:
       "Auto-apply is deliberately left out. A bot spraying applications is not a feature, it's a way to waste other people's time.",
     accent: "var(--color-accent)",
-  },
-  "smart-locker": {
-    title: "Package Locker Service",
-    blurb:
-      "A parcel-locker API: smallest-fit locker allocation, unique pickup codes, tiered storage fees. Written as an exercise in keeping a domain core genuinely pure — and in proving the concurrency actually holds.",
-    highlights: [
-      "Three strict layers: pure domain core, a repository interface, then Prisma and HTTP at the edges",
-      "Concurrent stores never double-book a locker or hand out a duplicate pickup code — with tests that prove it",
-      "Injected clock, so the tiered day-rate billing is testable without waiting eleven days",
-      "OpenAPI spec and an append-only event ledger",
-    ],
-    accent: "var(--color-violet)",
-  },
-  rag: {
-    title: "RAG over patient records",
-    blurb:
-      "A retrieval-augmented pipeline that chunks patient records by section, embeds them into Supabase pgvector, and retrieves real context before the LLM answers — so it can't hallucinate a diagnosis.",
-    highlights: [
-      "Chunked by meaning, not character count: symptoms, consultation history, lifestyle, treatment plan",
-      "Every chunk carries patient name, ID and age, so retrieved context always knows who it belongs to",
-      "Chose a multilingual embedding model because the records mix English and Malay",
-    ],
-    caveat:
-      "A learning build, and I wrote down what I'd change for production: locally hosted models instead of third-party APIs, row-level security per doctor, and rate limiting on the query endpoint.",
-    accent: "var(--color-rose)",
   },
   "voting-system": {
     title: "KUIS E-Voting",
@@ -920,8 +895,8 @@ export const beyondCode: BeyondItem[] = [
   },
   {
     tag: "in the open",
-    title: "Everything I learn ends up in a public repo",
-    body: "The RAG pipeline, the locker service, the résumé bot — none of them were assignments. I learn by building the smallest real version of a thing and writing down what I'd change before it goes near production.",
+    title: "I build things nobody asked for",
+    body: "The river dashboard and the résumé bot aren't work projects and weren't set by anyone. I learn by building the smallest real version of a thing, putting it in front of actual users, then writing down what I'd change before it goes near production.",
     accent: "var(--color-accent)",
   },
 ];

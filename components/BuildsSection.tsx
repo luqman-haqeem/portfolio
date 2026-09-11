@@ -1,6 +1,7 @@
 import { buildNotes, lineages, profile, projects } from "@/lib/resume";
 import {
   findRepo,
+  meaningfulLanguages,
   relativeTime,
   selectActive,
   type GithubData,
@@ -229,7 +230,7 @@ function RepoCard({
   delay: number;
 }) {
   const note = buildNotes[repo.name];
-  const languages = Object.keys(repo.languages).slice(0, 4);
+  const languages = meaningfulLanguages(repo);
   const stale =
     new Date(now).getTime() - new Date(repo.pushedAt).getTime() >
     365 * 86_400_000;
