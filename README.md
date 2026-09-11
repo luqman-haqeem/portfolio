@@ -78,13 +78,17 @@ Cloudflare builds and deploys on every push. Nothing to install, and the API tok
    | Deploy command | `npx opennextjs-cloudflare deploy` |
    | Non-production branch command | `npx opennextjs-cloudflare upload` |
 
-4. **Add one build variable** under *Settings → Build → Build variables and secrets*:
+4. **Add one build variable** under *Settings → Build → **Build variables and secrets***:
 
    ```
    NEXT_PUBLIC_SITE_URL = https://portfolio.<your-subdomain>.workers.dev
    ```
 
-   It only needs to exist at build time — `NEXT_PUBLIC_*` is inlined into the bundle, so a build variable is exactly right.
+   ⚠️ It must go under **Build** variables, not the runtime *Variables and Secrets* page. `NEXT_PUBLIC_*` values are inlined by the compiler, so a runtime value arrives too late and is silently ignored. If it's missing the production build prints a warning telling you so.
+
+   `<your-subdomain>` is your **account-level** `workers.dev` subdomain — one per Cloudflare account, chosen the first time you create a Worker. Find it in **Workers & Pages**, or on the Worker's **Domains** tab. The `portfolio` part is the `name` in `wrangler.jsonc`.
+
+   Don't know it yet? Deploy once without the variable, read the URL Cloudflare prints, then set it and redeploy. Or skip env vars entirely and hardcode `FALLBACK` in `lib/site.ts`.
 
 Leave the build and deploy commands separate rather than pointing both at `npm run deploy`, or the app builds twice per deployment.
 
