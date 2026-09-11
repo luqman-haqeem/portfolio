@@ -42,14 +42,6 @@ export type Commit = {
   url: string;
 };
 
-export type Starred = {
-  fullName: string;
-  description: string | null;
-  language: string | null;
-  stars: number;
-  url: string;
-};
-
 export type Profile = {
   login: string;
   name: string | null;
@@ -70,7 +62,6 @@ export type GithubData = {
   now: string;
   repos: Repo[];
   commits: Record<string, Commit[]>;
-  starred: Starred[];
   profile: Profile;
 };
 
@@ -206,7 +197,6 @@ export async function getGithubData(): Promise<GithubData> {
       now,
       repos,
       commits: Object.fromEntries(logs),
-      starred: fallbackBase.starred,
       profile: fallbackBase.profile,
     };
   } catch {

@@ -31,7 +31,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
   return (
     <Section id="builds">
       <SectionHeading
-        index="04"
+        index="03"
         route="builds"
         title="Everything I've built in the open"
         description={
@@ -250,13 +250,9 @@ function RepoCard({
           {repo.name}
         </span>
         {active ? (
-          <a
-            href="#now"
-            className="shrink-0 rounded border border-ok/25 bg-ok/8 px-1.5 py-0.5 font-mono text-2xs text-ok transition-colors hover:bg-ok/15"
-            title="Currently pushing to this — see What I'm building"
-          >
-            active now
-          </a>
+          <span className="shrink-0 rounded border border-ok/25 bg-ok/8 px-1.5 py-0.5 font-mono text-2xs text-ok">
+            active
+          </span>
         ) : null}
         <span className="ml-auto shrink-0 font-mono text-2xs text-dim">
           {repo.archived ? "archived" : relativeTime(repo.pushedAt, now)}

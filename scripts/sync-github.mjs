@@ -62,7 +62,6 @@ const profile = await api(`/users/${USER}`);
 const rawRepos = (
   await api(`/users/${USER}/repos?per_page=100&sort=pushed`)
 ).filter((repo) => !hidden.includes(repo.name));
-const rawStars = await api(`/users/${USER}/starred?per_page=100`);
 
 const repos = [];
 for (const repo of rawRepos) {
@@ -122,13 +121,6 @@ const snapshot = {
   },
   repos,
   commits,
-  starred: rawStars.map((r) => ({
-    fullName: r.full_name,
-    description: r.description,
-    language: r.language,
-    stars: r.stargazers_count,
-    url: r.html_url,
-  })),
 };
 
 const out = join(here, "..", "lib", "github-snapshot.json");
@@ -137,5 +129,5 @@ await writeFile(out, `${JSON.stringify(snapshot, null, 2)}\n`);
 console.log(
   `Wrote ${out}\n  ${snapshot.repos.length} repos, ${
     Object.keys(snapshot.commits).length
-  } commit logs, ${snapshot.starred.length} starred`,
+  } commit logs`,
 );

@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   achievementMeta,
+  certifications,
+  education,
   profile,
   roles,
   type Role,
@@ -65,7 +67,7 @@ export default function TraceSection() {
   return (
     <Section id="trace">
       <SectionHeading
-        index="02"
+        index="01"
         route="trace"
         title="Career trace"
         description={
@@ -207,6 +209,40 @@ export default function TraceSection() {
             the whole timeline worth less.
           </span>
         </p>
+      </div>
+
+      {/* Where the career started. Small, because it matters least — but it
+          belongs on the timeline rather than nowhere. */}
+      <div
+        className="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2"
+        data-reveal
+      >
+        <div className="bg-panel p-5">
+          <p className="font-mono text-2xs text-dim">before all of it</p>
+          <h3 className="mt-2.5 text-base font-medium text-text">
+            {education.school}
+          </h3>
+          <p className="mt-1 text-sm text-muted">{education.qualification}</p>
+          <p className="mt-1 font-mono text-2xs text-line-2">
+            {education.period}
+          </p>
+        </div>
+
+        <div className="bg-panel p-5">
+          <p className="font-mono text-2xs text-dim">certifications</p>
+          {certifications.map((cert) => (
+            <div key={cert.name} className="mt-2.5">
+              <h3 className="text-base font-medium text-text">{cert.name}</h3>
+              <p className="mt-1 text-sm text-muted">
+                {cert.issuer}
+                <span className="font-mono text-2xs text-line-2">
+                  {" "}
+                  · {cert.year}
+                </span>
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ---------------- plain text, for people who just want the résumé ---------------- */}

@@ -59,8 +59,8 @@ export default function Footer({
         </div>
 
         <p className="border-t border-line pt-4 text-line-2">
-          Repo data, commit messages and starred lists on this page are pulled
-          from the GitHub API
+          Repo data and commit counts on this page are pulled from the GitHub
+          API
           {live ? "" : " (serving a cached snapshot right now)"} — last synced{" "}
           {new Date(syncedAt).toISOString().slice(0, 16).replace("T", " ")} UTC.
           If a section looks stale, it&apos;s because I haven&apos;t pushed

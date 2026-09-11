@@ -4,7 +4,7 @@ Personal portfolio for **Luqman Haqeem**, backend-focused full-stack developer.
 
 Instead of the usual hero-image-and-card-grid, the site is built as an **observability dashboard**, because that's the work:
 
-- **Career trace** — roles render as spans in a distributed-trace waterfall. Bar length is duration, bar position is when, so overlapping work (the DevWiz engagement inside the Cloone senior role) is visible rather than hidden. Expanding a span shows its attributes and its "logs" (achievements, tagged `ARCH` / `IMPACT` / `BUILD` / `LEAD` / `OPS`).
+- **Career trace** — companies are parent spans in a distributed-trace waterfall; the systems built inside them are child spans. Bar length is duration, bar position is when, so overlapping work (the DevWiz engagement inside the Cloone senior role) is visible rather than hidden. Expanding a company separates the *job context* ("led a team of 3") from the *work* (19 named systems, each with its own stack and outcome) — because those are different kinds of fact. Child spans deliberately have no bars: there are no reliable per-system dates, and inventing them would devalue the parent timeline.
 - **Stack topology** — skills grouped by request path instead of alphabetically. Every node is clickable and links to the jobs and projects where it was actually used; nodes with no production usage say so instead of padding the list.
 - **Session console** — press `` ` `` or click `console`. It logs real events from your own visit (page load, viewport, sections viewed, spans expanded). Nothing is simulated and nothing leaves the tab — there is no analytics on this site.
 - **Two ways to read it** — a `plain text` toggle in the career trace renders a normal résumé for anyone who just wants the facts, and the page prints to a clean, ATS-friendly document.
@@ -22,10 +22,8 @@ npm start        # serve the production build
 
 This is not just an online résumé, so the parts that go stale fastest are pulled from the GitHub API rather than typed by hand:
 
-- **`/now`** — a merged commit feed across my active repos, newest first, with merge commits filtered out. If I stop pushing, this section visibly stops moving.
 - **Language eras** — real language byte counts in the repos I started each year, which is the evidence behind "my stack moved from PHP to TypeScript and Python".
 - **`/builds`** — every public repo, its commit count and last push. A new repo appears on its own; no code change needed.
-- **`/beyond`** — starred repos, grouped into themes by hand in `starThemes`.
 
 Facts come from the API; the voice (why a project exists, what I'd change) stays hand-written in `lib/resume.ts`.
 
@@ -44,17 +42,14 @@ All résumé content lives in one typed file: **`lib/resume.ts`**. Nothing is ha
 | What | Where |
 | --- | --- |
 | Name, contact, summary, tagline | `profile` |
-| Jobs (dates as `YYYY-MM`, `end: null` = current) | `roles` |
+| Jobs, their context, and the systems built in each | `roles` (`context` + `projects`) |
 | Headline numbers on the outcomes strip | `metrics` |
 | Skill layers and their `usedIn` cross-references | `skillLayers` |
 | Side projects | `projects` |
 | Education, certifications, tools | `education`, `certifications`, `practices` |
-| What I'm focused on this month (rewrite freely) | `nowFocus` |
 | Honest language rankings + the repos that prove them | `languageComfort` |
 | Per-repo write-ups, keyed by GitHub repo name | `buildNotes` |
 | Projects I've rebuilt more than once | `lineages` |
-| Themed grouping of starred repos | `starThemes` |
-| Non-work personality cards | `beyondCode` |
 
 Dates drive the waterfall geometry automatically — `lib/trace.ts` turns `YYYY-MM` strings into bar offsets, durations, year ticks and overlap detection. Adding a role is enough; no layout changes needed.
 

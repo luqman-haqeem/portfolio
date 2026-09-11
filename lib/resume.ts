@@ -603,12 +603,9 @@ export const entityLabels: Record<string, string> = {
 };
 
 export const navItems = [
-  { id: "now", label: "Now" },
   { id: "trace", label: "Career" },
   { id: "stack", label: "Stack" },
   { id: "builds", label: "Builds" },
-  { id: "beyond", label: "Beyond code" },
-  { id: "about", label: "How I work" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -721,6 +718,19 @@ export type BuildNote = {
 };
 
 export const buildNotes: Record<string, BuildNote> = {
+  portfolio: {
+    title: "This site",
+    blurb:
+      "The page you're reading. My career renders as a distributed trace because that's the work — companies as parent spans, the systems I built as their children, positioned by real dates.",
+    highlights: [
+      "Repo list, commit counts and language-per-year pulled live from the GitHub API, so it goes stale on its own if I stop shipping",
+      "Prerendered on Cloudflare Workers with an R2 incremental cache and a Durable Object running revalidation in the background",
+      "No analytics, no cookies, no third-party requests — and no email or phone number anywhere in the source",
+    ],
+    accent: "var(--color-lime)",
+    caveat:
+      "Listing it here is not modesty-proofing: if I claim to care about honest data, the site making that claim should be readable end to end.",
+  },
   "water-level": {
     title: "River Level Monitoring",
     blurb:
@@ -839,124 +849,3 @@ export const lineages: Lineage[] = [
     ],
   },
 ];
-
-/** What my starred repos say about where my attention goes. */
-export type StarTheme = {
-  label: string;
-  note: string;
-  accent: string;
-  repos: string[];
-};
-
-export const starThemes: StarTheme[] = [
-  {
-    label: "AI agents and the tooling around them",
-    note: "Where most of my curiosity goes right now. Not the chatbot layer — the harness: memory, loops, evaluation, letting an agent do real work without lying about it.",
-    accent: "var(--color-accent)",
-    repos: [
-      "career-ops-hq/career-ops",
-      "bmad-code-org/BMAD-METHOD",
-      "snarktank/ralph",
-      "affaan-m/ECC",
-      "Agenta-AI/agenta",
-      "tirth8205/code-review-graph",
-      "Kiyoraka/Project-AI-MemoryCore",
-      "midday-ai/packrun",
-      "cursor/community-plugins",
-    ],
-  },
-  {
-    label: "System design, done deliberately",
-    note: "I came up through PHP shops where architecture was something you inherited. These are me filling that in on purpose.",
-    accent: "var(--color-violet)",
-    repos: [
-      "karanpratapsingh/system-design",
-      "ashishps1/awesome-system-design-resources",
-      "AdminTurnedDevOps/DevOps-The-Hard-Way-AWS",
-    ],
-  },
-  {
-    label: "Malaysian dev community",
-    note: "Local problems need local tooling — IC validation, a Git handbook in Bahasa Malaysia, production projects from Malaysian devs. I build for where I live.",
-    accent: "var(--color-teal)",
-    repos: [
-      "wmthor/mykad",
-      "kidino/buku-git",
-      "sdil/open-production-web-projects",
-    ],
-  },
-  {
-    label: "Infrastructure you can host yourself",
-    note: "A soft spot for tools that are one binary or one container and don't need a vendor. Probably a side effect of shipping side projects on free tiers.",
-    accent: "var(--color-ok)",
-    repos: [
-      "pocketbase/pocketbase",
-      "useplunk/plunk",
-      "reactive-resume/app",
-      "robinebers/openusage",
-      "supermemoryai/cloudflare-saas-stack",
-    ],
-  },
-  {
-    label: "Cameras and media in the browser",
-    note: "Direct research for the river dashboard's camera feeds — getting a live stream out of a mobile browser is fussier than it sounds.",
-    accent: "var(--color-info)",
-    repos: [
-      "pixochi/native-camera-in-mobile-browsers",
-      "sadn1ck/bg-removal-bodypix",
-      "muxinc/media-elements",
-    ],
-  },
-  {
-    label: "The PHP years",
-    note: "CodeIgniter queues, Laravel best practices, a MySQLi wrapper. I haven't opened these in a long time, and I'm leaving them here rather than curating my history.",
-    accent: "var(--color-slate)",
-    repos: [
-      "codeigniter4/queue",
-      "chriskacerguis/codeigniter-restserver",
-      "alexeymezenin/laravel-best-practices",
-      "LaravelDaily/laravel-tips",
-      "ThingEngineer/PHP-MySQLi-Database-Class",
-      "vlucas/valitron",
-      "vicenteguerra/git-deploy",
-    ],
-  },
-];
-
-/** The non-work side. Grounded in things I've actually done or written. */
-export type BeyondItem = {
-  tag: string;
-  title: string;
-  body: string;
-  accent: string;
-};
-
-export const beyondCode: BeyondItem[] = [
-  {
-    tag: "where I live",
-    title: "I build for where I live first",
-    body: "The river dashboard exists because Selangor floods and I wanted my own answer to \"is it rising?\" without digging through a government portal on a phone. The most useful thing I've built has an audience of my neighbours.",
-    accent: "var(--color-info)",
-  },
-  {
-    tag: "long games",
-    title: "I don't abandon projects, I re-do them",
-    body: "My diploma final-year project has 185 commits, most of them after it was graded — my own README says I put it on GitHub \"so that I can keep maintain it and fix bug that i found\". Four years later I'm still rewriting the river app.",
-    accent: "var(--color-teal)",
-  },
-  {
-    tag: "in the open",
-    title: "I build things nobody asked for",
-    body: "The river dashboard and the résumé bot aren't work projects and weren't set by anyone. I learn by building the smallest real version of a thing, putting it in front of actual users, then writing down what I'd change before it goes near production.",
-    accent: "var(--color-accent)",
-  },
-];
-
-
-/** Hand-written, and meant to be rewritten whenever it stops being true. */
-export const nowFocus = {
-  updated: "September 2026",
-  body: "Two things have my evenings right now. I spent September hardening the river dashboard — auditing my own code and closing nine public write endpoints I'd left open, plus an SSRF in the image proxy. The rest goes into career-agent, a Telegram bot that writes résumés from my real experience and is architecturally incapable of inventing any. At work it's LLM review pipelines on AWS Bedrock.",
-  learning:
-    "Reading a lot about agent harnesses — memory, evaluation, and how to let a model do real work without letting it lie.",
-};

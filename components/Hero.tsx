@@ -76,10 +76,10 @@ export default function Hero() {
             style={{ "--reveal-delay": "260ms" } as React.CSSProperties}
           >
             <a
-              href="#now"
+              href="#trace"
               className="group inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-accent/85"
             >
-              See what I&apos;m building now
+              Read the career trace
               <svg
                 viewBox="0 0 16 16"
                 fill="none"
@@ -96,10 +96,10 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="#trace"
+              href="#builds"
               className="inline-flex items-center gap-2 rounded-lg border border-line-2 bg-panel px-4 py-2.5 text-sm text-text transition-colors hover:border-accent/40 hover:bg-panel-2"
             >
-              Career trace
+              What I&apos;ve built
             </a>
             <a
               href={profile.github}

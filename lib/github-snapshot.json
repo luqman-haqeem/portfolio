@@ -1,13 +1,32 @@
 {
-  "syncedAt": "2026-09-11T07:11:44.691Z",
+  "syncedAt": "2026-09-11T15:15:35.153Z",
   "profile": {
     "login": "luqman-haqeem",
     "name": "Luqman",
     "createdAt": "2020-03-13T15:08:20Z",
-    "publicRepos": 9,
+    "publicRepos": 10,
     "followers": 1
   },
   "repos": [
+    {
+      "name": "portfolio",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/portfolio",
+      "homepage": null,
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 174610,
+        "CSS": 5344,
+        "JavaScript": 4868
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2026-09-11T09:59:07Z",
+      "pushedAt": "2026-09-11T15:07:33Z",
+      "commitCount": 11
+    },
     {
       "name": "water-level",
       "description": "A  system monitoring Selangor river levels with camera feeds and alerts, using data from the JPS Selangor portal.",
@@ -25,7 +44,7 @@
       "fork": false,
       "archived": false,
       "createdAt": "2024-08-23T08:37:21Z",
-      "pushedAt": "2026-09-09T15:12:41Z",
+      "pushedAt": "2026-09-11T14:52:30Z",
       "commitCount": 284
     },
     {
@@ -129,6 +148,56 @@
     }
   ],
   "commits": {
+    "portfolio": [
+      {
+        "sha": "f0d64a5",
+        "date": "2026-09-11T15:07:31Z",
+        "message": "Split the career trace into companies and the systems built in them",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/f0d64a589db30e6aea6cc743da7da7138bf4aaed"
+      },
+      {
+        "sha": "c55009c",
+        "date": "2026-09-11T09:29:16Z",
+        "message": "Remove personal contact details from the site",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/c55009c3697f5744233045a2e520d3f4731ae715"
+      },
+      {
+        "sha": "763c9f2",
+        "date": "2026-09-11T09:20:38Z",
+        "message": "Warn at build time when NEXT_PUBLIC_SITE_URL is missing",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/763c9f240edf71f9e7b129cec4cbf526ea23c1ca"
+      },
+      {
+        "sha": "81a6f3f",
+        "date": "2026-09-11T09:04:08Z",
+        "message": "Document dashboard deployment and make Actions deploy clearly opt-in",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/81a6f3f8dd4b2cc9b6b55d5a4d1ba29e07c70179"
+      },
+      {
+        "sha": "3e3800b",
+        "date": "2026-09-11T08:49:41Z",
+        "message": "Fix CI deploy step and gate it until Cloudflare is configured",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/3e3800b2e3f1155c0434b4db3478655fa684000d"
+      },
+      {
+        "sha": "971dc1a",
+        "date": "2026-09-11T08:11:09Z",
+        "message": "Configure Cloudflare Workers deployment via OpenNext",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/971dc1a8120a4065d0ff567cd4615bf336acce67"
+      },
+      {
+        "sha": "c7eb994",
+        "date": "2026-09-11T07:14:45Z",
+        "message": "Hide take-home assessment repos from the site",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/c7eb994ca9a5827045dde4b8cafaad02f7fd6819"
+      },
+      {
+        "sha": "db46c85",
+        "date": "2026-09-11T06:41:59Z",
+        "message": "Add live GitHub layer: now, builds, stack comfort and beyond-code",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/db46c852e1c45094dde39675e1ce04d88acc3778"
+      }
+    ],
     "water-level": [
       {
         "sha": "877a30e",
@@ -175,7 +244,7 @@
       {
         "sha": "93e2fae",
         "date": "2026-09-02T06:52:00Z",
-        "message": "security: close the public write surface \u2014 9 endpoints to 0 (#66 C-1, C-2, H-1, H-2)",
+        "message": "security: close the public write surface — 9 endpoints to 0 (#66 C-1, C-2, H-1, H-2)",
         "url": "https://github.com/luqman-haqeem/water-level/commit/93e2fae665808cef51548f0ce6063e38511a5d17"
       }
     ],
@@ -328,324 +397,6 @@
         "message": "update faculty module",
         "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/4a2db317c52d403af3af169171c5c72116c8cd74"
       }
-    ],
-    "voting-system": [
-      {
-        "sha": "83e930c",
-        "date": "2022-11-01T06:07:53Z",
-        "message": "Merge branch 'master' of https://github.com/luqman1412/voting-system",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/83e930cc36fe1fdd97bd5ce14c3544f0dc84f206"
-      },
-      {
-        "sha": "a226a59",
-        "date": "2022-11-01T06:07:23Z",
-        "message": "Delete .DS_Store",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/a226a598289436291b7f2133f59b0de8cb7da29b"
-      },
-      {
-        "sha": "b00197b",
-        "date": "2022-11-01T06:05:33Z",
-        "message": "update git ignore",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/b00197b7ae204f658432d04c783bc9344c942e39"
-      },
-      {
-        "sha": "5baf5ba",
-        "date": "2022-07-29T09:32:27Z",
-        "message": "add zero as default election id",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/5baf5bae5c69cb1e7b681b7abb85570e1c9634ca"
-      },
-      {
-        "sha": "d8a89d5",
-        "date": "2022-07-03T13:58:31Z",
-        "message": "Update README.md",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/d8a89d5c7e661a6188ed8e120dafe80e888fbc02"
-      },
-      {
-        "sha": "168d026",
-        "date": "2022-03-16T12:56:10Z",
-        "message": "add input sanitizeand fix bug on import file",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/168d026ec3c3159f1ee49a2d41a8d8aaa59ba0b8"
-      },
-      {
-        "sha": "ba61b87",
-        "date": "2022-03-16T12:41:20Z",
-        "message": "fix candidate couter in dashboard",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/ba61b874f01669e9e8d5530aff8b37fbf21eab2e"
-      },
-      {
-        "sha": "c648f1e",
-        "date": "2022-03-16T12:40:58Z",
-        "message": "format code",
-        "url": "https://github.com/luqman-haqeem/voting-system/commit/c648f1e4468c264c91a13cb28e46f37cc7ec7f3e"
-      }
     ]
-  },
-  "starred": [
-    {
-      "fullName": "career-ops-hq/career-ops",
-      "description": "Open-source AI job search: scan job portals, evaluate listings into a structured A-H report with a global 1-5 score, tailor your CV, track applications \u2014 runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity\u2026)",
-      "language": "JavaScript",
-      "stars": 71192,
-      "url": "https://github.com/career-ops-hq/career-ops"
-    },
-    {
-      "fullName": "tirth8205/code-review-graph",
-      "description": "Local-first code intelligence graph for MCP and CLI. Builds a persistent map of your codebase so AI coding tools read only what matters, with benchmarked context reductions on reviews and large-repo workflows.",
-      "language": "Python",
-      "stars": 31316,
-      "url": "https://github.com/tirth8205/code-review-graph"
-    },
-    {
-      "fullName": "affaan-m/ECC",
-      "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
-      "language": "JavaScript",
-      "stars": 256055,
-      "url": "https://github.com/affaan-m/ECC"
-    },
-    {
-      "fullName": "robinebers/openusage",
-      "description": "Burning through your subscriptions too fast? Paying for stuff you never use? Stop guessing. OpenUsage is free and open source.",
-      "language": "Swift",
-      "stars": 4106,
-      "url": "https://github.com/robinebers/openusage"
-    },
-    {
-      "fullName": "bmad-code-org/BMAD-METHOD",
-      "description": "Breakthrough Method for Agile Ai Driven Development",
-      "language": "Python",
-      "stars": 52878,
-      "url": "https://github.com/bmad-code-org/BMAD-METHOD"
-    },
-    {
-      "fullName": "Morsmalleo/AhMyth",
-      "description": "Cross-Platform Android Remote Administration Tool | Official maintained repository for the AhMyth R.A.T Project | A dedicated revival of the original repository at https://GitHub.com/AhMyth/AhMyth-Android-RAT",
-      "language": "Smali",
-      "stars": 1397,
-      "url": "https://github.com/Morsmalleo/AhMyth"
-    },
-    {
-      "fullName": "snarktank/ralph",
-      "description": "Ralph is an autonomous AI agent loop that runs repeatedly until all PRD items are complete. ",
-      "language": "TypeScript",
-      "stars": 21757,
-      "url": "https://github.com/snarktank/ralph"
-    },
-    {
-      "fullName": "tonghohin/tour",
-      "description": "A component for building onboarding tours. Designed to integrate with shadcn/ui.",
-      "language": "TypeScript",
-      "stars": 70,
-      "url": "https://github.com/tonghohin/tour"
-    },
-    {
-      "fullName": "Agenta-AI/agenta",
-      "description": "Agenta is a workspace where you and your team build agents and automations.",
-      "language": "TypeScript",
-      "stars": 4743,
-      "url": "https://github.com/Agenta-AI/agenta"
-    },
-    {
-      "fullName": "Kiyoraka/Project-AI-MemoryCore",
-      "description": null,
-      "language": "Shell",
-      "stars": 372,
-      "url": "https://github.com/Kiyoraka/Project-AI-MemoryCore"
-    },
-    {
-      "fullName": "pixochi/native-camera-in-mobile-browsers",
-      "description": null,
-      "language": "HTML",
-      "stars": 15,
-      "url": "https://github.com/pixochi/native-camera-in-mobile-browsers"
-    },
-    {
-      "fullName": "gilbarbara/react-joyride",
-      "description": "Create guided tours in your apps",
-      "language": "TypeScript",
-      "stars": 7862,
-      "url": "https://github.com/gilbarbara/react-joyride"
-    },
-    {
-      "fullName": "sadn1ck/bg-removal-bodypix",
-      "description": "\ud83c\udf89 Remove that pesky background from your webcam stream, right in your browser!",
-      "language": "JavaScript",
-      "stars": 21,
-      "url": "https://github.com/sadn1ck/bg-removal-bodypix"
-    },
-    {
-      "fullName": "reactive-resume/app",
-      "description": "A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!",
-      "language": "TypeScript",
-      "stars": 42451,
-      "url": "https://github.com/reactive-resume/app"
-    },
-    {
-      "fullName": "muxinc/media-elements",
-      "description": "A collection of HTMLMediaElement compatible elements and add-ons",
-      "language": "JavaScript",
-      "stars": 264,
-      "url": "https://github.com/muxinc/media-elements"
-    },
-    {
-      "fullName": "pocketbase/pocketbase",
-      "description": "Open Source realtime backend in 1 file",
-      "language": "Go",
-      "stars": 61015,
-      "url": "https://github.com/pocketbase/pocketbase"
-    },
-    {
-      "fullName": "birobirobiro/awesome-shadcn-ui",
-      "description": "A curated list of awesome things related to shadcn/ui.",
-      "language": "TypeScript",
-      "stars": 20475,
-      "url": "https://github.com/birobirobiro/awesome-shadcn-ui"
-    },
-    {
-      "fullName": "amittam104/BentoHub",
-      "description": "BentoHub is a application where you can create a bento grid for your GitHub profile readme.",
-      "language": "JavaScript",
-      "stars": 140,
-      "url": "https://github.com/amittam104/BentoHub"
-    },
-    {
-      "fullName": "cursor/community-plugins",
-      "description": "Plugins from the Cursor community",
-      "language": "TypeScript",
-      "stars": 3992,
-      "url": "https://github.com/cursor/community-plugins"
-    },
-    {
-      "fullName": "midday-ai/packrun",
-      "description": "npm for agents and humans",
-      "language": "TypeScript",
-      "stars": 3839,
-      "url": "https://github.com/midday-ai/packrun"
-    },
-    {
-      "fullName": "sdil/open-production-web-projects",
-      "description": "List of Open Source production-ready web projects",
-      "language": "HTML",
-      "stars": 493,
-      "url": "https://github.com/sdil/open-production-web-projects"
-    },
-    {
-      "fullName": "useplunk/plunk",
-      "description": "The Open-Source Email Platform",
-      "language": "TypeScript",
-      "stars": 5457,
-      "url": "https://github.com/useplunk/plunk"
-    },
-    {
-      "fullName": "supermemoryai/cloudflare-saas-stack",
-      "description": "Quickly make and deploy full-stack apps with database, auth, styling, storage etc. figured out for you. Add all primitives you want.",
-      "language": "TypeScript",
-      "stars": 3741,
-      "url": "https://github.com/supermemoryai/cloudflare-saas-stack"
-    },
-    {
-      "fullName": "bezkoder/nodejs-express-sequelize-mysql",
-      "description": "Rest CRUD API for a simple application using Node. js, Express, Sequelize and MySQL",
-      "language": "JavaScript",
-      "stars": 411,
-      "url": "https://github.com/bezkoder/nodejs-express-sequelize-mysql"
-    },
-    {
-      "fullName": "AdminTurnedDevOps/DevOps-The-Hard-Way-AWS",
-      "description": "This repository contains free labs for setting up an entire workflow and DevOps environment from a real-world perspective in AWS",
-      "language": "HCL",
-      "stars": 2428,
-      "url": "https://github.com/AdminTurnedDevOps/DevOps-The-Hard-Way-AWS"
-    },
-    {
-      "fullName": "nuxt-modules/turnstile",
-      "description": "\ud83d\udd25 Cloudflare Turnstile integration for Nuxt",
-      "language": "TypeScript",
-      "stars": 297,
-      "url": "https://github.com/nuxt-modules/turnstile"
-    },
-    {
-      "fullName": "codeigniter4/queue",
-      "description": "Queues for the CodeIgniter 4 framework",
-      "language": "PHP",
-      "stars": 75,
-      "url": "https://github.com/codeigniter4/queue"
-    },
-    {
-      "fullName": "karanpratapsingh/system-design",
-      "description": "Learn how to design systems at scale and prepare for system design interviews",
-      "language": null,
-      "stars": 46020,
-      "url": "https://github.com/karanpratapsingh/system-design"
-    },
-    {
-      "fullName": "ashishps1/awesome-system-design-resources",
-      "description": "Learn System Design concepts and prepare for interviews using free resources.",
-      "language": "Java",
-      "stars": 41329,
-      "url": "https://github.com/ashishps1/awesome-system-design-resources"
-    },
-    {
-      "fullName": "wmthor/mykad",
-      "description": "Library to validate, parse, generate, and format Malaysian Identity Card (MyKad) numbers.",
-      "language": "JavaScript",
-      "stars": 59,
-      "url": "https://github.com/wmthor/mykad"
-    },
-    {
-      "fullName": "ejbeaty/CellEdit",
-      "description": "Allows datatable cells to be edited inline",
-      "language": "JavaScript",
-      "stars": 254,
-      "url": "https://github.com/ejbeaty/CellEdit"
-    },
-    {
-      "fullName": "chriskacerguis/codeigniter-restserver",
-      "description": "A fully RESTful server implementation for CodeIgniter using one library, one config file and one controller.",
-      "language": "PHP",
-      "stars": 4867,
-      "url": "https://github.com/chriskacerguis/codeigniter-restserver"
-    },
-    {
-      "fullName": "vicenteguerra/git-deploy",
-      "description": "Php Script for Auto-Pull in server (Using WebHook from GitLab, GitHub and Bitbucket)",
-      "language": "PHP",
-      "stars": 645,
-      "url": "https://github.com/vicenteguerra/git-deploy"
-    },
-    {
-      "fullName": "ThingEngineer/PHP-MySQLi-Database-Class",
-      "description": "Wrapper for a PHP MySQL class, which utilizes MySQLi and prepared statements. ",
-      "language": "PHP",
-      "stars": 3297,
-      "url": "https://github.com/ThingEngineer/PHP-MySQLi-Database-Class"
-    },
-    {
-      "fullName": "vlucas/valitron",
-      "description": "Valitron is a simple, elegant, stand-alone validation library with NO dependencies",
-      "language": "PHP",
-      "stars": 1603,
-      "url": "https://github.com/vlucas/valitron"
-    },
-    {
-      "fullName": "alexeymezenin/laravel-best-practices",
-      "description": "Laravel best practices",
-      "language": null,
-      "stars": 12321,
-      "url": "https://github.com/alexeymezenin/laravel-best-practices"
-    },
-    {
-      "fullName": "LaravelDaily/laravel-tips",
-      "description": "Awesome tips for Laravel",
-      "language": null,
-      "stars": 6471,
-      "url": "https://github.com/LaravelDaily/laravel-tips"
-    },
-    {
-      "fullName": "kidino/buku-git",
-      "description": "Usaha kolektif untuk membangunkan bahan rujukan untuk Git dalam bahasa Melayu",
-      "language": "JavaScript",
-      "stars": 34,
-      "url": "https://github.com/kidino/buku-git"
-    }
-  ]
+  }
 }

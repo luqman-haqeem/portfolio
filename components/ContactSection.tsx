@@ -6,7 +6,7 @@ export default function ContactSection() {
   return (
     <Section id="contact">
       <SectionHeading
-        index="07"
+        index="04"
         route="contact"
         title="Let's talk"
         description="Backend, platform or AI-systems work — permanent or contract, Malaysia or remote. I reply to everything that isn't a template."
