@@ -67,14 +67,11 @@ const personSchema = {
   "@type": "Person",
   name: profile.name,
   jobTitle: profile.role,
-  email: `mailto:${profile.email}`,
-  telephone: profile.phoneHref,
   url: profile.github,
   sameAs: [profile.github, profile.linkedin],
+  // Country only — deliberately no locality or region.
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Selangor",
-    addressRegion: "Selangor",
     addressCountry: "MY",
   },
   alumniOf: {

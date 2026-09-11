@@ -114,7 +114,8 @@ const snapshot = {
   profile: {
     login: profile.login,
     name: profile.name,
-    location: profile.location,
+    // location is deliberately not stored — it is personal information and the
+    // site only ever shows a country.
     createdAt: profile.created_at,
     publicRepos: profile.public_repos,
     followers: profile.followers,

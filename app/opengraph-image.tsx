@@ -155,7 +155,7 @@ export default function OpengraphImage() {
             color: "#5c6472",
           }}
         >
-          {profile.githubLabel} · {profile.email}
+          {profile.githubLabel} · {profile.linkedinLabel}
         </div>
       </div>
     ),

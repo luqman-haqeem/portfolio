@@ -1,5 +1,4 @@
 import { profile } from "@/lib/resume";
-import CopyButton from "./CopyButton";
 import ExternalLink from "./ExternalLink";
 import { ArrowIcon, Section, SectionHeading, StatusDot } from "./ui";
 
@@ -84,32 +83,22 @@ export default function ContactSection() {
           style={{ "--reveal-delay": "90ms" } as React.CSSProperties}
         >
           <div className="flex h-full flex-col rounded-xl border border-line bg-panel p-5">
-            <a
-              href={`mailto:${profile.email}?subject=${encodeURIComponent(
-                "Backend role — let's talk",
-              )}`}
+            <ExternalLink
+              href={profile.linkedin}
+              logAs="linkedin profile"
               className="flex items-center justify-between gap-3 rounded-lg bg-accent px-4 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent/85"
             >
-              Send an email
+              Message me on LinkedIn
               <ArrowIcon />
-            </a>
+            </ExternalLink>
 
-            <div className="mt-3 flex items-center justify-between gap-2 rounded-lg border border-line bg-panel-2/50 px-3 py-2.5">
-              <span className="truncate font-mono text-2xs text-muted">
-                {profile.email}
-              </span>
-              <CopyButton value={profile.email} label="copy" />
-            </div>
+            <p className="mt-3 rounded-lg border border-line bg-panel-2/50 px-3 py-2.5 text-xs leading-relaxed text-muted">
+              No email address or phone number on this site — not an oversight.
+              Anything published here gets scraped, so reach me through a profile
+              I control instead.
+            </p>
 
             <div className="mt-5 space-y-px overflow-hidden rounded-lg border border-line">
-              <ContactRow label="phone">
-                <a
-                  href={`tel:${profile.phoneHref}`}
-                  className="text-text transition-colors hover:text-accent"
-                >
-                  {profile.phone}
-                </a>
-              </ContactRow>
               <ContactRow label="github">
                 <ExternalLink
                   href={profile.github}
@@ -143,7 +132,7 @@ export default function ContactSection() {
             <p className="mt-auto pt-5 text-xs leading-relaxed text-dim">
               If you&apos;re hiring: the plain-text toggle in the career trace
               gives you a copy-pasteable résumé, and the page prints to a clean
-              one-pager.
+              one-pager. Message me and I&apos;ll send direct contact details.
             </p>
           </div>
         </div>

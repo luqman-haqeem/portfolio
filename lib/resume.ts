@@ -9,12 +9,11 @@ export const profile = {
   handle: "luqman-haqeem",
   role: "Backend-focused Full-Stack Developer",
   service: "luqman.service",
+  // Country-level only. No street, district, phone or email anywhere in this
+  // repo — reachable via the public profiles below instead.
   region: "Malaysia",
   timezone: "Asia/Kuala_Lumpur",
   tzLabel: "UTC+8",
-  email: "redacted@example.invalid",
-  phone: "REDACTED",
-  phoneHref: "REDACTED",
   github: "https://github.com/luqman-haqeem",
   githubLabel: "github.com/luqman-haqeem",
   linkedin: "https://linkedin.com/in/luqman-haqeem-7713991b8",
@@ -883,7 +882,7 @@ export type BeyondItem = {
 export const beyondCode: BeyondItem[] = [
   {
     tag: "where I live",
-    title: "I build for Selangor first",
+    title: "I build for where I live first",
     body: "The river dashboard exists because Selangor floods and I wanted my own answer to \"is it rising?\" without digging through a government portal on a phone. The most useful thing I've built has an audience of my neighbours.",
     accent: "var(--color-info)",
   },

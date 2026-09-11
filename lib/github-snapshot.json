@@ -3,7 +3,6 @@
   "profile": {
     "login": "luqman-haqeem",
     "name": "Luqman",
-    "location": "Selangor",
     "createdAt": "2020-03-13T15:08:20Z",
     "publicRepos": 9,
     "followers": 1
@@ -176,7 +175,7 @@
       {
         "sha": "93e2fae",
         "date": "2026-09-02T06:52:00Z",
-        "message": "security: close the public write surface — 9 endpoints to 0 (#66 C-1, C-2, H-1, H-2)",
+        "message": "security: close the public write surface \u2014 9 endpoints to 0 (#66 C-1, C-2, H-1, H-2)",
         "url": "https://github.com/luqman-haqeem/water-level/commit/93e2fae665808cef51548f0ce6063e38511a5d17"
       }
     ],
@@ -384,7 +383,7 @@
   "starred": [
     {
       "fullName": "career-ops-hq/career-ops",
-      "description": "Open-source AI job search: scan job portals, evaluate listings into a structured A-H report with a global 1-5 score, tailor your CV, track applications — runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity…)",
+      "description": "Open-source AI job search: scan job portals, evaluate listings into a structured A-H report with a global 1-5 score, tailor your CV, track applications \u2014 runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity\u2026)",
       "language": "JavaScript",
       "stars": 71192,
       "url": "https://github.com/career-ops-hq/career-ops"
@@ -468,7 +467,7 @@
     },
     {
       "fullName": "sadn1ck/bg-removal-bodypix",
-      "description": "🎉 Remove that pesky background from your webcam stream, right in your browser!",
+      "description": "\ud83c\udf89 Remove that pesky background from your webcam stream, right in your browser!",
       "language": "JavaScript",
       "stars": 21,
       "url": "https://github.com/sadn1ck/bg-removal-bodypix"
@@ -559,7 +558,7 @@
     },
     {
       "fullName": "nuxt-modules/turnstile",
-      "description": "🔥 Cloudflare Turnstile integration for Nuxt",
+      "description": "\ud83d\udd25 Cloudflare Turnstile integration for Nuxt",
       "language": "TypeScript",
       "stars": 297,
       "url": "https://github.com/nuxt-modules/turnstile"

@@ -53,7 +53,6 @@ export type Starred = {
 export type Profile = {
   login: string;
   name: string | null;
-  location: string | null;
   createdAt: string;
   publicRepos: number;
   followers: number;
