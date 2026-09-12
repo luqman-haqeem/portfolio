@@ -22,7 +22,7 @@ export const profile = {
   careerStart: "2020-12",
   status: "Open to backend / platform roles",
   summary:
-    "Backend-focused full-stack developer with ~5 years building and scaling end-to-end products. Two years of TypeScript/Node.js (Jun 2024 to now) after three years of PHP (Apr 2021 to May 2024). Currently building LLM review pipelines on AWS that process millions of submissions.",
+    "Backend-focused full-stack developer with ~5 years building and scaling end-to-end products. Two years of TypeScript/Node.js (Jun 2024 to now) after three years of PHP (Apr 2021 to May 2024). Currently building LLM review pipelines on AWS across datasets of 10M+ records.",
   tagline: [
     "I build the parts you don't see:",
     "queues, workers, pipelines and APIs",
@@ -57,6 +57,13 @@ export type RoleProject = {
   slug: string;
   name: string;
   what: string;
+  /**
+   * `YYYY-MM`, and only where the real dates are known. Undated projects render
+   * without a bar rather than being given an invented range — a fabricated bar
+   * would make the dated ones worthless.
+   */
+  start?: string;
+  end?: string;
   stack: string[];
   /** The number this shipped, when there is one worth pulling out. */
   outcome?: string;
@@ -129,7 +136,7 @@ export const roles: Role[] = [
   },
   {
     id: "cloone-php",
-    company: "Cloone Corporation",
+    company: "Cloone Corporation Sdn Bhd",
     service: "cloone/legacy-modernisation",
     title: "PHP Developer",
     location: "Malaysia",
@@ -144,9 +151,9 @@ export const roles: Role[] = [
     projects: [
       {
         slug: "php5-migration",
-        name: "PHP 5 to CodeIgniter migration",
-        what: "Moved legacy systems off PHP 5 onto CodeIgniter — the unglamorous work that made everything after it possible.",
-        stack: ["PHP", "CodeIgniter 4", "MySQL"],
+        name: "PHP 5.4 to CodeIgniter 3 migration",
+        what: "Moved legacy systems off PHP 5.4 onto CodeIgniter 3 — the unglamorous work that made everything after it possible.",
+        stack: ["PHP", "CodeIgniter 3", "MySQL"],
         outcome: "+20% perf",
         kind: "arch",
       },
@@ -169,6 +176,8 @@ export const roles: Role[] = [
       {
         slug: "hr-eletter",
         name: "eLetter generator",
+        start: "2021-05",
+        end: "2021-05",
         what: "Automated the HR letter application process end to end: APIs for the mobile app, request-management screens, and PDF generation that filled each letter type with the right employee data.",
         stack: ["PHP", "CodeIgniter", "REST APIs", "MySQL"],
         outcome: "20k employees",
@@ -177,6 +186,8 @@ export const roles: Role[] = [
       {
         slug: "voucher-module",
         name: "Voucher issuing and redemption",
+        start: "2021-07",
+        end: "2021-07",
         what: "Admins create vouchers, members redeem them against accumulated points, and the whole thing reconciles with Qube POS so it works at a physical till too.",
         stack: ["PHP", "CodeIgniter", "Qube POS", "REST APIs"],
         outcome: "POS + app + web",
@@ -185,6 +196,8 @@ export const roles: Role[] = [
       {
         slug: "markdown-app",
         name: "Markdown, disposal and reorder app",
+        start: "2021-08",
+        end: "2021-09",
         what: "Staff mark perishable stock down, write it off or reorder it from a phone on the shop floor, with a web dashboard behind it for reporting and user administration.",
         stack: ["PHP", "CodeIgniter", "REST APIs", "MySQL"],
         outcome: "12 stores",
@@ -218,7 +231,7 @@ export const roles: Role[] = [
   },
   {
     id: "cloone-senior",
-    company: "Cloone Corporation",
+    company: "Cloone Corporation Sdn Bhd",
     service: "cloone/wms-platform",
     title: "Senior Software Engineer",
     location: "Malaysia",
@@ -227,16 +240,19 @@ export const roles: Role[] = [
     summary:
       "Promoted into owning architecture and a team. Two large client systems — a logistics warehouse platform and a consumer super app portal — and the first time the design decisions were mine to defend.",
     context: [
-      "Led a team of 3 engineers and owned the system architecture.",
+      "Led project teams of four to six developers, and owned the system architecture.",
       "Coordinated across 3 cross-functional teams, including one based in India.",
       "Mentored juniors on system design, code quality and implementation practice.",
-      "Owned the database schema and the deployment pipeline, not just features.",
+      "Owned the database schema, standardised the REST API structure across services, and architected the GitHub Actions CI/CD that replaced manual releases.",
+      "Ran structured code reviews — the point being fewer production defects, not gatekeeping.",
     ],
     projects: [
       {
         slug: "logistics-wms",
         name: "Third-party logistics warehouse management system",
-        what: "The full floor workflow in six modules — receiving, put away, relocation, picking, audit and status inquiry — with real-time inventory so a manager could see stock levels instead of guessing, and SBClient POS wired in for purchase orders. I designed the schema, led the build, and put Kong API Gateway in front as a single entry point for API traffic.",
+        start: "2024-01",
+        end: "2024-05",
+        what: "Led four developers on the full floor workflow: receiving, put away, relocation, picking, audit and status inquiry, with real-time inventory so a manager could see stock instead of guessing, and SBClient POS wired in for purchase orders. I designed the schema and the API structure, put Kong API Gateway in front as a single entry point, and built the GitHub Actions pipeline that deployed it.",
         stack: [
           "PHP",
           "CodeIgniter 4",
@@ -252,7 +268,9 @@ export const roles: Role[] = [
       {
         slug: "superapp-portal",
         name: "Consumer super app — APIs and management portal",
-        what: "Backend APIs and the admin portal behind a consumer super app: banner management, vouchers, pop-ups, user settings and access control. The part I'm most pleased with is the merchant API — third parties could register and plug their own services into the app, which turned it from a product into a platform.",
+        start: "2023-04",
+        end: "2023-08",
+        what: "Led six developers building the backend APIs and admin portal behind a consumer super app: banner management, vouchers, pop-ups, user settings and access control. The part I'm most pleased with is the merchant API — third parties could register and plug their own services in, which turned a product into a platform. I wrote the integration docs for it too, because an undocumented API is a private one.",
         stack: [
           "PHP",
           "CodeIgniter 4",
@@ -307,7 +325,8 @@ export const roles: Role[] = [
     title: "Backend Developer",
     location: "Malaysia",
     start: "2024-06",
-    end: "2025-04",
+    end: "2025-03",
+    employment: "Contract",
     summary:
       "The switch to TypeScript and AWS. One long-lived in-house product, and Samsung work that had to hold up in a retail store on the day.",
     context: [
@@ -375,9 +394,11 @@ export const roles: Role[] = [
       "Current role. Three LLM review pipelines at 123RF, replacing human queues that contributors were waiting behind — and making them cheap enough to leave running.",
     context: [
       "Working on 123RF, where the review queue was the bottleneck for every contributor.",
-      "Volume is consistently in the millions of submissions, so every design conversation starts with load rather than ending there.",
+      "Volume is consistently in the millions, so every design conversation starts with load rather than ending there.",
       "Each pipeline gets prompt evaluation and a deliberate pass through the edge cases before it goes near production. A false accept on a copyright check is a legal problem, not a bug report.",
       "The first role where the interesting problems are cost-per-request and throughput, not features.",
+      "Working across datasets exceeding 10 million records, on internal platforms used by thousands of people.",
+      "Mentoring juniors, and on a leadership development track for a future technical leadership role.",
     ],
     projects: [
       {
@@ -407,15 +428,15 @@ export const roles: Role[] = [
       {
         slug: "high-load-pipeline",
         name: "Event-driven review infrastructure",
-        what: "SQS queues feeding ECS workers that scale on queue depth. The volume is consistently in the millions of submissions, so the design question was never whether it works on one file — it was what happens on the worst day.",
+        what: "SQS queues feeding ECS workers that scale on queue depth, across datasets exceeding 10 million records. The design question was never whether it works on one file — it was what happens on the worst day.",
         stack: ["AWS SQS", "AWS ECS", "Docker", "Python"],
-        outcome: "millions of submissions",
+        outcome: "10M+ records",
         kind: "arch",
       },
       {
         slug: "inference-cost",
         name: "Inference cost reduction",
-        what: "Migrated models, rewrote prompts and batched requests. No new architecture — just reading the numbers and acting on them, which is what made leaving three pipelines running affordable.",
+        what: "Led the model migration, rewrote prompts and batched requests. No new architecture — just reading the numbers and acting on them, which is what made leaving three pipelines running affordable.",
         stack: ["AWS Bedrock", "Prompt optimisation"],
         outcome: "~3× cheaper · +30% throughput",
         kind: "impact",
@@ -629,6 +650,9 @@ export const certifications = [
     name: "Professional Scrum Master I (PSM I)",
     issuer: "Scrum.org",
     year: "2024",
+    /** Verifiable — an unverifiable certification is decoration. */
+    verifyUrl:
+      "https://www.credly.com/badges/42404e0f-f91e-4fec-b9bf-621783f7b79a/public_url",
   },
 ];
 

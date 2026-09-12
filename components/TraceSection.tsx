@@ -9,9 +9,24 @@ import {
   roles,
   type Role,
 } from "@/lib/resume";
-import { buildTimeline, concurrentWith, type TraceSpan } from "@/lib/trace";
+import {
+  buildTimeline,
+  concurrentWith,
+  formatDuration,
+  formatPeriod,
+  monthIndex,
+  monthSpan,
+  type TraceSpan,
+} from "@/lib/trace";
 import { log } from "@/lib/telemetry";
-import { ChevronIcon, CornerArrow, SectionHeading, Section } from "./ui";
+import ExternalLink from "./ExternalLink";
+import {
+  ArrowIcon,
+  ChevronIcon,
+  CornerArrow,
+  SectionHeading,
+  Section,
+} from "./ui";
 
 const latestRole = roles.reduce((a, b) => (a.start > b.start ? a : b));
 
@@ -62,6 +77,16 @@ export default function TraceSection() {
 
   const totalProjects = useMemo(
     () => roles.reduce((sum, role) => sum + role.projects.length, 0),
+    [],
+  );
+
+  const datedProjects = useMemo(
+    () =>
+      roles.reduce(
+        (sum, role) =>
+          sum + role.projects.filter((pr) => pr.start && pr.end).length,
+        0,
+      ),
     [],
   );
 
@@ -204,10 +229,11 @@ export default function TraceSection() {
           <CornerArrow className="mt-0.5 shrink-0" />
           <span>
             Bar length = duration, bar position = when. The short red span in
-            late 2023 ran in parallel with a full-time role. Child spans have no
-            bars on purpose — I don&apos;t have reliable start and end dates for
-            individual systems, and inventing them to fill the chart would make
-            the whole timeline worth less.
+            late 2023 ran in parallel with a full-time role. Child spans only get
+            a bar where I have the real dates — {datedProjects} of{" "}
+            {totalProjects} so far. The rest stay bare rather than being given an
+            invented range, because one fabricated bar would make the other
+            twenty-odd worthless.
           </span>
         </p>
       </div>
@@ -241,6 +267,16 @@ export default function TraceSection() {
                   · {cert.year}
                 </span>
               </p>
+              {cert.verifyUrl ? (
+                <ExternalLink
+                  href={cert.verifyUrl}
+                  logAs={`verify/${cert.name}`}
+                  className="mt-2 inline-flex items-center gap-1 font-mono text-2xs text-dim transition-colors hover:text-accent"
+                >
+                  verify on Credly
+                  <ArrowIcon />
+                </ExternalLink>
+              ) : null}
             </div>
           ))}
         </div>
@@ -485,6 +521,25 @@ function SpanRow({
                 {role.projects.map((project, i) => {
                   const meta = achievementMeta[project.kind];
                   const last = i === role.projects.length - 1;
+                  // Only projects with confirmed dates get a bar, positioned
+                  // inside the parent company's window.
+                  const dated =
+                    project.start && project.end
+                      ? (() => {
+                          const from = monthIndex(role.start);
+                          const to =
+                            monthIndex(role.end ?? project.end!) + 1;
+                          const total = Math.max(1, to - from);
+                          const pStart = monthIndex(project.start!);
+                          const months = monthSpan(project.start!, project.end!);
+                          return {
+                            offsetPct: ((pStart - from) / total) * 100,
+                            widthPct: (months / total) * 100,
+                            label: formatPeriod(project.start!, project.end!),
+                            duration: formatDuration(months),
+                          };
+                        })()
+                      : null;
                   return (
                     <li key={project.slug} className="flex gap-3">
                       {/* tree rail */}
@@ -527,6 +582,28 @@ function SpanRow({
                             </span>
                           ) : null}
                         </div>
+
+                        {dated ? (
+                          <div className="mt-1.5">
+                            <div className="flex items-baseline justify-between gap-3 font-mono text-2xs text-dim">
+                              <span>{dated.label}</span>
+                              <span className="text-line-2 tabular">
+                                {dated.duration}
+                              </span>
+                            </div>
+                            <div className="relative mt-1 h-1 rounded-full bg-line/70">
+                              <div
+                                className="absolute inset-y-0 rounded-full"
+                                style={{
+                                  left: `${dated.offsetPct}%`,
+                                  width: `${dated.widthPct}%`,
+                                  minWidth: "3px",
+                                  background: role.color,
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ) : null}
 
                         <p className="mt-1 text-sm font-medium text-text">
                           {project.name}
