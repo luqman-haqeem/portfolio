@@ -584,6 +584,7 @@ export type Project = {
   url: string;
   /** GitHub repo name, when the source is public. */
   repo?: string;
+  shot?: Shot;
   /**
    * Slot this build into the grid immediately after the named repo.
    *
@@ -607,6 +608,12 @@ export const projects: Project[] = [
     slug: "simpanresit.com",
     url: "https://simpanresit.com/",
     pinAfter: "water-level",
+    shot: {
+      src: "/shots/simpanresit.webp",
+      alt: "The Simpan Resit landing page, headlined Smart Tax Relief Made Simple, beside a phone mockup showing tracked tax relief totals by category against their LHDN limits.",
+      width: 1200,
+      height: 750,
+    },
     status: "live",
     tagline: "AI receipt scanning for Malaysian income tax claims",
     detail:
@@ -778,8 +785,15 @@ export const languageComfort: LanguageComfort[] = [
  * Curated commentary keyed by GitHub repo name. Repos without an entry still
  * render from their API description, so a new repo shows up on its own.
  */
+/**
+ * A screenshot of the thing actually running. Pre-sized to 1200x750 and
+ * compressed to WebP, so it is served as-is rather than through an optimiser.
+ */
+export type Shot = { src: string; alt: string; width: number; height: number };
+
 export type BuildNote = {
   title: string;
+  shot?: Shot;
   blurb: string;
   highlights?: string[];
   accent: string;
@@ -805,6 +819,12 @@ export const buildNotes: Record<string, BuildNote> = {
   },
   "water-level": {
     title: "River Level Monitoring",
+    shot: {
+      src: "/shots/riverlevel.webp",
+      alt: "The River Level dashboard listing Selangor monitoring stations, each showing its current water level in metres, its district, how long ago it reported, and a warning, alert or danger badge.",
+      width: 1200,
+      height: 750,
+    },
     blurb:
       "Live water levels for every JPS station in Selangor, with camera feeds, danger-level push alerts and offline support. I built it because I live in Selangor and \"is the river rising?\" is a question with a real answer that nobody had made easy to check.",
     highlights: [

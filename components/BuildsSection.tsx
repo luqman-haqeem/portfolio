@@ -4,6 +4,7 @@ import {
   profile,
   projects,
   type Project,
+  type Shot,
 } from "@/lib/resume";
 import {
   findRepo,
@@ -191,6 +192,28 @@ export default function BuildsSection({ data }: { data: GithubData }) {
   );
 }
 
+/**
+ * Plain <img> on purpose: these assets are already 1200x750 WebP at the size
+ * the cards render them, so routing them through the image optimiser would add
+ * a request-time hop for no gain.
+ */
+function Screenshot({ shot }: { shot: Shot }) {
+  return (
+    <div className="border-b border-line bg-panel-2">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={shot.src}
+        alt={shot.alt}
+        width={shot.width}
+        height={shot.height}
+        loading="lazy"
+        decoding="async"
+        className="aspect-[16/10] w-full object-cover object-top opacity-90 transition-opacity duration-300 hover:opacity-100"
+      />
+    </div>
+  );
+}
+
 function ProductCard({
   project,
   delay,
@@ -213,6 +236,8 @@ function ProductCard({
           source not public
         </span>
       </div>
+
+      {project.shot ? <Screenshot shot={project.shot} /> : null}
 
       <div className="flex flex-1 flex-col p-5">
         <h3 className="text-lg font-semibold tracking-tight text-text">
@@ -298,6 +323,8 @@ function RepoCard({
           {repo.archived ? "archived" : relativeTime(repo.pushedAt, now)}
         </span>
       </div>
+
+      {note?.shot ? <Screenshot shot={note.shot} /> : null}
 
       <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
