@@ -852,6 +852,9 @@ export const buildNotes: Record<string, BuildNote> = {
       "Auto-apply is deliberately left out. A bot spraying applications is not a feature, it's a way to waste other people's time.",
     accent: "var(--color-accent)",
   },
+  // Below the three-year display window in /builds, so these two do not
+  // currently render. Kept because the window is rolling and the write-ups are
+  // still accurate if it ever widens.
   "voting-system": {
     title: "KUIS E-Voting",
     blurb:

@@ -28,6 +28,24 @@ export default function BuildsSection({ data }: { data: GithubData }) {
   const { all: repos, featured } = selectActive(data, 2);
   const activeNames = new Set(featured.map((r) => r.name));
 
+  /**
+   * Only the last three years get a card. Older repos are still in `data.repos`
+   * on purpose — the language-per-year chart needs the 2020-2022 PHP bars to
+   * evidence the move to TypeScript and Python, and the "proof" chips in the
+   * stack section still link to them on GitHub. This filter is about what gets
+   * showcased, not about pretending the history isn't there.
+   *
+   * Rolling rather than a fixed date, so it keeps itself honest.
+   */
+  const cutoff =
+    new Date(data.now).getTime() - 3 * 365.25 * 24 * 60 * 60 * 1000;
+  const recent = repos.filter(
+    (r) => new Date(r.pushedAt).getTime() >= cutoff,
+  );
+  const archived = repos.filter(
+    (r) => new Date(r.pushedAt).getTime() < cutoff,
+  );
+
   /** Shipped products whose source isn't public — they'd be invisible otherwise. */
   const closedSource = projects.filter(
     (p) => !p.repo || !findRepo(data.repos, p.repo),
@@ -40,7 +58,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
    */
   const ordered: ({ kind: "repo"; repo: Repo } | { kind: "product"; project: Project })[] =
     [];
-  for (const repo of repos) {
+  for (const repo of recent) {
     ordered.push({ kind: "repo", repo });
     for (const project of closedSource) {
       if (project.pinAfter === repo.name) {
@@ -49,12 +67,12 @@ export default function BuildsSection({ data }: { data: GithubData }) {
     }
   }
   for (const project of closedSource) {
-    if (!project.pinAfter || !repos.some((r) => r.name === project.pinAfter)) {
+    if (!project.pinAfter || !recent.some((r) => r.name === project.pinAfter)) {
       ordered.push({ kind: "product", project });
     }
   }
 
-  const totalCommits = repos.reduce((sum, r) => sum + (r.commitCount ?? 0), 0);
+  const totalCommits = recent.reduce((sum, r) => sum + (r.commitCount ?? 0), 0);
 
   return (
     <Section id="builds">
@@ -64,15 +82,15 @@ export default function BuildsSection({ data }: { data: GithubData }) {
         title="Everything I've built in the open"
         description={
           <>
-            Not just the two projects polished enough for a résumé — the learning
-            builds and the abandoned first attempts too. {repos.length} public
-            repos, {totalCommits.toLocaleString()} commits, going back to my
-            diploma final-year project in 2020.
+            Not just the two projects polished enough for a résumé — the
+            learning builds and the side things nobody asked for too.{" "}
+            {recent.length} public repos and {totalCommits.toLocaleString()}{" "}
+            commits from the last three years.
           </>
         }
         aside={
           <span className="hidden font-mono text-2xs text-dim sm:inline">
-            {repos.length + closedSource.length} builds · newest first
+            {recent.length + closedSource.length} builds · newest first
           </span>
         }
       />
@@ -96,6 +114,22 @@ export default function BuildsSection({ data }: { data: GithubData }) {
           ),
         )}
       </div>
+
+      {archived.length > 0 ? (
+        <p className="mt-6 font-mono text-2xs text-dim" data-reveal>
+          {archived.length} older {archived.length === 1 ? "repo" : "repos"} sit
+          outside that window and aren&apos;t listed — student-era PHP I&apos;d
+          rather not be judged on, still public on{" "}
+          <ExternalLink
+            href={`${profile.github}?tab=repositories`}
+            logAs="github repositories"
+            className="text-muted underline decoration-line-2 underline-offset-2 transition-colors hover:text-accent"
+          >
+            GitHub
+          </ExternalLink>{" "}
+          if you want the whole history.
+        </p>
+      ) : null}
 
       {/* --------------------------- rebuild lineage --------------------------- */}
       <div className="mt-16 border-t border-line pt-12">
