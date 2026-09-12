@@ -273,7 +273,7 @@ export const roles: Role[] = [
         what: "Led six developers building the backend APIs and admin portal behind a consumer super app: banner management, vouchers, pop-ups, user settings and access control. The part I'm most pleased with is the merchant API — third parties could register and plug their own services in, which turned a product into a platform. I wrote the integration docs for it too, because an undocumented API is a private one.",
         stack: [
           "PHP",
-          "CodeIgniter 4",
+          "CodeIgniter 3",
           "REST APIs",
           "MySQL",
           "OneSignal",
@@ -517,7 +517,7 @@ export const skillLayers: SkillLayer[] = [
       { name: "Hono", usedIn: [], note: "Lightweight edge-runtime API framework" },
       { name: "PHP", usedIn: ["cloone-senior", "cloone-php", "devwiz", "apmt"] },
       { name: "Laravel", usedIn: ["apmt"] },
-      { name: "CodeIgniter 4", usedIn: ["cloone-php"] },
+      { name: "CodeIgniter 3 / 4", usedIn: ["cloone-php", "cloone-senior"] },
       { name: "REST API design", usedIn: ["inmagine", "cheil", "cloone-senior", "cloone-php"] },
     ],
   },
