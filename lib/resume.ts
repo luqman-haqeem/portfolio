@@ -22,11 +22,11 @@ export const profile = {
   careerStart: "2020-12",
   status: "Open to backend / platform roles",
   summary:
-    "Backend-focused full-stack developer with ~5 years building and scaling end-to-end products. Two years of TypeScript/Node.js (Jun 2024 to now) after three years of PHP (Apr 2021 to May 2024). Currently building LLM review pipelines on AWS across datasets of 10M+ records.",
+    "Full-stack developer with ~5 years building end-to-end products — comfortable on the front end when a product needs it, strongest where the data is: profiling slow queries, designing for millions of records, and keeping things reliable once load arrives. Two years of TypeScript/Node.js after three years of PHP, now on LLM review pipelines and AWS across datasets of 10M+ records.",
   tagline: [
-    "I build the parts you don't see:",
-    "queues, workers, pipelines and APIs",
-    "that keep working when traffic spikes.",
+    "I work at both ends of the stack.",
+    "Backend is where I'm strongest — finding the slow query,",
+    "handling millions of records, staying up under load.",
   ],
   runtimes: ["TypeScript / Node.js", "Python / FastAPI", "AWS"],
 } as const;

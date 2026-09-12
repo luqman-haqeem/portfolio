@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 const title = `${profile.name} — ${profile.role}`;
 const description =
-  "Backend-focused full-stack developer in Malaysia. ~5 years building LLM pipelines, event-driven AWS systems and high-traffic APIs. Career shown as a distributed trace.";
+  "Full-stack developer in Malaysia, strongest on the backend — slow queries, millions of records, systems that stay up under load. ~5 years, now building LLM review pipelines on AWS. Career shown as a distributed trace.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

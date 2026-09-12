@@ -103,8 +103,8 @@ export default function TraceSection() {
             {timeline.totalDuration} of wall-clock time. Bars sit at real dates,
             so you can see where work overlapped. Open a company and you get the
             job context and the things I actually built, kept separate —
-            because &quot;led a team of 3&quot; and &quot;shipped a warehouse
-            system&quot; are not the same kind of fact.
+            because &quot;led four developers&quot; and &quot;shipped a
+            warehouse system&quot; are not the same kind of fact.
           </>
         }
         aside={

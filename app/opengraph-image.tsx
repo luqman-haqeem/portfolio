@@ -83,7 +83,7 @@ export default function OpengraphImage() {
             color: "#929aa8",
           }}
         >
-          Queues, workers, pipelines and APIs that keep working under load.
+          Strongest on the backend: slow queries, millions of records, uptime.
         </div>
 
         <div
