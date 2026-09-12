@@ -127,7 +127,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={`mx-auto w-full max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24 ${className}`}
+      className={`mx-auto w-full max-w-6xl scroll-mt-24 px-5 py-12 sm:px-8 sm:py-16 ${className}`}
     >
       {children}
     </section>
@@ -137,7 +137,10 @@ export function Section({
 export function Divider() {
   return (
     <div className="mx-auto max-w-6xl px-5 sm:px-8" aria-hidden="true">
-      <div className="h-px bg-gradient-to-r from-transparent via-line to-transparent" />
+      {/* via-line-2 rather than via-line: at 1px, fading to transparent at both
+          ends, #1c2027 on a #08090b background is imperceptible — so the space
+          around it read as a void instead of a section break. */}
+      <div className="h-px bg-gradient-to-r from-transparent via-line-2 to-transparent" />
     </div>
   );
 }

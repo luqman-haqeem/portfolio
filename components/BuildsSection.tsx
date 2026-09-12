@@ -95,7 +95,10 @@ export default function BuildsSection({ data }: { data: GithubData }) {
         }
       />
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      {/* items-start: without it every card stretches to the tallest in its row,
+          and a card with no screenshot ends up with a couple of hundred pixels
+          of dead space under its last chip. */}
+      <div className="grid items-start gap-5 lg:grid-cols-2">
         {ordered.map((entry, i) =>
           entry.kind === "repo" ? (
             <RepoCard

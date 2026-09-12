@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import {
   entityLabels,
+  practices,
   projects,
   skillLayers,
   type SkillLayer,
@@ -121,10 +122,18 @@ export default function StackTopology() {
                       >
                         {node.name}
                         {node.usedIn.length > 0 ? (
+                          /* Boxed, not just spaced: names that end in a digit
+                             ("CodeIgniter 4") ran straight into the count and
+                             read as "CodeIgniter 4 1". */
                           <span
-                            className={
-                              isSelected ? "ml-1.5 opacity-70" : "ml-1.5 text-dim"
-                            }
+                            className={`ml-1.5 rounded-sm px-1 py-px text-[10px] leading-none tabular ${
+                              isSelected
+                                ? "bg-bg/25 text-bg"
+                                : "bg-line text-dim"
+                            }`}
+                            aria-label={`used in ${node.usedIn.length} ${
+                              node.usedIn.length === 1 ? "place" : "places"
+                            }`}
                           >
                             {node.usedIn.length}
                           </span>
@@ -149,6 +158,32 @@ export default function StackTopology() {
               ) : null}
             </div>
           ))}
+
+          {/* Sits in the layers column, matching their width. Full-width under
+              both columns made it look like it belonged to neither. */}
+          <div
+            className="mt-6 rounded-xl border border-line bg-panel p-3.5 sm:p-4"
+            data-reveal
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+              <span className="font-mono text-xs text-muted">
+                ways of working
+              </span>
+              <span className="font-mono text-2xs text-dim">
+                process and tooling, not languages
+              </span>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {practices.map((practice) => (
+                <span
+                  key={practice}
+                  className="rounded-md border border-line bg-panel-2/60 px-2.5 py-1.5 font-mono text-2xs text-muted"
+                >
+                  {practice}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="min-w-0 lg:col-span-5">
