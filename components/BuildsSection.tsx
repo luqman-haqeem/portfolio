@@ -1,4 +1,10 @@
-import { buildNotes, lineages, profile, projects } from "@/lib/resume";
+import {
+  buildNotes,
+  lineages,
+  profile,
+  projects,
+  type Project,
+} from "@/lib/resume";
 import {
   findRepo,
   meaningfulLanguages,
@@ -26,6 +32,27 @@ export default function BuildsSection({ data }: { data: GithubData }) {
     (p) => !p.repo || !findRepo(data.repos, p.repo),
   );
 
+  /**
+   * One grid, newest first, with closed-source products slotted in after the
+   * repo named by their `pinAfter`. Keeping them in a separate group below
+   * everything buried a live product under a 2020 student project.
+   */
+  const ordered: ({ kind: "repo"; repo: Repo } | { kind: "product"; project: Project })[] =
+    [];
+  for (const repo of repos) {
+    ordered.push({ kind: "repo", repo });
+    for (const project of closedSource) {
+      if (project.pinAfter === repo.name) {
+        ordered.push({ kind: "product", project });
+      }
+    }
+  }
+  for (const project of closedSource) {
+    if (!project.pinAfter || !repos.some((r) => r.name === project.pinAfter)) {
+      ordered.push({ kind: "product", project });
+    }
+  }
+
   const totalCommits = repos.reduce((sum, r) => sum + (r.commitCount ?? 0), 0);
 
   return (
@@ -50,91 +77,23 @@ export default function BuildsSection({ data }: { data: GithubData }) {
       />
 
       <div className="grid gap-5 lg:grid-cols-2">
-        {repos.map((repo, i) => (
-          <RepoCard
-            key={repo.name}
-            repo={repo}
-            now={data.now}
-            active={activeNames.has(repo.name)}
-            delay={i * 60}
-          />
-        ))}
-      </div>
-
-      {/* Kept in its own group rather than sorted into the grid: a private repo
-          emits no push date, so it has no place in a "newest first" ordering. */}
-      <div className="mt-10">
-        <p className="mb-4 font-mono text-2xs text-dim" data-reveal>
-          live, source not public
-        </p>
-        <div className="grid gap-5 lg:grid-cols-2">
-        {closedSource.map((project, i) => (
-          <article
-            key={project.id}
-            className="flex flex-col overflow-hidden rounded-xl border border-line bg-panel"
-            data-reveal
-            style={
-              {
-                "--reveal-delay": `${(repos.length + i) * 60}ms`,
-              } as React.CSSProperties
-            }
-          >
-            <div className="flex items-center gap-2 border-b border-line bg-panel-2/40 px-4 py-2.5">
-              <StatusDot color="bg-ok" />
-              <span className="truncate font-mono text-2xs text-muted">
-                {project.slug}
-              </span>
-              <span className="ml-auto shrink-0 rounded border border-line-2 px-1.5 py-0.5 font-mono text-2xs text-dim">
-                private repo
-              </span>
-            </div>
-
-            <div className="flex flex-1 flex-col p-5">
-              <h3 className="text-lg font-semibold tracking-tight text-text">
-                {project.name}
-              </h3>
-              <p className="mt-1.5 text-sm" style={{ color: project.accent }}>
-                {project.tagline}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                {project.detail}
-              </p>
-
-              <ul className="mt-4 space-y-1.5">
-                {project.highlights.map((h) => (
-                  <li
-                    key={h}
-                    className="flex gap-2 text-xs leading-relaxed text-text"
-                  >
-                    <CornerArrow className="mt-0.5 shrink-0 text-dim" />
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {project.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 font-mono text-2xs text-muted"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <ExternalLink
-                href={project.url}
-                logAs={project.slug}
-                className="mt-auto inline-flex items-center gap-1.5 self-start pt-5 font-mono text-2xs text-ok transition-colors hover:text-accent"
-              >
-                open {project.slug}
-                <ArrowIcon />
-              </ExternalLink>
-            </div>
-          </article>
-        ))}
-        </div>
+        {ordered.map((entry, i) =>
+          entry.kind === "repo" ? (
+            <RepoCard
+              key={entry.repo.name}
+              repo={entry.repo}
+              now={data.now}
+              active={activeNames.has(entry.repo.name)}
+              delay={i * 60}
+            />
+          ) : (
+            <ProductCard
+              key={entry.project.id}
+              project={entry.project}
+              delay={i * 60}
+            />
+          ),
+        )}
       </div>
 
       {/* --------------------------- rebuild lineage --------------------------- */}
@@ -229,6 +188,73 @@ export default function BuildsSection({ data }: { data: GithubData }) {
         ))}
       </div>
     </Section>
+  );
+}
+
+function ProductCard({
+  project,
+  delay,
+}: {
+  project: Project;
+  delay: number;
+}) {
+  return (
+    <article
+      className="flex flex-col overflow-hidden rounded-xl border border-line bg-panel"
+      data-reveal
+      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
+    >
+      <div className="flex items-center gap-2 border-b border-line bg-panel-2/40 px-4 py-2.5">
+        <StatusDot color="bg-ok" />
+        <span className="truncate font-mono text-2xs text-muted">
+          {project.slug}
+        </span>
+        <span className="ml-auto shrink-0 rounded border border-line-2 px-1.5 py-0.5 font-mono text-2xs text-dim">
+          source not public
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="text-lg font-semibold tracking-tight text-text">
+          {project.name}
+        </h3>
+        <p className="mt-1.5 text-sm" style={{ color: project.accent }}>
+          {project.tagline}
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {project.detail}
+        </p>
+
+        <ul className="mt-4 space-y-1.5">
+          {project.highlights.map((h) => (
+            <li key={h} className="flex gap-2 text-xs leading-relaxed text-text">
+              <CornerArrow className="mt-0.5 shrink-0 text-dim" />
+              <span>{h}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {project.stack.map((tech) => (
+            <span
+              key={tech}
+              className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 font-mono text-2xs text-muted"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <ExternalLink
+          href={project.url}
+          logAs={project.slug}
+          className="mt-auto inline-flex items-center gap-1.5 self-start pt-5 font-mono text-2xs text-ok transition-colors hover:text-accent"
+        >
+          open {project.slug}
+          <ArrowIcon />
+        </ExternalLink>
+      </div>
+    </article>
   );
 }
 

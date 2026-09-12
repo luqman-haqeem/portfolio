@@ -584,6 +584,14 @@ export type Project = {
   url: string;
   /** GitHub repo name, when the source is public. */
   repo?: string;
+  /**
+   * Slot this build into the grid immediately after the named repo.
+   *
+   * A private repo emits no push date, so it cannot be ranked by activity like
+   * the public ones. Rather than invent a date to fake a sort, the position is
+   * stated outright as the editorial choice it is.
+   */
+  pinAfter?: string;
   status: "live" | "wip";
   tagline: string;
   detail: string;
@@ -598,6 +606,7 @@ export const projects: Project[] = [
     name: "Simpan Resit",
     slug: "simpanresit.com",
     url: "https://simpanresit.com/",
+    pinAfter: "water-level",
     status: "live",
     tagline: "AI receipt scanning for Malaysian income tax claims",
     detail:
