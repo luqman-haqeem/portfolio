@@ -1,32 +1,13 @@
 {
-  "syncedAt": "2026-09-11T15:15:35.153Z",
+  "syncedAt": "2026-09-13T02:59:30.370Z",
   "profile": {
     "login": "luqman-haqeem",
     "name": "Luqman",
     "createdAt": "2020-03-13T15:08:20Z",
-    "publicRepos": 10,
+    "publicRepos": 7,
     "followers": 1
   },
   "repos": [
-    {
-      "name": "portfolio",
-      "description": null,
-      "url": "https://github.com/luqman-haqeem/portfolio",
-      "homepage": null,
-      "language": "TypeScript",
-      "languages": {
-        "TypeScript": 174610,
-        "CSS": 5344,
-        "JavaScript": 4868
-      },
-      "topics": [],
-      "stars": 0,
-      "fork": false,
-      "archived": false,
-      "createdAt": "2026-09-11T09:59:07Z",
-      "pushedAt": "2026-09-11T15:07:33Z",
-      "commitCount": 11
-    },
     {
       "name": "water-level",
       "description": "A  system monitoring Selangor river levels with camera feeds and alerts, using data from the JPS Selangor portal.",
@@ -44,8 +25,42 @@
       "fork": false,
       "archived": false,
       "createdAt": "2024-08-23T08:37:21Z",
-      "pushedAt": "2026-09-11T14:52:30Z",
+      "pushedAt": "2026-09-12T12:25:43Z",
       "commitCount": 284
+    },
+    {
+      "name": "luqman-haqeem",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/luqman-haqeem",
+      "homepage": null,
+      "language": null,
+      "languages": {},
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2023-05-28T04:57:14Z",
+      "pushedAt": "2026-09-12T12:07:56Z",
+      "commitCount": 13
+    },
+    {
+      "name": "portfolio",
+      "description": null,
+      "url": "https://github.com/luqman-haqeem/portfolio",
+      "homepage": null,
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 166730,
+        "CSS": 5344,
+        "JavaScript": 4587
+      },
+      "topics": [],
+      "stars": 0,
+      "fork": false,
+      "archived": false,
+      "createdAt": "2026-09-11T15:58:32Z",
+      "pushedAt": "2026-09-12T12:01:39Z",
+      "commitCount": 24
     },
     {
       "name": "career-agent",
@@ -66,21 +81,6 @@
       "createdAt": "2026-06-05T02:38:45Z",
       "pushedAt": "2026-09-04T12:02:17Z",
       "commitCount": 83
-    },
-    {
-      "name": "luqman-haqeem",
-      "description": null,
-      "url": "https://github.com/luqman-haqeem/luqman-haqeem",
-      "homepage": null,
-      "language": null,
-      "languages": {},
-      "topics": [],
-      "stars": 0,
-      "fork": false,
-      "archived": false,
-      "createdAt": "2023-05-28T04:57:14Z",
-      "pushedAt": "2025-09-18T14:23:28Z",
-      "commitCount": 8
     },
     {
       "name": "WaterLevel",
@@ -107,25 +107,6 @@
       "commitCount": 129
     },
     {
-      "name": "laravel-evoting",
-      "description": null,
-      "url": "https://github.com/luqman-haqeem/laravel-evoting",
-      "homepage": null,
-      "language": "PHP",
-      "languages": {
-        "PHP": 149427,
-        "Blade": 140499,
-        "Vue": 552
-      },
-      "topics": [],
-      "stars": 0,
-      "fork": false,
-      "archived": false,
-      "createdAt": "2022-02-15T13:34:24Z",
-      "pushedAt": "2023-04-05T07:44:52Z",
-      "commitCount": 115
-    },
-    {
       "name": "voting-system",
       "description": "an online voting system for my final project",
       "url": "https://github.com/luqman-haqeem/voting-system",
@@ -148,56 +129,6 @@
     }
   ],
   "commits": {
-    "portfolio": [
-      {
-        "sha": "f0d64a5",
-        "date": "2026-09-11T15:07:31Z",
-        "message": "Split the career trace into companies and the systems built in them",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/f0d64a589db30e6aea6cc743da7da7138bf4aaed"
-      },
-      {
-        "sha": "c55009c",
-        "date": "2026-09-11T09:29:16Z",
-        "message": "Remove personal contact details from the site",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/c55009c3697f5744233045a2e520d3f4731ae715"
-      },
-      {
-        "sha": "763c9f2",
-        "date": "2026-09-11T09:20:38Z",
-        "message": "Warn at build time when NEXT_PUBLIC_SITE_URL is missing",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/763c9f240edf71f9e7b129cec4cbf526ea23c1ca"
-      },
-      {
-        "sha": "81a6f3f",
-        "date": "2026-09-11T09:04:08Z",
-        "message": "Document dashboard deployment and make Actions deploy clearly opt-in",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/81a6f3f8dd4b2cc9b6b55d5a4d1ba29e07c70179"
-      },
-      {
-        "sha": "3e3800b",
-        "date": "2026-09-11T08:49:41Z",
-        "message": "Fix CI deploy step and gate it until Cloudflare is configured",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/3e3800b2e3f1155c0434b4db3478655fa684000d"
-      },
-      {
-        "sha": "971dc1a",
-        "date": "2026-09-11T08:11:09Z",
-        "message": "Configure Cloudflare Workers deployment via OpenNext",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/971dc1a8120a4065d0ff567cd4615bf336acce67"
-      },
-      {
-        "sha": "c7eb994",
-        "date": "2026-09-11T07:14:45Z",
-        "message": "Hide take-home assessment repos from the site",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/c7eb994ca9a5827045dde4b8cafaad02f7fd6819"
-      },
-      {
-        "sha": "db46c85",
-        "date": "2026-09-11T06:41:59Z",
-        "message": "Add live GitHub layer: now, builds, stack comfort and beyond-code",
-        "url": "https://github.com/luqman-haqeem/portfolio/commit/db46c852e1c45094dde39675e1ce04d88acc3778"
-      }
-    ],
     "water-level": [
       {
         "sha": "877a30e",
@@ -246,6 +177,56 @@
         "date": "2026-09-02T06:52:00Z",
         "message": "security: close the public write surface — 9 endpoints to 0 (#66 C-1, C-2, H-1, H-2)",
         "url": "https://github.com/luqman-haqeem/water-level/commit/93e2fae665808cef51548f0ce6063e38511a5d17"
+      }
+    ],
+    "portfolio": [
+      {
+        "sha": "91510a2",
+        "date": "2026-09-12T12:01:37Z",
+        "message": "Stop positioning myself as backend-only",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/91510a2d30bf948250f8aea751b1a4858f8bb770"
+      },
+      {
+        "sha": "9b88661",
+        "date": "2026-09-12T02:52:27Z",
+        "message": "Correct the super app portal to CodeIgniter 3",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/9b886614d790bcf9d2a685d56fc96212a9466186"
+      },
+      {
+        "sha": "3f048c1",
+        "date": "2026-09-12T01:44:46Z",
+        "message": "Fix the section seams, stretched cards and a run-on chip count",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/3f048c12f008aa62b2dc4d448a3eec73d939f568"
+      },
+      {
+        "sha": "afabb41",
+        "date": "2026-09-12T01:37:04Z",
+        "message": "Limit the builds grid to the last three years",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/afabb411540cbd88eeab977f149ca98e0c1b2240"
+      },
+      {
+        "sha": "7f14d4e",
+        "date": "2026-09-12T01:31:10Z",
+        "message": "Show the live products, not just describe them",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/7f14d4e952cd6f9b83fe40f04365412d0a160158"
+      },
+      {
+        "sha": "a700647",
+        "date": "2026-09-12T01:27:46Z",
+        "message": "Move Simpan Resit into the main grid, above Career Agent",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/a7006479f7a8ab2be712ada992d2ed2f65f4e916"
+      },
+      {
+        "sha": "8ed7064",
+        "date": "2026-09-12T01:14:24Z",
+        "message": "Add real per-project dates, and correct the record from LinkedIn",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/8ed7064655913098154952654a3cb7acca0ab4f9"
+      },
+      {
+        "sha": "5ba1c4e",
+        "date": "2026-09-11T16:29:20Z",
+        "message": "Correct the RSVP system's stack and the lucky draw's wording",
+        "url": "https://github.com/luqman-haqeem/portfolio/commit/5ba1c4e132ac335d99d9448e60cc1843d92aecbf"
       }
     ],
     "career-agent": [
@@ -348,54 +329,54 @@
         "url": "https://github.com/luqman-haqeem/WaterLevel/commit/8021753255743c4a093fa79bd82db83651909a13"
       }
     ],
-    "laravel-evoting": [
+    "voting-system": [
       {
-        "sha": "ec10166",
-        "date": "2023-04-05T07:44:41Z",
-        "message": "add DS_STORE in gitignore",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/ec101660b0558c33bbbf907212a91cad2baf978b"
+        "sha": "83e930c",
+        "date": "2022-11-01T06:07:53Z",
+        "message": "Merge branch 'master' of https://github.com/luqman1412/voting-system",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/83e930cc36fe1fdd97bd5ce14c3544f0dc84f206"
       },
       {
-        "sha": "d7327c5",
-        "date": "2023-04-05T07:44:19Z",
-        "message": "update asset and  package.json file",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/d7327c57d38754b0b5f7c9929982d405944646f2"
+        "sha": "a226a59",
+        "date": "2022-11-01T06:07:23Z",
+        "message": "Delete .DS_Store",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/a226a598289436291b7f2133f59b0de8cb7da29b"
       },
       {
-        "sha": "30197b7",
-        "date": "2023-04-05T07:43:36Z",
-        "message": "update route and auth controller",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/30197b74897df57e125739059f274b60791c66d2"
+        "sha": "b00197b",
+        "date": "2022-11-01T06:05:33Z",
+        "message": "update git ignore",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/b00197b7ae204f658432d04c783bc9344c942e39"
       },
       {
-        "sha": "55383e2",
-        "date": "2023-04-05T07:43:14Z",
-        "message": "update layout",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/55383e24c5e612920f2ff25b5232e71dfb2d1cc9"
+        "sha": "5baf5ba",
+        "date": "2022-07-29T09:32:27Z",
+        "message": "add zero as default election id",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/5baf5bae5c69cb1e7b681b7abb85570e1c9634ca"
       },
       {
-        "sha": "f1864f5",
-        "date": "2023-04-05T07:42:49Z",
-        "message": "update election controller",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/f1864f5176982eddb873eab559ead7d60a254587"
+        "sha": "d8a89d5",
+        "date": "2022-07-03T13:58:31Z",
+        "message": "Update README.md",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/d8a89d5c7e661a6188ed8e120dafe80e888fbc02"
       },
       {
-        "sha": "2f26ce1",
-        "date": "2023-04-05T07:42:23Z",
-        "message": "update seeder and  migration file",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/2f26ce127c8e89fa32f86b42dea73fd760b21185"
+        "sha": "168d026",
+        "date": "2022-03-16T12:56:10Z",
+        "message": "add input sanitizeand fix bug on import file",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/168d026ec3c3159f1ee49a2d41a8d8aaa59ba0b8"
       },
       {
-        "sha": "2d5a70d",
-        "date": "2023-04-05T07:41:52Z",
-        "message": "update voter and vote module",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/2d5a70d6e0980beeaa9d994f66c21e58ae000008"
+        "sha": "ba61b87",
+        "date": "2022-03-16T12:41:20Z",
+        "message": "fix candidate couter in dashboard",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/ba61b874f01669e9e8d5530aff8b37fbf21eab2e"
       },
       {
-        "sha": "4a2db31",
-        "date": "2023-04-05T07:41:12Z",
-        "message": "update faculty module",
-        "url": "https://github.com/luqman-haqeem/laravel-evoting/commit/4a2db317c52d403af3af169171c5c72116c8cd74"
+        "sha": "c648f1e",
+        "date": "2022-03-16T12:40:58Z",
+        "message": "format code",
+        "url": "https://github.com/luqman-haqeem/voting-system/commit/c648f1e4468c264c91a13cb28e46f37cc7ec7f3e"
       }
     ]
   }
