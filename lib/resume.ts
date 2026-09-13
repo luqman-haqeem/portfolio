@@ -763,14 +763,14 @@ export const languageComfort: LanguageComfort[] = [
     level: "daily",
     period: "2021 — now",
     note: "MySQL and Postgres. The 50% speedup on that booking calendar was an index and a rewritten join, not a new framework.",
-    evidence: ["voting-system", "laravel-evoting"],
+    evidence: ["voting-system"],
   },
   {
     name: "PHP / Laravel / CodeIgniter",
     level: "fluent",
     period: "2021 — 2024",
     note: "Three years and a few hundred commits. I could be productive in it tomorrow, I just don't reach for it when starting something new. Nothing against it — my stack moved.",
-    evidence: ["laravel-evoting", "voting-system", "WaterLevel"],
+    evidence: ["voting-system", "WaterLevel"],
   },
   {
     name: "Docker / Bash",
@@ -852,20 +852,14 @@ export const buildNotes: Record<string, BuildNote> = {
       "Auto-apply is deliberately left out. A bot spraying applications is not a feature, it's a way to waste other people's time.",
     accent: "var(--color-accent)",
   },
-  // Below the three-year display window in /builds, so these two do not
-  // currently render. Kept because the window is rolling and the write-ups are
-  // still accurate if it ever widens.
+  // Below the three-year display window in /builds, so this does not currently
+  // render. Kept because the window is rolling and the write-up is still
+  // accurate if it ever widens.
   "voting-system": {
     title: "KUIS E-Voting",
     blurb:
       "My diploma final-year project — an online voting system modelled on how my college actually ran its elections. 185 commits, and I kept coming back to fix bugs long after it was graded.",
     accent: "var(--color-lime)",
-  },
-  "laravel-evoting": {
-    title: "E-Voting, take two",
-    blurb:
-      "The same voting problem, rebuilt in Laravel a year later once I'd learned what a framework buys you. First time I felt the difference between writing PHP and architecting it.",
-    accent: "var(--color-teal)",
   },
   WaterLevel: {
     title: "River monitoring, v1",

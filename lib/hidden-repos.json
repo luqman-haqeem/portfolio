@@ -1,4 +1,9 @@
 {
-  "comment": "Repos excluded from the site everywhere: the builds grid, the commit feed, the stats, and the committed snapshot. These are interview take-home assessments rather than my own work, so they don't belong next to it. Read by both lib/github.ts and scripts/sync-github.mjs so the two can't drift.",
-  "hidden": ["smart-locker", "rag", "se-take-home-assignment"]
+  "comment": "Repos excluded from the site everywhere: the builds grid, the commit feed, the stats, and the committed snapshot. Read by both lib/github.ts and scripts/sync-github.mjs so the two can't drift. Two reasons a repo lands here: it's an interview take-home assessment rather than my own work, or it's old enough that I'd rather it not represent me. Listing a repo here is safe whether or not it still exists on GitHub, so these entries stay put after a repo is deleted.",
+  "hidden": [
+    "smart-locker",
+    "rag",
+    "se-take-home-assignment",
+    "laravel-evoting"
+  ]
 }
