@@ -27,10 +27,13 @@ export default async function Home() {
       <main className="flex-1" data-print="hide">
         <Hero />
         <TraceSection />
-        <Divider />
         <StackSection data={github} />
-        <Divider />
         <BuildsSection data={github} />
+        {/* One divider, not one per seam. An identical hairline between every
+            section stops marking anything — trace, stack and builds are all
+            evidence and read as one run. The break that earns a rule is the one
+            here, where the page stops showing work and starts asking for a
+            reply. */}
         <Divider />
         <ContactSection />
         <Footer syncedAt={github.syncedAt} live={github.live} />

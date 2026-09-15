@@ -26,6 +26,10 @@
     Roboto, Helvetica, Arial, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "SF Mono",
     Menlo, Consolas, "Liberation Mono", monospace;
+  /* Display. Serif fallbacks first so a failed webfont still lands on a serif
+     rather than dropping the headings back into the body sans. */
+  --font-display: var(--font-instrument-serif), "Iowan Old Style", Palatino,
+    Georgia, "Times New Roman", serif;
 
   --text-2xs: 0.6875rem;
   --text-2xs--line-height: 1rem;
@@ -139,12 +143,6 @@
   100% {
     offset-distance: 100%;
     opacity: 0;
-  }
-}
-
-@keyframes dash-flow {
-  to {
-    stroke-dashoffset: -24;
   }
 }
 
@@ -274,7 +272,73 @@
 }
 
 
-.flow-line {
-  stroke-dasharray: 3 5;
-  animation: dash-flow 1.6s linear infinite;
+/* Hallmark · macrostructure: Long Document (rotated from Editorial Spine; routes preserved)
+   Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V4 */
+
+/* Three named easings so no transition falls back to browser-default `ease`.
+   `exit` is deliberately faster than `enter`: things should leave quicker than
+   they arrive, or dismissing something feels like it is resisting you. */
+:root {
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* The section-head rule. A hairline that starts at the accent and dies out,
+     replacing the numbered `01 / route` eyebrow — it marks a section without
+     asking to be read as content. */
+  --rule-height: 1px;
+  --rule-fade: color-mix(in oklab, var(--color-accent) 55%, transparent);
+}
+
+/* Section head: heading and rule share a baseline row, description below.
+   Collapses to one column under 640px (gate 52) and never lets a long display
+   word force a horizontal scrollbar (gate 51). */
+.section-head-rule {
+  height: var(--rule-height);
+  background: linear-gradient(
+    to right,
+    var(--rule-fade),
+    var(--color-line) 40%,
+    transparent
+  );
+}
+
+.section-head h2 {
+  font-style: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Eight chromatic hues down to two.
+
+   The palette was accent, ok, info, violet, teal, rose, lime and slate. On a
+   near-black ground that many hues stops being a palette and becomes a legend:
+   the reader has to learn a key before any colour tells them anything, which is
+   what a component-library demo looks like rather than a considered page.
+
+   Amber stays (it is load-bearing and chosen), and `ok` stays because green
+   carries real meaning here — live sync state, an unarchived repo, a passing
+   span. Everything else resolves to neutrals.
+
+   Overridden rather than deleted, on purpose. `lib/resume.ts` refers to these
+   tokens in 24 places, and Tailwind derives `text-teal` and `bg-teal/8` from the
+   same custom property, so redefining the value retires the hue everywhere at
+   once without touching a single call site or the copy around it.
+
+   The three that carry the comfort ladder are a descending ramp, not arbitrary
+   greys: comfortMeta maps daily→accent, fluent→teal, working→info,
+   learning→violet, so those read as one scale getting quieter as the claim gets
+   weaker. The rest sit at muted and dim, where position and weight do the
+   distinguishing instead of hue — which is what the stacked strata in the
+   topology and the ordered rows in the language panel already do.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-teal: #a8b3c2;
+  --color-info: #7e8a99;
+  --color-violet: #5f6a78;
+
+  --color-rose: #929aa8;
+  --color-lime: #7e8a99;
+  --color-slate: #6f7a88;
 }

@@ -1,20 +1,45 @@
-import type { ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+
+/**
+ * Three surface tiers, because one was being asked to do every job.
+ *
+ * The page previously had fifteen instances of `rounded-xl border border-line
+ * bg-panel` — hero stats, both contact halves, both language panels, three
+ * topology panels, three trace panels, two card types, the console. When every
+ * region is a card the container stops carrying meaning and becomes wallpaper,
+ * and a uniform card grid is what a generated dashboard looks like regardless of
+ * how specific the writing inside it is.
+ *
+ * So the tier now says something:
+ *
+ *   bare   — no border, no fill. Prose and argument. The default, and most of
+ *            what used to be boxed belongs here.
+ *   ruled  — a hairline top rule, no radius, no fill. Tabular data. A rule is
+ *            enough to say "these rows belong together".
+ *   raised — the old treatment, kept only for genuinely discrete objects: the
+ *            two builds card types and the console.
+ */
+export type Surface = "bare" | "ruled" | "raised";
+
+const surfaces: Record<Surface, string> = {
+  bare: "",
+  ruled: "border-t border-line",
+  raised: "rounded-xl border border-line bg-panel",
+};
 
 export function Panel({
   children,
   className = "",
+  surface = "raised",
   as: Tag = "div",
 }: {
   children: ReactNode;
   className?: string;
+  surface?: Surface;
   as?: "div" | "article" | "aside" | "li";
 }) {
   return (
-    <Tag
-      className={`rounded-xl border border-line bg-panel ${className}`}
-    >
-      {children}
-    </Tag>
+    <Tag className={`${surfaces[surface]} ${className}`}>{children}</Tag>
   );
 }
 
@@ -62,6 +87,50 @@ export function Kbd({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Three label volumes, replacing a single one.
+ *
+ * There were 82 uses of `font-mono text-2xs` across this page — the same 11px
+ * dim mono treatment on section labels, data keys, contact rows, disclosures and
+ * timestamps alike. A hierarchy with one level is not a hierarchy; it flattens
+ * into a uniform grey murmur where nothing can be scanned because nothing is
+ * louder than anything else.
+ *
+ * `DataLabel` is the surviving mono key, and it should only appear where the
+ * content really is tabular. `Marginalia` is for asides that must be legible but
+ * must not compete: sync state, disclosures, timestamps.
+ */
+export function DataLabel({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <span className={`font-mono text-2xs text-dim ${className}`}>
+      {children}
+    </span>
+  );
+}
+
+export function Marginalia({
+  children,
+  className = "",
+  as: Tag = "p",
+  ...rest
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: "p" | "span" | "div";
+} & Omit<ComponentPropsWithoutRef<"p">, "className" | "children">) {
+  return (
+    <Tag className={`text-2xs leading-relaxed text-dim ${className}`} {...rest}>
+      {children}
+    </Tag>
+  );
+}
+
 export function StatRow({
   label,
   children,
@@ -83,51 +152,94 @@ export function StatRow({
   );
 }
 
+/**
+ * Section head. The heading carries the section; a hairline rule runs out from
+ * it to the right margin, and `aside` sits at the end of that rule.
+ *
+ * There is deliberately no `01 / route` eyebrow. Numbering four sections that
+ * are not read in order tells the reader nothing they can act on, and a
+ * mono-caps counter above every heading is the single most recognisable tell of
+ * a generated page. The rule does the same structural job without pretending to
+ * be content.
+ */
 export function SectionHeading({
-  index,
-  route,
   title,
   description,
   aside,
 }: {
-  index: string;
-  route: string;
   title: string;
   description: ReactNode;
   aside?: ReactNode;
 }) {
   return (
-    <div className="mb-10" data-reveal>
-      <div className="flex items-center gap-3 font-mono text-2xs text-dim">
-        <span className="text-accent">{index}</span>
-        <span className="text-line-2">/</span>
-        <span className="text-muted">{route}</span>
-        <span className="h-px flex-1 bg-line" />
-        {aside}
+    <div className="section-head mb-10" data-reveal>
+      {/* Single column below sm so the aside never squeezes the heading into a
+          two-word-per-line column (gate 52). */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:gap-4">
+        {/* Display serif, roman, weight 400. No `font-semibold`: Instrument
+            Serif ships one weight, so asking for bold gets a synthesised one
+            that smears the thin strokes. No italic either — italic display is
+            its own tell. */}
+        <h2 className="font-display text-3xl leading-tight text-text sm:text-4xl">
+          {title}
+        </h2>
+        <span className="hidden flex-1 sm:block">
+          <span className="section-head-rule block" />
+        </span>
+        {/* shrink-0: the rule above is the only thing that should give up width,
+            otherwise a long aside gets compressed into two lines. */}
+        {aside ? <span className="shrink-0">{aside}</span> : null}
       </div>
-      <h2 className="mt-4 text-2xl font-semibold tracking-tight text-text sm:text-3xl">
-        {title}
-      </h2>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
         {description}
       </p>
     </div>
   );
 }
 
+/**
+ * Section width. Every section used to be `max-w-6xl` with `py-12 sm:py-16` —
+ * one width, one padding, one vertical beat, five times. An editorial spine with
+ * no variation in the spine is a template with good content in it.
+ *
+ *   prose — a reading measure for sections that are mostly argument
+ *   wide  — the old 6xl, for the trace waterfall and the topology
+ *   bleed — full width, for the one section that earns going edge to edge
+ */
+export type SectionWidth = "prose" | "wide" | "bleed";
+
+const widths: Record<SectionWidth, string> = {
+  prose: "mx-auto w-full max-w-3xl px-5 sm:px-8",
+  wide: "mx-auto w-full max-w-6xl px-5 sm:px-8",
+  bleed: "w-full px-5 sm:px-8",
+};
+
+/** Vertical rhythm varies with the weight of what follows, rather than py-16 flat. */
+export type SectionPace = "tight" | "normal" | "loose";
+
+const paces: Record<SectionPace, string> = {
+  tight: "py-10 sm:py-12",
+  normal: "py-12 sm:py-16",
+  loose: "py-16 sm:py-24",
+};
+
 export function Section({
   id,
   children,
   className = "",
+  width = "wide",
+  pace = "normal",
 }: {
   id: string;
   children: ReactNode;
   className?: string;
+  width?: SectionWidth;
+  pace?: SectionPace;
 }) {
   return (
     <section
       id={id}
-      className={`mx-auto w-full max-w-6xl scroll-mt-24 px-5 py-12 sm:px-8 sm:py-16 ${className}`}
+      className={`${widths[width]} ${paces[pace]} scroll-mt-24 ${className}`}
     >
       {children}
     </section>

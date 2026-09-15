@@ -2,7 +2,7 @@ import { profile, roles } from "@/lib/resume";
 import { coarseUptime, formatMonth } from "@/lib/trace";
 import LiveStats from "./LiveStats";
 import PrintButton from "./PrintButton";
-import { ArrowIcon, StatRow, StatusDot } from "./ui";
+import { ArrowIcon, DataLabel, Marginalia, StatRow, StatusDot } from "./ui";
 
 export default function Hero() {
   const active = roles.find((r) => r.end === null) ?? roles[roles.length - 1];
@@ -14,28 +14,26 @@ export default function Hero() {
     >
       <div className="grid-bg pointer-events-none absolute inset-0 opacity-70" />
       <div
-        className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-accent/6 blur-3xl"
-        aria-hidden="true"
-      />
-      <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg to-transparent"
         aria-hidden="true"
       />
 
       <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pt-28 pb-16 sm:px-8 sm:pt-36 sm:pb-24 lg:grid-cols-12 lg:gap-10">
         <div className="min-w-0 lg:col-span-7">
+          {/* `healthy` used to lead this pill. A person is not a service with a
+              health check, and the previous pass removed the hand-drawn traffic
+              lights for exactly that reason — claiming to be software. This says
+              the one thing a visitor actually wants from a status line. */}
           <div
             className="inline-flex items-center gap-2 rounded-full border border-line bg-panel/80 px-3 py-1.5 font-mono text-2xs text-muted backdrop-blur"
             data-reveal
           >
             <StatusDot color="bg-ok" />
-            <span className="text-ok">healthy</span>
-            <span className="text-line-2">·</span>
             <span>{profile.status.toLowerCase()}</span>
           </div>
 
           <h1
-            className="mt-7 text-4xl font-semibold tracking-tight text-balance sm:text-6xl"
+            className="mt-7 font-display text-5xl leading-[0.95] text-balance sm:text-7xl"
             data-reveal
             style={{ "--reveal-delay": "60ms" } as React.CSSProperties}
           >
@@ -101,26 +99,38 @@ export default function Hero() {
             >
               What I&apos;ve built
             </a>
+          </div>
+
+          {/* GitHub, LinkedIn and print used to sit here as three more buttons.
+              Five equal-weight buttons is not five options, it is no
+              recommendation — and all three are reachable from the footer and
+              the contact section anyway. Demoted to one text line so the two
+              buttons above actually read as the two things to do. */}
+          <div
+            className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-2xs text-dim"
+            data-reveal
+            style={{ "--reveal-delay": "300ms" } as React.CSSProperties}
+          >
             <a
               href={profile.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-panel px-4 py-2.5 text-sm text-text transition-colors hover:border-accent/40 hover:bg-panel-2"
+              className="inline-flex items-center gap-1 transition-colors hover:text-muted"
             >
-              GitHub
-              <ArrowIcon className="text-dim" />
+              {profile.githubLabel}
+              <ArrowIcon className="size-3" />
             </a>
             <a
               href={profile.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-panel px-4 py-2.5 text-sm text-text transition-colors hover:border-accent/40 hover:bg-panel-2"
+              className="inline-flex items-center gap-1 transition-colors hover:text-muted"
             >
-              LinkedIn
-              <ArrowIcon className="text-dim" />
+              {profile.linkedinLabel}
+              <ArrowIcon className="size-3" />
             </a>
-            <PrintButton className="inline-flex items-center gap-1.5 px-1 font-mono text-2xs text-dim underline decoration-line-2 underline-offset-4 transition-colors hover:text-muted">
-              or print as résumé
+            <PrintButton className="inline-flex items-center gap-1.5 transition-colors hover:text-muted">
+              print as résumé
             </PrintButton>
           </div>
         </div>
@@ -130,50 +140,41 @@ export default function Hero() {
           data-reveal
           style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
         >
-          <div className="rounded-xl border border-line bg-panel/90 shadow-2xl shadow-black/40 backdrop-blur">
-            <div className="flex items-center gap-2 border-b border-line px-4 py-2.5">
-              <span className="flex gap-1.5" aria-hidden="true">
-                <span className="size-2 rounded-full bg-line-2" />
-                <span className="size-2 rounded-full bg-line-2" />
-                <span className="size-2 rounded-full bg-line-2" />
-              </span>
-              <span className="ml-1 font-mono text-2xs text-muted">
-                {profile.service}
-              </span>
-              <span className="ml-auto rounded border border-ok/25 bg-ok/8 px-1.5 py-0.5 font-mono text-2xs text-ok">
-                prod
-              </span>
-            </div>
+          {/* A record, not a window — and now not a service either.
+              This panel used to open with a `luqman.service` name and a green
+              `prod` badge, then report `status: healthy`, `uptime` and `region`.
+              A previous pass removed the fake macOS traffic lights from this
+              same header for claiming to be software; `prod` and `healthy` make
+              that identical claim in words instead of pixels. A portfolio has no
+              uptime and is not deployed to a region.
 
-            <StatRow label="status" first>
-              <span className="inline-flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-ok" />
-                <span className="text-ok">healthy</span>
-              </span>
-            </StatRow>
-
-            <LiveStats fallbackUptime={coarseUptime()} />
-
-            <StatRow label="region">
-              <span className="text-text">{profile.region}</span>
-            </StatRow>
-
-            <StatRow label="active span">
+              Every value below is the same value as before, relabelled to what
+              it actually is. The trace section keeps the span vocabulary in
+              full, because there it describes real nested durations. */}
+          <div className="border-t border-line-2 pt-5">
+            <DataLabel>currently</DataLabel>
+            <p className="mt-2 font-display text-2xl leading-snug text-text">
               <a
                 href={`#role-${active.id}`}
-                className="text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent"
+                className="underline decoration-accent/40 underline-offset-[6px] transition-colors hover:decoration-accent"
               >
                 {active.service}
               </a>
-            </StatRow>
+            </p>
+            <Marginalia className="mt-2">
+              since {formatMonth(active.start)}
+            </Marginalia>
 
-            <StatRow label="since">
-              <span className="text-muted">{formatMonth(active.start)}</span>
-            </StatRow>
+            <div className="mt-6">
+              <LiveStats fallbackUptime={coarseUptime()} />
+              <StatRow label="based in">
+                <span className="text-text">{profile.region}</span>
+              </StatRow>
+            </div>
 
-            <div className="border-t border-line px-4 py-3">
-              <p className="font-mono text-2xs text-dim">primary runtimes</p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
+            <div className="mt-6">
+              <DataLabel>primary runtimes</DataLabel>
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
                 {profile.runtimes.map((r) => (
                   <span
                     key={r}
