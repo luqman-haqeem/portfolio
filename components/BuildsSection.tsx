@@ -18,6 +18,8 @@ import ExternalLink from "./ExternalLink";
 import {
   ArrowIcon,
   CornerArrow,
+  DataLabel,
+  Marginalia,
   Section,
   SectionHeading,
   StatusDot,
@@ -75,10 +77,8 @@ export default function BuildsSection({ data }: { data: GithubData }) {
   const totalCommits = recent.reduce((sum, r) => sum + (r.commitCount ?? 0), 0);
 
   return (
-    <Section id="builds">
+    <Section id="builds" width="wide" pace="normal">
       <SectionHeading
-        index="03"
-        route="builds"
         title="Everything I've built in the open"
         description={
           <>
@@ -89,9 +89,9 @@ export default function BuildsSection({ data }: { data: GithubData }) {
           </>
         }
         aside={
-          <span className="hidden font-mono text-2xs text-dim sm:inline">
+          <Marginalia as="span" className="hidden sm:inline">
             {recent.length + closedSource.length} builds · newest first
-          </span>
+          </Marginalia>
         }
       />
 
@@ -119,7 +119,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
       </div>
 
       {archived.length > 0 ? (
-        <p className="mt-6 font-mono text-2xs text-dim" data-reveal>
+        <Marginalia className="mt-6" data-reveal>
           {archived.length} older {archived.length === 1 ? "repo" : "repos"} sit
           outside that window and aren&apos;t listed — student-era PHP I&apos;d
           rather not be judged on, still public on{" "}
@@ -131,7 +131,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
             GitHub
           </ExternalLink>{" "}
           if you want the whole history.
-        </p>
+        </Marginalia>
       ) : null}
 
       {/* --------------------------- rebuild lineage --------------------------- */}
@@ -139,9 +139,9 @@ export default function BuildsSection({ data }: { data: GithubData }) {
         {lineages.map((lineage, li) => (
           <div key={lineage.problem} className={li > 0 ? "mt-14" : ""}>
             <div className="mb-8" data-reveal>
-              <p className="font-mono text-2xs text-accent">
+              <Marginalia className="text-accent">
                 rewritten {lineage.generations.length} times
-              </p>
+              </Marginalia>
               <h3 className="mt-2 text-xl font-semibold tracking-tight text-text">
                 {lineage.problem}
               </h3>
@@ -190,7 +190,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
                           {gen.period}
                         </span>
                         {gen.current ? (
-                          <span className="rounded border border-ok/25 bg-ok/8 px-1.5 font-mono text-2xs text-ok">
+                          <span className="rounded border border-ok/25 bg-ok/8 px-1.5 text-2xs text-ok">
                             current
                           </span>
                         ) : null}
@@ -200,9 +200,9 @@ export default function BuildsSection({ data }: { data: GithubData }) {
                         {gen.stack}
                       </p>
                       {gen.host ? (
-                        <p className="mt-0.5 font-mono text-2xs text-dim">
+                        <Marginalia className="mt-0.5">
                           on {gen.host}
-                        </p>
+                        </Marginalia>
                       ) : null}
 
                       <p className="mt-3 text-sm leading-relaxed text-muted">
@@ -212,7 +212,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
                       <ExternalLink
                         href={`${profile.github}/${gen.repo}`}
                         logAs={`repo/${gen.repo}`}
-                        className="mt-3 inline-flex items-center gap-1 font-mono text-2xs text-dim transition-colors hover:text-accent"
+                        className="mt-3 inline-flex items-center gap-1 font-mono text-xs text-dim transition-colors hover:text-accent"
                       >
                         {gen.repo}
                         <ArrowIcon />
@@ -264,20 +264,23 @@ function ProductCard({
       data-reveal
       style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
     >
-      <div className="flex items-center gap-2 border-b border-line bg-panel-2/40 px-4 py-2.5">
-        <StatusDot color="bg-ok" />
-        <span className="truncate font-mono text-2xs text-muted">
-          {project.slug}
-        </span>
-        <span className="ml-auto shrink-0 rounded border border-line-2 px-1.5 py-0.5 font-mono text-2xs text-dim">
-          source not public
-        </span>
-      </div>
-
       {project.shot ? <Screenshot shot={project.shot} /> : null}
 
+      {/* The slug and its state used to sit in a `border-b bg-panel-2/40` strip
+          above the screenshot: a title bar with the traffic lights taken off,
+          which is the same claim-to-be-software the last pass removed the dots
+          for. It is metadata about the card's subject, so it reads inside the
+          card with everything else it describes. */}
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-lg font-semibold tracking-tight text-text">
+        <div className="flex items-center gap-2">
+          <StatusDot color="bg-ok" />
+          <DataLabel className="truncate text-muted">{project.slug}</DataLabel>
+          <span className="ml-auto shrink-0 rounded border border-line-2 px-1.5 py-0.5 text-2xs text-dim">
+            source not public
+          </span>
+        </div>
+
+        <h3 className="mt-3 text-lg font-semibold tracking-tight text-text">
           {project.name}
         </h3>
         <p className="mt-1.5 text-sm" style={{ color: project.accent }}>
@@ -300,7 +303,7 @@ function ProductCard({
           {project.stack.map((tech) => (
             <span
               key={tech}
-              className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 font-mono text-2xs text-muted"
+              className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 text-2xs text-muted"
             >
               {tech}
             </span>
@@ -310,7 +313,7 @@ function ProductCard({
         <ExternalLink
           href={project.url}
           logAs={project.slug}
-          className="mt-auto inline-flex items-center gap-1.5 self-start pt-5 font-mono text-2xs text-ok transition-colors hover:text-accent"
+          className="mt-auto inline-flex items-center gap-1.5 self-start pt-5 font-mono text-xs text-ok transition-colors hover:text-accent"
         >
           open {project.slug}
           <ArrowIcon />
@@ -343,28 +346,29 @@ function RepoCard({
       data-reveal
       style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
     >
-      <div className="flex items-center gap-2 border-b border-line bg-panel-2/40 px-4 py-2.5">
-        <StatusDot
-          color={repo.archived || stale ? "bg-dim" : "bg-ok"}
-          pulse={!repo.archived && !stale}
-        />
-        <span className="truncate font-mono text-2xs text-muted">
-          {repo.name}
-        </span>
-        {active ? (
-          <span className="shrink-0 rounded border border-ok/25 bg-ok/8 px-1.5 py-0.5 font-mono text-2xs text-ok">
-            active
-          </span>
-        ) : null}
-        <span className="ml-auto shrink-0 font-mono text-2xs text-dim">
-          {repo.archived ? "archived" : relativeTime(repo.pushedAt, now)}
-        </span>
-      </div>
-
       {note?.shot ? <Screenshot shot={note.shot} /> : null}
 
+      {/* Same as ProductCard: the repo name and its freshness moved out of a
+          header strip and into the body, where they belong to the thing they
+          describe rather than framing it. */}
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <div className="flex items-center gap-2">
+          <StatusDot
+            color={repo.archived || stale ? "bg-dim" : "bg-ok"}
+            pulse={!repo.archived && !stale}
+          />
+          <DataLabel className="truncate text-muted">{repo.name}</DataLabel>
+          {active ? (
+            <span className="shrink-0 rounded border border-ok/25 bg-ok/8 px-1.5 py-0.5 text-2xs text-ok">
+              active
+            </span>
+          ) : null}
+          <DataLabel className="ml-auto shrink-0">
+            {repo.archived ? "archived" : relativeTime(repo.pushedAt, now)}
+          </DataLabel>
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <h3 className="text-lg font-semibold tracking-tight text-text">
             {note?.title ?? repo.name}
           </h3>
@@ -395,7 +399,7 @@ function RepoCard({
 
         {note?.caveat ? (
           <p className="mt-4 rounded-lg border border-line bg-panel-2/50 p-3 text-xs leading-relaxed text-muted">
-            <span className="font-mono text-2xs text-accent">note — </span>
+            <span className="text-2xs text-accent">note — </span>
             {note.caveat}
           </p>
         ) : null}
@@ -404,7 +408,7 @@ function RepoCard({
           {languages.map((lang) => (
             <span
               key={lang}
-              className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 font-mono text-2xs text-muted"
+              className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 text-2xs text-muted"
             >
               {lang}
             </span>
@@ -415,7 +419,7 @@ function RepoCard({
           <ExternalLink
             href={repo.url}
             logAs={`repo/${repo.name}`}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-panel-2 px-3 py-1.5 font-mono text-2xs text-text transition-colors hover:border-accent/40 hover:text-accent"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-panel-2 px-3 py-1.5 text-xs text-text transition-colors hover:border-accent/40 hover:text-accent"
           >
             source
             <ArrowIcon />
@@ -424,7 +428,7 @@ function RepoCard({
             <ExternalLink
               href={note?.liveUrl ?? repo.homepage!}
               logAs={note?.liveLabel ?? repo.homepage!}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-ok/25 bg-ok/8 px-3 py-1.5 font-mono text-2xs text-ok transition-colors hover:bg-ok/15"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-ok/25 bg-ok/8 px-3 py-1.5 text-xs text-ok transition-colors hover:bg-ok/15"
             >
               live
               <ArrowIcon />
