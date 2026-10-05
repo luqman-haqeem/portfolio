@@ -73,7 +73,11 @@ export type RoleProject = {
 export type Role = {
   id: string;
   company: string;
-  /** Trace-flavoured service name for the parent span row. */
+  /**
+   * Short company name for the parent span row. Deliberately not a
+   * project-style path like `cheil/streaming-api`: each role shipped several
+   * systems, and naming the span after one of them undersold the rest.
+   */
   service: string;
   title: string;
   location: string;
@@ -97,7 +101,7 @@ export const roles: Role[] = [
   {
     id: "apmt",
     company: "APMT (Am Pro Movers Transportation)",
-    service: "apmt/fleet-tracking",
+    service: "APMT",
     title: "Web Developer Intern",
     location: "Malaysia",
     start: "2020-12",
@@ -137,7 +141,7 @@ export const roles: Role[] = [
   {
     id: "cloone-php",
     company: "Cloone Corporation Sdn Bhd",
-    service: "cloone/legacy-modernisation",
+    service: "Cloone",
     title: "PHP Developer",
     location: "Malaysia",
     start: "2021-04",
@@ -232,7 +236,7 @@ export const roles: Role[] = [
   {
     id: "cloone-senior",
     company: "Cloone Corporation Sdn Bhd",
-    service: "cloone/wms-platform",
+    service: "Cloone",
     title: "Senior Software Engineer",
     location: "Malaysia",
     start: "2023-01",
@@ -288,7 +292,7 @@ export const roles: Role[] = [
   {
     id: "devwiz",
     company: "DevWiz",
-    service: "devwiz/booking-calendar",
+    service: "DevWiz",
     title: "Part-time Software Developer",
     location: "Malaysia",
     start: "2023-09",
@@ -321,7 +325,7 @@ export const roles: Role[] = [
   {
     id: "cheil",
     company: "Cheil Malaysia",
-    service: "cheil/streaming-api",
+    service: "Cheil",
     title: "Backend Developer",
     location: "Malaysia",
     start: "2024-06",
@@ -385,7 +389,7 @@ export const roles: Role[] = [
   {
     id: "inmagine",
     company: "Inmagine",
-    service: "inmagine/ai-review-pipelines",
+    service: "Inmagine",
     title: "Web Application Developer",
     location: "Malaysia",
     start: "2025-04",
