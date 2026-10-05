@@ -38,8 +38,12 @@ export default function LiveStats({ fallbackUptime }: { fallbackUptime: string }
 
   return (
     <>
-      <StatRow label="uptime">
-        <span className="tabular text-ok">{uptime ?? fallbackUptime}</span>
+      {/* `uptime` before, in green, as though this were a service health metric.
+          It is the elapsed time since the first line of professional code — real,
+          worth showing, and not an availability figure. Renamed, and no longer
+          coloured `ok`, since it isn't reporting a healthy state. */}
+      <StatRow label="writing code for" first>
+        <span className="tabular text-text">{uptime ?? fallbackUptime}</span>
         <span className="ml-1.5 hidden text-dim sm:inline">
           since {profile.careerStart.replace("-", ".")}
         </span>

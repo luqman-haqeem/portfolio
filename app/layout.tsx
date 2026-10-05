@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { profile } from "@/lib/resume";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -13,6 +13,24 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+/**
+ * Display face. Geist is Vercel's own typeface and ships in `create-next-app`,
+ * so on a Next.js site it is the one thing identifiable as generated from a
+ * thumbnail. Geist stays for body and mono — a sans body is nobody's tell, and
+ * mono-for-tabular is correct — but the headings needed a voice.
+ *
+ * Instrument Serif is upright and genuinely high-contrast, and it only ships a
+ * 400 weight, which is why nothing below sets `font-semibold` on a display
+ * heading: the browser would synthesise a bold and smear the thin strokes that
+ * are the entire reason for choosing it.
+ */
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -97,7 +115,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a

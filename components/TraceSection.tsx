@@ -24,6 +24,8 @@ import {
   ArrowIcon,
   ChevronIcon,
   CornerArrow,
+  DataLabel,
+  Marginalia,
   SectionHeading,
   Section,
 } from "./ui";
@@ -91,10 +93,12 @@ export default function TraceSection() {
   );
 
   return (
-    <Section id="trace">
+    // The waterfall needs every pixel of width it can get — the span bars are
+    // proportional to real durations, and squeezing them makes short roles
+    // vanish. This is the section that earns going wide, and the extra vertical
+    // room around it marks it as the spine of the page.
+    <Section id="trace" width="wide" pace="loose">
       <SectionHeading
-        index="01"
-        route="trace"
         title="Career trace"
         description={
           <>
@@ -108,9 +112,9 @@ export default function TraceSection() {
           </>
         }
         aside={
-          <span className="hidden font-mono text-2xs text-dim sm:inline">
+          <Marginalia as="span" className="hidden sm:inline">
             trace_id: career.{profile.careerStart}
-          </span>
+          </Marginalia>
         }
       />
 
@@ -141,7 +145,7 @@ export default function TraceSection() {
           />
         ) : null}
 
-        <div className="ml-auto flex items-center gap-3 font-mono text-2xs text-dim">
+        <div className="ml-auto flex items-center gap-3 text-2xs text-dim">
           <button
             type="button"
             onClick={() => setOpen(roles.map((r) => r.id))}
@@ -225,7 +229,7 @@ export default function TraceSection() {
           </div>
         </div>
 
-        <p className="mt-3 flex items-start gap-1.5 font-mono text-2xs text-dim">
+        <Marginalia className="mt-3 flex items-start gap-1.5">
           <CornerArrow className="mt-0.5 shrink-0" />
           <span>
             Bar length = duration, bar position = when. The short red span in
@@ -235,43 +239,45 @@ export default function TraceSection() {
             invented range, because one fabricated bar would make the other
             twenty-odd worthless.
           </span>
-        </p>
+        </Marginalia>
       </div>
 
       {/* Where the career started. Small, because it matters least — but it
-          belongs on the timeline rather than nowhere. */}
+          belongs on the timeline rather than nowhere.
+
+          Ruled, not raised: two cells of dates and issuers is metadata, and a
+          card around it claimed the same weight as the waterfall above. The
+          waterfall stays raised because it is an instrument; this is a footnote
+          to it. */}
       <div
-        className="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2"
+        className="mt-10 grid gap-x-10 gap-y-8 border-t border-line pt-7 sm:grid-cols-2"
         data-reveal
       >
-        <div className="bg-panel p-5">
-          <p className="font-mono text-2xs text-dim">before all of it</p>
+        <div>
+          <p className="text-sm text-dim">before all of it</p>
           <h3 className="mt-2.5 text-base font-medium text-text">
             {education.school}
           </h3>
           <p className="mt-1 text-sm text-muted">{education.qualification}</p>
-          <p className="mt-1 font-mono text-2xs text-line-2">
+          <Marginalia className="mt-1 text-line-2">
             {education.period}
-          </p>
+          </Marginalia>
         </div>
 
-        <div className="bg-panel p-5">
-          <p className="font-mono text-2xs text-dim">certifications</p>
+        <div>
+          <p className="text-sm text-dim">certifications</p>
           {certifications.map((cert) => (
             <div key={cert.name} className="mt-2.5">
               <h3 className="text-base font-medium text-text">{cert.name}</h3>
               <p className="mt-1 text-sm text-muted">
                 {cert.issuer}
-                <span className="font-mono text-2xs text-line-2">
-                  {" "}
-                  · {cert.year}
-                </span>
+                <span className="text-2xs text-line-2"> · {cert.year}</span>
               </p>
               {cert.verifyUrl ? (
                 <ExternalLink
                   href={cert.verifyUrl}
                   logAs={`verify/${cert.name}`}
-                  className="mt-2 inline-flex items-center gap-1 font-mono text-2xs text-dim transition-colors hover:text-accent"
+                  className="mt-2 inline-flex items-center gap-1 text-2xs text-dim transition-colors hover:text-accent"
                 >
                   verify on Credly
                   <ArrowIcon />
@@ -284,16 +290,16 @@ export default function TraceSection() {
 
       {/* ---------------- plain text, for people who just want the résumé ---------------- */}
       <div className={view === "plain" ? "" : "hidden"}>
-        <div className="print-panel space-y-8 rounded-xl border border-line bg-panel p-5 sm:p-7">
+        <div className="print-panel space-y-8 p-5 sm:p-7">
           {[...timeline.spans].reverse().map((span) => (
             <article key={span.role.id} className="border-line">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="text-base font-semibold text-text">
                   {span.role.company}
                 </h3>
-                <span className="font-mono text-2xs text-muted">
+                <DataLabel className="text-muted tabular">
                   {span.period} · {span.duration}
-                </span>
+                </DataLabel>
               </div>
               <p className="mt-0.5 text-sm text-accent">
                 {span.role.title}
@@ -329,9 +335,9 @@ export default function TraceSection() {
                       <p className="text-sm leading-relaxed text-muted">
                         {project.what}
                       </p>
-                      <p className="mt-0.5 font-mono text-2xs text-dim">
+                      <Marginalia className="mt-0.5">
                         {project.stack.join(" · ")}
-                      </p>
+                      </Marginalia>
                     </div>
                   </li>
                 ))}
@@ -406,7 +412,7 @@ function SpanRow({
             </span>
           </span>
           {span.open ? (
-            <span className="ml-auto shrink-0 rounded border border-ok/25 bg-ok/8 px-1 font-mono text-2xs text-ok">
+            <span className="ml-auto shrink-0 rounded border border-ok/25 bg-ok/8 px-1 text-2xs text-ok">
               active
             </span>
           ) : null}
@@ -513,9 +519,9 @@ function SpanRow({
                 </ul>
               ) : null}
 
-              <p className="border-t border-line/60 pt-3 font-mono text-2xs text-dim">
+              <Marginalia className="border-t border-line/60 pt-3">
                 child spans ({role.projects.length}) — what I actually built
-              </p>
+              </Marginalia>
 
               <ol className="mt-3">
                 {role.projects.map((project, i) => {
@@ -572,12 +578,12 @@ function SpanRow({
                             {project.slug}
                           </span>
                           <span
-                            className={`inline-flex shrink-0 items-center rounded border px-1.5 font-mono text-2xs ${meta.className}`}
+                            className={`inline-flex shrink-0 items-center rounded border px-1.5 text-2xs ${meta.className}`}
                           >
                             {meta.label}
                           </span>
                           {project.outcome ? (
-                            <span className="ml-auto shrink-0 rounded bg-panel px-1.5 py-0.5 font-mono text-2xs text-accent tabular">
+                            <span className="ml-auto shrink-0 rounded bg-panel px-1.5 py-0.5 text-2xs text-accent">
                               {project.outcome}
                             </span>
                           ) : null}
@@ -615,7 +621,7 @@ function SpanRow({
                           {project.stack.map((tech) => (
                             <span
                               key={tech}
-                              className="rounded border border-line bg-panel px-1.5 py-0.5 font-mono text-2xs text-dim"
+                              className="rounded border border-line bg-panel px-1.5 py-0.5 text-2xs text-dim"
                             >
                               {tech}
                             </span>
@@ -668,7 +674,7 @@ function Segmented<T extends string>({
           type="button"
           onClick={() => onChange(option.value)}
           aria-pressed={value === option.value}
-          className={`rounded-md px-2.5 py-1.5 font-mono text-2xs transition-colors ${
+          className={`rounded-md px-2.5 py-1.5 text-2xs transition-colors ${
             value === option.value
               ? "bg-panel-2 text-accent"
               : "text-dim hover:text-muted"

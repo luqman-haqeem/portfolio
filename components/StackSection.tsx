@@ -5,10 +5,8 @@ import { Section, SectionHeading } from "./ui";
 
 export default function StackSection({ data }: { data: GithubData }) {
   return (
-    <Section id="stack">
+    <Section id="stack" width="wide" pace="normal">
       <SectionHeading
-        index="02"
-        route="stack"
         title="What I'm actually comfortable in"
         description={
           <>

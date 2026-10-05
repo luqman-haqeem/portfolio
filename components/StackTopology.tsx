@@ -10,7 +10,7 @@ import {
   type SkillNode,
 } from "@/lib/resume";
 import { log } from "@/lib/telemetry";
-import { CornerArrow } from "./ui";
+import { CornerArrow, DataLabel, Marginalia } from "./ui";
 
 const allNodes = skillLayers.flatMap((layer) =>
   layer.nodes.map((node) => ({ node, layer })),
@@ -69,12 +69,19 @@ export default function StackTopology() {
   };
 
   return (
-      <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
+      <div className="grid gap-x-8 gap-y-12 lg:grid-cols-12">
         <div className="min-w-0 lg:col-span-7">
+          {/* Strata, not boxes wired together.
+              Each layer used to be its own `rounded-xl border bg-panel` card with
+              a little SVG line plumbed between them — six cards and five wires to
+              say "these sit on top of each other", which is what stacked rules
+              already say. The rules also make the column read as one object
+              instead of six, so the inspector beside it has something to be
+              distinct from. */}
           {skillLayers.map((layer, i) => (
             <div key={layer.id}>
               <div
-                className="rounded-xl border border-line bg-panel p-3.5 sm:p-4"
+                className="border-t border-line py-4"
                 data-reveal
                 style={{ "--reveal-delay": `${i * 45}ms` } as React.CSSProperties}
               >
@@ -85,9 +92,7 @@ export default function StackTopology() {
                   >
                     {layer.label}
                   </span>
-                  <span className="font-mono text-2xs text-dim">
-                    {layer.hint}
-                  </span>
+                  <Marginalia>{layer.hint}</Marginalia>
                 </div>
 
                 <div className="mt-3 flex flex-wrap gap-1.5">
@@ -102,7 +107,7 @@ export default function StackTopology() {
                         type="button"
                         onClick={() => pick(node, layer)}
                         aria-pressed={isSelected}
-                        className={`rounded-md border px-2.5 py-1.5 font-mono text-2xs transition-all duration-200 ${
+                        className={`rounded-md border px-2.5 py-1.5 text-xs transition-all duration-200 ${
                           isSelected
                             ? "text-bg"
                             : isRelated
@@ -144,40 +149,23 @@ export default function StackTopology() {
                 </div>
               </div>
 
-              {i < skillLayers.length - 1 ? (
-                <div className="flex justify-center py-1.5" aria-hidden="true">
-                  <svg width="10" height="20" viewBox="0 0 10 20" fill="none">
-                    <path
-                      d="M5 0 V20"
-                      stroke="var(--color-line-2)"
-                      strokeWidth="1.5"
-                      className="flow-line"
-                    />
-                  </svg>
-                </div>
-              ) : null}
             </div>
           ))}
 
           {/* Sits in the layers column, matching their width. Full-width under
               both columns made it look like it belonged to neither. */}
-          <div
-            className="mt-6 rounded-xl border border-line bg-panel p-3.5 sm:p-4"
-            data-reveal
-          >
+          <div className="mt-2 border-t border-line py-4" data-reveal>
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
               <span className="font-mono text-xs text-muted">
                 ways of working
               </span>
-              <span className="font-mono text-2xs text-dim">
-                process and tooling, not languages
-              </span>
+              <Marginalia>process and tooling, not languages</Marginalia>
             </div>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {practices.map((practice) => (
                 <span
                   key={practice}
-                  className="rounded-md border border-line bg-panel-2/60 px-2.5 py-1.5 font-mono text-2xs text-muted"
+                  className="rounded-md border border-line bg-panel-2/60 px-2.5 py-1.5 text-xs text-muted"
                 >
                   {practice}
                 </span>
@@ -193,9 +181,14 @@ export default function StackTopology() {
             data-reveal
             style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
           >
+            {/* One of the few surfaces that stays raised. The left column is now
+                stacked rules, so the inspector needs to read as a separate
+                instrument rather than more of the same list — and unlike the card
+                header strips this pass removed, this strip holds a real control
+                and a real state, so it is a toolbar, not chrome. */}
             <div className="rounded-xl border border-line bg-panel">
               <div className="flex items-center gap-2 border-b border-line px-4 py-2.5">
-                <span className="font-mono text-2xs text-dim">inspector</span>
+                <DataLabel>inspector</DataLabel>
                 {selected ? (
                   <button
                     type="button"
@@ -205,9 +198,7 @@ export default function StackTopology() {
                     clear
                   </button>
                 ) : (
-                  <span className="ml-auto font-mono text-2xs text-line-2">
-                    idle
-                  </span>
+                  <DataLabel className="ml-auto text-line-2">idle</DataLabel>
                 )}
               </div>
 
@@ -219,15 +210,15 @@ export default function StackTopology() {
                   >
                     {selected.node.name}
                   </p>
-                  <p className="mt-1 font-mono text-2xs text-dim">
+                  <Marginalia className="mt-1">
                     layer: {selected.layer.label.toLowerCase()}
-                  </p>
+                  </Marginalia>
 
                   {selected.node.usedIn.length > 0 ? (
                     <>
-                      <p className="mt-5 font-mono text-2xs text-muted">
+                      <Marginalia className="mt-5 text-muted">
                         shipped in ({selected.node.usedIn.length})
-                      </p>
+                      </Marginalia>
                       <ul className="mt-2 space-y-1">
                         {selected.node.usedIn.map((id) => (
                           <li key={id}>
@@ -254,12 +245,12 @@ export default function StackTopology() {
 
                   {related.size > 0 ? (
                     <>
-                      <p className="mt-5 font-mono text-2xs text-muted">
+                      <Marginalia className="mt-5 text-muted">
                         appears alongside ({related.size})
-                      </p>
-                      <p className="mt-2 font-mono text-2xs leading-relaxed text-dim">
+                      </Marginalia>
+                      <Marginalia className="mt-2">
                         {[...related].join(" · ")}
-                      </p>
+                      </Marginalia>
                     </>
                   ) : null}
                 </div>
