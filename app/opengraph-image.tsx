@@ -8,8 +8,7 @@ export const contentType = "image/png";
 
 const palette: Record<string, string> = {
   apmt: "#93aecf",
-  "cloone-php": "#2dd4bf",
-  "cloone-senior": "#a78bfa",
+  cloone: "#2dd4bf",
   devwiz: "#fb7185",
   cheil: "#63a4ff",
   inmagine: "#ffb648",
