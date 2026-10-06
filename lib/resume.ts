@@ -9,9 +9,11 @@ export const profile = {
   handle: "luqman-haqeem",
   role: "Backend-focused Full-Stack Developer",
   service: "luqman.service",
-  // Country-level only. No street, district, phone or email anywhere in this
-  // repo — reachable via the public profiles below instead.
+  // District-level at most. No street, phone or email anywhere in this repo —
+  // reachable via the public profiles below instead. Structured data (the
+  // JSON-LD in app/layout.tsx) stays country-only.
   region: "Malaysia",
+  basedIn: "Hulu Langat, Selangor",
   timezone: "Asia/Kuala_Lumpur",
   tzLabel: "UTC+8",
   github: "https://github.com/luqman-haqeem",

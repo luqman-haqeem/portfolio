@@ -139,10 +139,7 @@ export default function BuildsSection({ data }: { data: GithubData }) {
         {lineages.map((lineage, li) => (
           <div key={lineage.problem} className={li > 0 ? "mt-14" : ""}>
             <div className="mb-8" data-reveal>
-              <Marginalia className="text-accent">
-                rewritten {lineage.generations.length} times
-              </Marginalia>
-              <h3 className="mt-2 text-xl font-semibold tracking-tight text-text">
+              <h3 className="text-xl font-semibold tracking-tight text-text">
                 {lineage.problem}
               </h3>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">

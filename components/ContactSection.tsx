@@ -102,7 +102,7 @@ export default function ContactSection() {
           </ExternalLink>
         </ContactRow>
         <ContactRow label="based in">
-          <span className="text-muted">{profile.region}</span>
+          <span className="text-muted">{profile.basedIn}</span>
         </ContactRow>
         <ContactRow label="timezone">
           <span className="text-muted">

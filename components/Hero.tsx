@@ -168,7 +168,7 @@ export default function Hero() {
             <div className="mt-6">
               <LiveStats fallbackUptime={coarseUptime()} />
               <StatRow label="based in">
-                <span className="text-text">{profile.region}</span>
+                <span className="text-text">{profile.basedIn}</span>
               </StatRow>
             </div>
 

@@ -22,7 +22,7 @@ export default function PrintResume() {
         <h1 className="text-2xl font-bold">{profile.name}</h1>
         <p className="text-sm">{profile.role}</p>
         <p className="mt-1 text-xs">
-          {profile.region} · {profile.tzLabel} · {profile.githubLabel} ·{" "}
+          {profile.basedIn}, {profile.region} · {profile.tzLabel} · {profile.githubLabel} ·{" "}
           {profile.linkedinLabel}
         </p>
         <p className="mt-3 text-xs leading-snug">{profile.summary}</p>
