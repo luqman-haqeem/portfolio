@@ -73,7 +73,11 @@ export type RoleProject = {
 export type Role = {
   id: string;
   company: string;
-  /** Trace-flavoured service name for the parent span row. */
+  /**
+   * Short company name for the parent span row. Deliberately not a
+   * project-style path like `cheil/streaming-api`: each role shipped several
+   * systems, and naming the span after one of them undersold the rest.
+   */
   service: string;
   title: string;
   location: string;
@@ -97,7 +101,7 @@ export const roles: Role[] = [
   {
     id: "apmt",
     company: "APMT (Am Pro Movers Transportation)",
-    service: "apmt/fleet-tracking",
+    service: "APMT",
     title: "Web Developer Intern",
     location: "Malaysia",
     start: "2020-12",
@@ -135,20 +139,61 @@ export const roles: Role[] = [
     color: "var(--color-slate)",
   },
   {
-    id: "cloone-php",
+    id: "cloone",
     company: "Cloone Corporation Sdn Bhd",
-    service: "cloone/legacy-modernisation",
-    title: "PHP Developer",
+    service: "Cloone",
+    title: "PHP Developer → Senior Software Engineer",
     location: "Malaysia",
     start: "2021-04",
-    end: "2022-12",
+    end: "2024-05",
     summary:
-      "Nearly two years as the developer on Cloone's retail, HR and training clients. Nine systems, most of them things a business ran on daily rather than features on a roadmap.",
+      "Three years at one company, in two roles. Started as the developer on Cloone's retail, HR and training clients — nine systems, most of them things a business ran on daily rather than features on a roadmap. Then promoted into owning architecture and a team: a logistics warehouse platform and a consumer super app portal, and the first time the design decisions were mine to defend.",
     context: [
+      "PHP Developer from April 2021, promoted to Senior Software Engineer in January 2023.",
       "Individual contributor across nine systems for retail, HR and training clients, each with its own stakeholders.",
       "Most of the work was inherited: reading someone else's CodeIgniter before touching it, then extending it without breaking a live business.",
+      "Led project teams of four to six developers, and owned the system architecture.",
+      "Coordinated across 3 cross-functional teams, including one based in India.",
+      "Mentored juniors on system design, code quality and implementation practice.",
+      "Owned the database schema, standardised the REST API structure across services, and architected the GitHub Actions CI/CD that replaced manual releases.",
+      "Ran structured code reviews — the point being fewer production defects, not gatekeeping.",
     ],
     projects: [
+      {
+        slug: "logistics-wms",
+        name: "Third-party logistics warehouse management system",
+        start: "2024-01",
+        end: "2024-05",
+        what: "Led four developers on the full floor workflow: receiving, put away, relocation, picking, audit and status inquiry, with real-time inventory so a manager could see stock instead of guessing, and SBClient POS wired in for purchase orders. I designed the schema and the API structure, put Kong API Gateway in front as a single entry point, and built the GitHub Actions pipeline that deployed it.",
+        stack: [
+          "PHP",
+          "CodeIgniter 4",
+          "Nuxt.js",
+          "MySQL",
+          "Kong API Gateway",
+          "GitHub Actions",
+          "SBClient POS",
+        ],
+        outcome: "+20% receiving · +30% onboarding",
+        kind: "arch",
+      },
+      {
+        slug: "superapp-portal",
+        name: "Consumer super app — APIs and management portal",
+        start: "2023-04",
+        end: "2023-08",
+        what: "Led six developers building the backend APIs and admin portal behind a consumer super app: banner management, vouchers, pop-ups, user settings and access control. The part I'm most pleased with is the merchant API — third parties could register and plug their own services in, which turned a product into a platform. I wrote the integration docs for it too, because an undocumented API is a private one.",
+        stack: [
+          "PHP",
+          "CodeIgniter 3",
+          "REST APIs",
+          "MySQL",
+          "OneSignal",
+          "Bootstrap 4",
+        ],
+        outcome: "3 teams · 2 countries",
+        kind: "lead",
+      },
       {
         slug: "php5-migration",
         name: "PHP 5.4 to CodeIgniter 3 migration",
@@ -230,65 +275,9 @@ export const roles: Role[] = [
     color: "var(--color-teal)",
   },
   {
-    id: "cloone-senior",
-    company: "Cloone Corporation Sdn Bhd",
-    service: "cloone/wms-platform",
-    title: "Senior Software Engineer",
-    location: "Malaysia",
-    start: "2023-01",
-    end: "2024-05",
-    summary:
-      "Promoted into owning architecture and a team. Two large client systems — a logistics warehouse platform and a consumer super app portal — and the first time the design decisions were mine to defend.",
-    context: [
-      "Led project teams of four to six developers, and owned the system architecture.",
-      "Coordinated across 3 cross-functional teams, including one based in India.",
-      "Mentored juniors on system design, code quality and implementation practice.",
-      "Owned the database schema, standardised the REST API structure across services, and architected the GitHub Actions CI/CD that replaced manual releases.",
-      "Ran structured code reviews — the point being fewer production defects, not gatekeeping.",
-    ],
-    projects: [
-      {
-        slug: "logistics-wms",
-        name: "Third-party logistics warehouse management system",
-        start: "2024-01",
-        end: "2024-05",
-        what: "Led four developers on the full floor workflow: receiving, put away, relocation, picking, audit and status inquiry, with real-time inventory so a manager could see stock instead of guessing, and SBClient POS wired in for purchase orders. I designed the schema and the API structure, put Kong API Gateway in front as a single entry point, and built the GitHub Actions pipeline that deployed it.",
-        stack: [
-          "PHP",
-          "CodeIgniter 4",
-          "Nuxt.js",
-          "MySQL",
-          "Kong API Gateway",
-          "GitHub Actions",
-          "SBClient POS",
-        ],
-        outcome: "+20% receiving · +30% onboarding",
-        kind: "arch",
-      },
-      {
-        slug: "superapp-portal",
-        name: "Consumer super app — APIs and management portal",
-        start: "2023-04",
-        end: "2023-08",
-        what: "Led six developers building the backend APIs and admin portal behind a consumer super app: banner management, vouchers, pop-ups, user settings and access control. The part I'm most pleased with is the merchant API — third parties could register and plug their own services in, which turned a product into a platform. I wrote the integration docs for it too, because an undocumented API is a private one.",
-        stack: [
-          "PHP",
-          "CodeIgniter 3",
-          "REST APIs",
-          "MySQL",
-          "OneSignal",
-          "Bootstrap 4",
-        ],
-        outcome: "3 teams · 2 countries",
-        kind: "lead",
-      },
-    ],
-    color: "var(--color-violet)",
-  },
-  {
     id: "devwiz",
     company: "DevWiz",
-    service: "devwiz/booking-calendar",
+    service: "DevWiz",
     title: "Part-time Software Developer",
     location: "Malaysia",
     start: "2023-09",
@@ -321,7 +310,7 @@ export const roles: Role[] = [
   {
     id: "cheil",
     company: "Cheil Malaysia",
-    service: "cheil/streaming-api",
+    service: "Cheil",
     title: "Backend Developer",
     location: "Malaysia",
     start: "2024-06",
@@ -385,7 +374,7 @@ export const roles: Role[] = [
   {
     id: "inmagine",
     company: "Inmagine",
-    service: "inmagine/ai-review-pipelines",
+    service: "Inmagine",
     title: "Web Application Developer",
     location: "Malaysia",
     start: "2025-04",
@@ -484,7 +473,7 @@ export const skillLayers: SkillLayer[] = [
       { name: "CloudFront", usedIn: ["cheil"] },
       { name: "Cloudflare", usedIn: ["simpanresit"] },
       { name: "API Gateway", usedIn: ["cheil"] },
-      { name: "Kong API Gateway", usedIn: ["cloone-senior"] },
+      { name: "Kong API Gateway", usedIn: ["cloone"] },
       { name: "Netlify", usedIn: ["riverlevel", "simpanresit"] },
       { name: "Vercel", usedIn: ["cheil"] },
     ],
@@ -500,8 +489,8 @@ export const skillLayers: SkillLayer[] = [
       { name: "TypeScript", usedIn: ["inmagine", "cheil", "riverlevel", "simpanresit"] },
       { name: "Tailwind CSS", usedIn: ["riverlevel", "simpanresit"] },
       { name: "Shadcn/ui", usedIn: ["riverlevel", "simpanresit"] },
-      { name: "Nuxt.js", usedIn: ["cloone-senior"] },
-      { name: "Bootstrap", usedIn: ["cloone-php"] },
+      { name: "Nuxt.js", usedIn: ["cloone"] },
+      { name: "Bootstrap", usedIn: ["cloone"] },
     ],
   },
   {
@@ -514,11 +503,11 @@ export const skillLayers: SkillLayer[] = [
       { name: "Express.js", usedIn: ["cheil"] },
       { name: "Python", usedIn: ["inmagine"] },
       { name: "FastAPI", usedIn: ["inmagine"] },
-      { name: "Hono", usedIn: [], note: "Lightweight edge-runtime API framework" },
-      { name: "PHP", usedIn: ["cloone-senior", "cloone-php", "devwiz", "apmt"] },
+      { name: "Hono", usedIn: [""], note: "Lightweight edge-runtime API framework" },
+      { name: "PHP", usedIn: ["cloone", "devwiz", "apmt"] },
       { name: "Laravel", usedIn: ["apmt"] },
-      { name: "CodeIgniter 3 / 4", usedIn: ["cloone-php", "cloone-senior"] },
-      { name: "REST API design", usedIn: ["inmagine", "cheil", "cloone-senior", "cloone-php"] },
+      { name: "CodeIgniter 3 / 4", usedIn: ["cloone"] },
+      { name: "REST API design", usedIn: ["inmagine", "cheil", "cloone"] },
     ],
   },
   {
@@ -533,7 +522,7 @@ export const skillLayers: SkillLayer[] = [
       { name: "AWS EC2", usedIn: ["cheil"] },
       { name: "Docker", usedIn: ["inmagine"] },
       { name: "AWS SES", usedIn: ["cheil"] },
-      { name: "OneSignal", usedIn: ["cloone-php", "riverlevel"] },
+      { name: "OneSignal", usedIn: ["cloone", "riverlevel"] },
     ],
   },
   {
@@ -554,11 +543,11 @@ export const skillLayers: SkillLayer[] = [
     hint: "State, cache and objects",
     accent: "var(--color-lime)",
     nodes: [
-      { name: "MySQL", usedIn: ["cloone-senior", "cloone-php", "apmt"] },
+      { name: "MySQL", usedIn: ["cloone", "apmt"] },
       { name: "PostgreSQL", usedIn: ["simpanresit"] },
       { name: "Redis", usedIn: ["cheil"] },
       { name: "AWS S3", usedIn: ["cheil"] },
-      { name: "AWS RDS", usedIn: [], note: "Managed relational hosting" },
+      { name: "AWS RDS", usedIn: [""], note: "Managed relational hosting" },
       { name: "Supabase", usedIn: ["simpanresit"] },
       { name: "Convex", usedIn: ["riverlevel"] },
     ],
