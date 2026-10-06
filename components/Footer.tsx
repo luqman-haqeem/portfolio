@@ -28,7 +28,7 @@ export default function Footer({
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <ExternalLink
               href={profile.github}
               logAs="github profile"
@@ -45,7 +45,7 @@ export default function Footer({
               linkedin
               <ArrowIcon />
             </ExternalLink>
-            <PrintButton className="transition-colors hover:text-muted">
+            <PrintButton className="whitespace-nowrap transition-colors hover:text-muted">
               print résumé
             </PrintButton>
             <a
