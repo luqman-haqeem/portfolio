@@ -1,42 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
-import { profile } from "@/lib/resume";
+import { Archivo, Barlow_Condensed } from "next/font/google";
+import { careerYears, education, profile } from "@/lib/resume";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 /**
- * Display face. Geist is Vercel's own typeface and ships in `create-next-app`,
- * so on a Next.js site it is the one thing identifiable as generated from a
- * thumbnail. Geist stays for body and mono — a sans body is nobody's tell, and
- * mono-for-tabular is correct — but the headings needed a voice.
- *
- * Instrument Serif is upright and genuinely high-contrast, and it only ships a
- * 400 weight, which is why nothing below sets `font-semibold` on a display
- * heading: the browser would synthesise a bold and smear the thin strokes that
- * are the entire reason for choosing it.
+ * Self-hosted at build time by next/font, so the page makes no request to a
+ * font CDN. Archivo is variable on width as well as weight: the statement is
+ * stretched wide on that axis rather than tracked out. Barlow Condensed sets
+ * every reading (dates, counts, levels) so figures stack in narrow columns.
  */
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  weight: "400",
+  axes: ["wdth"],
+  display: "swap",
+});
+
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
 const title = `${profile.name} — ${profile.role}`;
-const description =
-  "Full-stack developer in Malaysia, strongest on the backend — slow queries, millions of records, systems that stay up under load. ~5 years, now building LLM review pipelines on AWS. Career shown as a distributed trace.";
+const description = `Full-stack developer in Malaysia, strongest on the backend — slow queries, millions of records, systems that stay up under load. ~${careerYears} years, now building LLM review pipelines on AWS. Career, languages and builds, each with the dates and counts behind it.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -76,8 +65,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08090b",
-  colorScheme: "dark",
+  themeColor: "#f6f7f4",
+  colorScheme: "light",
 };
 
 const personSchema = {
@@ -94,7 +83,7 @@ const personSchema = {
   },
   alumniOf: {
     "@type": "EducationalOrganization",
-    name: "Selangor Islamic University",
+    name: education.school,
   },
   knowsAbout: [
     "Node.js",
@@ -115,14 +104,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+      className={`${archivo.variable} ${barlowCondensed.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a
-          href="#trace"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:text-bg"
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-enamel"
         >
-          Skip to career trace
+          Skip to content
         </a>
         {children}
         <script

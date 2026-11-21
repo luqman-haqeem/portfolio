@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-20T12:00:00Z",
+  "title": "Design System: Luqman Haqeem",
+  "extensions": {
+    "source": "app/globals.css @theme (Tailwind v4). Root tokens.css is an obsolete extract of the retired dark observability-dashboard system.",
+    "colorMeta": {
+      "enamel": { "role": "neutral", "displayName": "Enamel", "canonical": "#f6f7f4", "tonalRamp": ["#262725", "#3e403d", "#5b5d59", "#7c7e7a", "#a0a29e", "#c5c7c3", "#e4e6e2", "#f6f7f4"] },
+      "plate": { "role": "neutral", "displayName": "Plate White", "canonical": "#ffffff", "tonalRamp": ["#262626", "#404040", "#5e5e5e", "#808080", "#a3a3a3", "#c7c7c7", "#e6e6e6", "#ffffff"] },
+      "ink": { "role": "neutral", "displayName": "Gauge Ink", "canonical": "#141816", "tonalRamp": ["#141816", "#2a302d", "#454c48", "#646b67", "#868c89", "#aaafac", "#cfd2d0", "#eef0ef"] },
+      "water": { "role": "primary", "displayName": "River Teal", "canonical": "#3d6e6a", "tonalRamp": ["#122422", "#1d3b38", "#2b5450", "#3d6e6a", "#5b8c88", "#7fa9a5", "#aecac7", "#dfecea"] },
+      "water-pale": { "role": "primary", "displayName": "Shallow Water", "canonical": "#9dbcb8", "tonalRamp": ["#1c2b29", "#304845", "#4a6763", "#668784", "#83a5a1", "#9dbcb8", "#c3d7d4", "#e6efee"] },
+      "on-water": { "role": "primary", "displayName": "Spray", "canonical": "#e2edeb", "tonalRamp": ["#1f2726", "#36403e", "#525e5c", "#73807d", "#97a3a1", "#bcc7c5", "#e2edeb", "#f4f8f7"] },
+      "level-ok": { "role": "secondary", "displayName": "Current Green", "canonical": "#2f8f4e", "tonalRamp": ["#0f2b18", "#174626", "#206536", "#2f8f4e", "#4fab6b", "#7cc492", "#b0dcbd", "#e2f3e7"] },
+      "level-alert": { "role": "tertiary", "displayName": "Warning Amber", "canonical": "#f2b318", "tonalRamp": ["#3a2a04", "#5e4507", "#86620a", "#b0810f", "#d89d13", "#f2b318", "#f8d478", "#fdf0cc"] },
+      "level-danger": { "role": "secondary", "displayName": "Gauge Red", "canonical": "#d7322a", "tonalRamp": ["#3d0c0a", "#621411", "#8b1c17", "#b3241d", "#d7322a", "#e66a63", "#f1a6a1", "#fbe0de"] },
+      "danger-ink": { "role": "secondary", "displayName": "Red Ink", "canonical": "#b3241d", "tonalRamp": ["#3d0c0a", "#621411", "#8b1c17", "#b3241d", "#d7322a", "#e66a63", "#f1a6a1", "#fbe0de"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The one first-viewport statement and the reach heading. Archivo 800, stretched to 118% width." },
+      "headline": { "displayName": "Headline", "purpose": "Section heads, stretched to 110% width, max 22ch." },
+      "title": { "displayName": "Title", "purpose": "Company and build names in record rows." },
+      "lede": { "displayName": "Lede", "purpose": "The strengths line under the display statement." },
+      "body": { "displayName": "Body", "purpose": "Prose, max 58-64ch." },
+      "reading": { "displayName": "Reading", "purpose": "Every date, count, period, status and stack line. Uppercase, tabular." },
+      "reading-figure": { "displayName": "Reading Figure", "purpose": "The period figure in a record's left column and era years." },
+      "label": { "displayName": "Gauge Label", "purpose": "Gauge navigation labels and the x.xx m level tag." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-water", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "The water level and its reading tag only, 300ms. Nothing else transitions; reduced motion jumps." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px", "note": "Gauge rail switches from flat top strip to sticky left plate." },
+      { "name": "xl", "value": "1280px" }
+    ],
+    "focus": { "light": "3px solid var(--color-ink), offset 3px", "dark": "3px solid var(--color-level-alert) inside .on-dark regions" },
+    "fontStretch": { "stretch-wide": "118%", "stretch-semi": "110%" }
+  },
+  "components": [
+    {
+      "name": "Gauge Rail",
+      "kind": "nav",
+      "refersTo": "gauge-plate",
+      "description": "The staff gauge and the section navigation: E-block plate, rising water, labels at each metre, level tag on the surface.",
+      "html": "<nav class=\"ds-rail\"><div class=\"ds-plate\"><div class=\"ds-face\"></div><span class=\"ds-m\" style=\"bottom:3px\">0</span><span class=\"ds-m\" style=\"bottom:calc(50% + 3px)\">1</span><div class=\"ds-water\" style=\"height:62%\"></div></div><ol class=\"ds-levels\"><li style=\"bottom:25%\"><a href=\"#\" class=\"ds-lvl\"><span class=\"ds-tick\"></span><span class=\"ds-lbl\">Reading</span></a></li><li style=\"bottom:75%\"><a href=\"#\" class=\"ds-lvl ds-current\"><span class=\"ds-tick\"></span><span class=\"ds-lbl\">Work</span></a></li><li class=\"ds-tag\" style=\"bottom:62%\">1.24 m</li></ol></nav>",
+      "css": ".ds-rail { display: flex; height: 320px; background: var(--color-enamel, #f6f7f4); color: var(--color-ink, #141816); padding: 16px; } .ds-plate { position: relative; width: 64px; height: 100%; border: 2px solid var(--color-ink, #141816); background: var(--color-plate, #fff); overflow: hidden; } .ds-face { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, var(--color-ink, #141816) 0 2px, transparent 2px 6px); background-size: 50% 100%; background-repeat: no-repeat; } .ds-m { position: absolute; left: 50%; transform: translateX(-50%); background: var(--color-plate, #fff); padding: 0 2px; font: 700 15px/1 'Barlow Condensed', 'Arial Narrow', sans-serif; color: var(--color-danger-ink, #b3241d); } .ds-water { position: absolute; left: 0; right: 0; bottom: 0; background: rgb(61 110 106 / 0.8); mix-blend-mode: multiply; transition: height 300ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-levels { position: relative; list-style: none; margin: 0 0 0 12px; padding: 0; width: 96px; height: 100%; } .ds-levels li { position: absolute; left: 0; transform: translateY(50%); } .ds-lvl { display: flex; align-items: center; gap: 6px; font: 700 14px 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: inherit; text-decoration: none; } .ds-tick { height: 2px; width: 10px; background: var(--color-ink, #141816); } .ds-lbl { opacity: 0.6; } .ds-lvl:hover { color: var(--color-water, #3d6e6a); } .ds-lvl:hover .ds-lbl, .ds-current .ds-lbl { opacity: 1; } .ds-current .ds-tick { width: 20px; } .ds-lvl:focus-visible { outline: 3px solid var(--color-ink, #141816); outline-offset: 3px; } .ds-tag { background: var(--color-ink, #141816); color: var(--color-enamel, #f6f7f4); padding: 0 4px; font: 700 13px 'Barlow Condensed', 'Arial Narrow', sans-serif; font-variant-numeric: tabular-nums; transition: bottom 300ms cubic-bezier(0.22, 1, 0.36, 1); }"
+    },
+    {
+      "name": "Flat Gauge Strip",
+      "kind": "nav",
+      "refersTo": "gauge-plate",
+      "description": "The gauge laid flat at the top edge under 1024px: section tabs and a tick strip the water fills left to right.",
+      "html": "<nav class=\"ds-strip\"><ol class=\"ds-tabs\"><li><a href=\"#\" class=\"ds-tab ds-on\">Work</a></li><li><a href=\"#\" class=\"ds-tab\">Languages</a></li><li><a href=\"#\" class=\"ds-tab\">Builds</a></li><li><a href=\"#\" class=\"ds-tab\">Reach</a></li></ol><div class=\"ds-ticks\"><div class=\"ds-fill\" style=\"width:38%\"></div></div></nav>",
+      "css": ".ds-strip { background: var(--color-enamel, #f6f7f4); color: var(--color-ink, #141816); border-bottom: 2px solid var(--color-ink, #141816); } .ds-tabs { display: flex; justify-content: space-between; list-style: none; margin: 0; padding: 0 16px; } .ds-tab { display: block; padding: 12px 0; border-bottom: 3px solid transparent; font: 700 15px 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: inherit; text-decoration: none; opacity: 0.65; } .ds-tab.ds-on { border-bottom-color: var(--color-ink, #141816); opacity: 1; } .ds-tab:focus-visible { outline: 3px solid var(--color-ink, #141816); outline-offset: 3px; } .ds-ticks { position: relative; height: 10px; border-top: 2px solid var(--color-ink, #141816); background-color: var(--color-plate, #fff); background-image: repeating-linear-gradient(90deg, var(--color-ink, #141816) 0 2px, transparent 2px 10px); } .ds-fill { position: absolute; top: 0; bottom: 0; left: 0; background: rgb(61 110 106 / 0.85); mix-blend-mode: multiply; transition: width 300ms cubic-bezier(0.22, 1, 0.36, 1); }"
+    },
+    {
+      "name": "Section Head",
+      "kind": "custom",
+      "refersTo": "section-head",
+      "description": "2px rule, wide heavy heading, and the section's reading on the same baseline beside it.",
+      "html": "<header class=\"ds-head\"><div class=\"ds-head-row\"><h2 class=\"ds-h2\">Where the work happened</h2><span class=\"ds-head-reading\">2019 → now · 4 roles · 11 systems</span></div><p class=\"ds-head-intro\">Repo counts and dates come live from GitHub. The write-ups are mine.</p></header>",
+      "css": ".ds-head { border-top: 2px solid currentColor; padding-top: 20px; color: var(--color-ink, #141816); font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; } .ds-head-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 32px; } .ds-h2 { margin: 0; max-width: 22ch; font-size: clamp(2.1rem, 4.4vw, 3.6rem); line-height: 0.98; font-weight: 800; font-stretch: 110%; letter-spacing: -0.015em; text-wrap: balance; } .ds-head-reading { font: 600 18px 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; font-variant-numeric: tabular-nums; opacity: 0.8; } .ds-head-intro { margin: 20px 0 0; max-width: 62ch; font-size: 17px; line-height: 1.625; }"
+    },
+    {
+      "name": "Water Band",
+      "kind": "custom",
+      "refersTo": "water-band",
+      "description": "The water's wave surface over a teal field of three current readings.",
+      "html": "<div class=\"ds-band\"><svg class=\"ds-wave\" viewBox=\"0 0 1200 24\" preserveAspectRatio=\"none\"><path d=\"M0 14 C 100 3, 200 25, 300 14 S 500 3, 600 14 S 800 25, 900 14 S 1100 3, 1200 14 V24 H0 Z\" fill=\"currentColor\"/></svg><dl class=\"ds-band-dl\"><div class=\"ds-band-item\"><dt>Now</dt><dd class=\"ds-band-v\">Software Engineer, Acme</dd><dd class=\"ds-band-d\">since Mar 2024</dd></div><div class=\"ds-band-item\"><dt>Last push</dt><dd class=\"ds-band-v\">portfolio</dd><dd class=\"ds-band-d\">2 days ago</dd></div></dl></div>",
+      "css": ".ds-band { color: var(--color-water, #3d6e6a); } .ds-wave { display: block; width: 100%; height: 24px; } .ds-band-dl { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 32px; margin: 0; background: var(--color-water, #3d6e6a); color: #fff; padding: 12px 40px 32px; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; } .ds-band-item { border-top: 1px solid rgb(226 237 235 / 0.5); padding-top: 12px; } .ds-band-item dt { font: 600 14px 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-on-water, #e2edeb); } .ds-band-item dd { margin: 0; } .ds-band-v { margin-top: 4px; font-size: 17px; font-weight: 600; line-height: 1.375; } .ds-band-d { font: 500 15px 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.04em; color: var(--color-on-water, #e2edeb); }"
+    },
+    {
+      "name": "Record Row",
+      "kind": "card",
+      "refersTo": "record-row",
+      "description": "Ruled record: figures column against prose column, current marker on the rule, high-water mark for a kept era.",
+      "html": "<div class=\"ds-row\"><span class=\"ds-current-bar\"></span><div><p class=\"ds-fig\">Mar 2024 – now</p><p class=\"ds-dur\">1 yr 8 mo · current</p></div><div><h3 class=\"ds-h3\">Acme Systems</h3><p class=\"ds-role\">Software Engineer · Full-time</p><p class=\"ds-body\">Built the review pipeline that moved millions of records a day.</p><p class=\"ds-hw\"><span class=\"ds-hw-line\"></span><span class=\"ds-hw-r\">High-water mark · PHP era, 2019–2021</span></p></div></div>",
+      "css": ".ds-row { position: relative; display: grid; grid-template-columns: 12.5rem 1fr; gap: 16px 40px; border-top: 2px solid var(--color-ink, #141816); padding: 40px 0; color: var(--color-ink, #141816); font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; } .ds-current-bar { position: absolute; top: -2px; left: 0; height: 6px; width: 112px; background: var(--color-level-ok, #2f8f4e); } .ds-fig, .ds-dur, .ds-hw-r { margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; font-variant-numeric: tabular-nums; } .ds-fig { font-size: 22px; font-weight: 700; } .ds-dur { margin-top: 4px; font-size: 17px; font-weight: 500; opacity: 0.7; } .ds-h3 { margin: 0; font-size: clamp(1.6rem, 2.6vw, 2rem); line-height: 1.25; font-weight: 700; font-stretch: 110%; } .ds-role { margin: 4px 0 0; font-size: 18px; font-weight: 500; opacity: 0.75; } .ds-body { margin: 16px 0 0; max-width: 64ch; font-size: 17px; line-height: 1.625; } .ds-hw { margin: 36px 0 0; display: flex; align-items: center; gap: 12px; } .ds-hw-line { flex: 1; height: 3px; background: var(--color-level-danger, #d7322a); } .ds-hw-r { font-size: 15px; font-weight: 700; color: var(--color-danger-ink, #b3241d); }"
+    },
+    {
+      "name": "Mark-Weight Graduations",
+      "kind": "custom",
+      "refersTo": "reading",
+      "description": "Language confidence as the width of ten ink graduations, every fifth tall.",
+      "html": "<div class=\"ds-grad\"><span class=\"ds-g ds-tall\"></span><span class=\"ds-g\"></span><span class=\"ds-g\"></span><span class=\"ds-g\"></span><span class=\"ds-g\"></span><span class=\"ds-g ds-tall\"></span><span class=\"ds-g\"></span><span class=\"ds-g\"></span><span class=\"ds-g\"></span><span class=\"ds-g\"></span></div>",
+      "css": ".ds-grad { display: flex; align-items: flex-end; gap: 5px; height: 44px; } .ds-g { width: 7px; height: 26px; background: var(--color-ink, #141816); } .ds-g.ds-tall { height: 44px; }"
+    },
+    {
+      "name": "Era Bar",
+      "kind": "custom",
+      "refersTo": "reading",
+      "description": "One year's language bytes as a 2px-framed bar in ink and water fills.",
+      "html": "<div class=\"ds-era\"><span class=\"ds-era-y\">2024</span><div class=\"ds-era-bar\"><div style=\"width:52%;background:var(--color-ink,#141816);color:#fff\">TypeScript</div><div style=\"width:30%;background:var(--color-water,#3d6e6a);color:#fff\">Python</div><div style=\"width:18%;background:var(--color-water-pale,#9dbcb8);color:var(--color-ink,#141816)\">PHP</div></div></div>",
+      "css": ".ds-era { display: grid; grid-template-columns: 3.5rem 1fr; align-items: center; gap: 12px; color: var(--color-ink, #141816); } .ds-era-y { font: 700 22px 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; } .ds-era-bar { display: flex; height: 40px; border: 2px solid var(--color-ink, #141816); } .ds-era-bar > div { display: flex; align-items: center; overflow: hidden; padding: 0 6px; border-right: 1px solid var(--color-ink, #141816); font: 700 13px 'Barlow Condensed', 'Arial Narrow', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; } .ds-era-bar > div:last-child { border-right: 0; }"
+    },
+    {
+      "name": "Inline Link",
+      "kind": "button",
+      "refersTo": "link-inline",
+      "description": "Ink, semibold, 2px underline, River Teal on hover, drawn outbound arrow.",
+      "html": "<a href=\"#\" class=\"ds-link\">portfolio on GitHub <svg viewBox=\"0 0 12 12\" fill=\"none\" class=\"ds-arrow\"><path d=\"M3 9 9 3M4.5 3H9v4.5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"square\"/></svg></a>",
+      "css": ".ds-link { display: inline-flex; align-items: center; gap: 6px; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 600; color: var(--color-ink, #141816); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.22em; } .ds-link:hover { color: var(--color-water, #3d6e6a); } .ds-link:focus-visible { outline: 3px solid var(--color-ink, #141816); outline-offset: 3px; } .ds-arrow { width: 0.7em; height: 0.7em; flex-shrink: 0; }"
+    },
+    {
+      "name": "Reach Link",
+      "kind": "button",
+      "refersTo": "link-reach",
+      "description": "Large enamel link on the ink field with a 4px amber underline; amber on hover and focus.",
+      "html": "<div class=\"ds-reach\"><a href=\"#\" class=\"ds-reach-link\">github.com/luqman-haqeem <svg viewBox=\"0 0 12 12\" fill=\"none\" class=\"ds-reach-arrow\"><path d=\"M3 9 9 3M4.5 3H9v4.5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"square\"/></svg></a></div>",
+      "css": ".ds-reach { background: var(--color-ink, #141816); color: var(--color-enamel, #f6f7f4); padding: 40px; } .ds-reach-link { display: inline-flex; align-items: center; gap: 8px; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; font-size: clamp(1.3rem, 2.2vw, 1.75rem); font-weight: 600; color: inherit; text-decoration: underline; text-decoration-color: var(--color-level-alert, #f2b318); text-decoration-thickness: 4px; text-underline-offset: 8px; } .ds-reach-link:hover { color: var(--color-level-alert, #f2b318); } .ds-reach-link:focus-visible { outline: 3px solid var(--color-level-alert, #f2b318); outline-offset: 3px; } .ds-reach-arrow { width: 0.6em; height: 0.6em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The River Gauge Board",
+    "overview": "The page is read against one painted river staff gauge, the white enamel plate a drainage authority bolts to a bridge pier. Each section is one metre on that plate, and the water rises as the reader goes down. Everything in the system comes from that object: an off-white ground read in daylight, black graduations and rules, teal water fields, and a few paint colours that only appear when they mean something on a gauge (the current reading, a high-water mark, the metre numerals).\n\nDensity is editorial rather than dashboard. A few very large wide-set statements, then long ruled records with condensed figures in a left column and prose on the right. Depth is flat: hard rules, square corners, solid fields. The only things that move are the water and its reading.\n\nThe world deliberately rejects the developer-portfolio default it replaced: no dark terminal, no hero card, no avatar, no badge wall, no card grid.",
+    "keyCharacteristics": [
+      "Daylight enamel ground, never a dark theme; ink and water are the only large dark fields.",
+      "2px ink rules separate everything; there are no boxes with shadows and no rounded corners.",
+      "Two faces with fixed jobs: wide heavy Archivo states, condensed Barlow measures.",
+      "Colour from the gauge's paint carries meaning, never decoration.",
+      "One moving system: the water level and its reading, 300ms ease-out."
+    ],
+    "rules": [
+      { "name": "The Paint Means Something Rule", "body": "Green, red and amber are a gauge's paint. Green marks what is current, red marks metres and a high-water era, amber marks focus and reach on dark fields. If a use cannot be read as one of those, it does not get the colour.", "section": "colors" },
+      { "name": "The No Threshold Strip Rule", "body": "There is no green/amber/red alert-band strip. These readings have no thresholds, so the bands would claim a meaning the content does not have.", "section": "colors" },
+      { "name": "The Ink Opacity Rule", "body": "Hierarchy in text on enamel is ink at 100%, 75%, 70% or 60%. Do not introduce a separate grey token.", "section": "colors" },
+      { "name": "The Measure Not Prose Rule", "body": "Anything that is a number, a date, a period or a status is set as a Reading in Barlow Condensed. Sentences are never set in it.", "section": "typography" },
+      { "name": "The Stretch Not Track Rule", "body": "Big Archivo is made wide on the width axis (110% or 118%) and tightened slightly (-0.015em to -0.025em). It is never letter-spaced out.", "section": "typography" },
+      { "name": "The Beside Not Above Rule", "body": "A section's reading sits on the heading's baseline to the right, as a measurement of the section. Nothing small and uppercase sits above a heading.", "section": "typography" },
+      { "name": "The One Column Of Figures Rule", "body": "Dates and durations live in the 12.5rem left column of a record; prose lives to the right. Do not put figures inline at the start of prose.", "section": "layout" },
+      { "name": "The Flat Plate Rule", "body": "Nothing casts a shadow or lifts on hover. A surface is distinguished by its fill and its rule, the way paint sits on enamel.", "section": "elevation" },
+      { "name": "The Gauge Mark Rule", "body": "Bullets, markers and indicators are drawn as short horizontal bars, the same marks as graduations on the plate. Not dots, not glyphs, not icons.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do set every date, count, period and status as a Reading (Barlow Condensed, uppercase, tabular).",
+      "Do separate sections and rows with 2px ink rules and keep every corner square.",
+      "Do keep green for what is current, red for metres and high-water marks, and amber for focus and reach links on dark fields only.",
+      "Do put a new section on the gauge: add it to the rail's levels so the water and navigation stay one system.",
+      "Do keep motion to the water and its reading, 300ms on the water ease, and let reduced motion jump.",
+      "Do draw markers as short solid bars matching the gauge graduations."
+    ],
+    "donts": [
+      "Don't add shadows, gradients that model light, rounded corners, or hover lifts.",
+      "Don't add a green/amber/red threshold strip or colour-code content by alert level.",
+      "Don't use Warning Amber on the enamel ground, or Gauge Red for text (use Red Ink).",
+      "Don't set sentences in Barlow Condensed, or track Archivo out instead of stretching it.",
+      "Don't put a small uppercase label above a heading; a section's reading sits beside it.",
+      "Don't use cards, badge rows, avatars, a hero card, or a dark theme.",
+      "Don't take values from the root tokens.css; it belongs to the retired system."
+    ]
+  }
+}

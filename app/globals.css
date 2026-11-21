@@ -1,73 +1,86 @@
 @import "tailwindcss";
 
+/* River Gauge Board.
+   The page is read against one painted river staff gauge, the kind JPS bolts to
+   a bridge pier and the kind the river-level monitor in /builds reads from.
+
+   Daylight, not dark: people open this from a link on a phone or a laptop in
+   ordinary light, and the gauge it is built from is white enamel read outdoors.
+
+   Tailwind v4 generates utilities from this block, so this is the one source
+   of truth for the palette and the faces. */
 @theme {
-  --color-bg: #08090b;
-  --color-panel: #0d0f13;
-  --color-panel-2: #12151b;
-  --color-line: #1c2027;
-  --color-line-2: #262b34;
-  --color-text: #e8eaef;
-  --color-muted: #929aa8;
-  --color-dim: #5c6472;
+  /* Enamel ground, the plate's white, and gauge paint. The ground is never
+     pure white and the ink never pure black; the plate is white, as painted. */
+  --color-enamel: #f6f7f4;
+  --color-plate: #ffffff;
+  --color-ink: #141816;
 
-  --color-accent: #ffb648;
-  --color-accent-dim: #7a5518;
-  --color-ok: #3ecf8e;
-  --color-info: #63a4ff;
-  --color-violet: #a78bfa;
-  --color-teal: #2dd4bf;
-  --color-rose: #fb7185;
-  --color-lime: #a3e635;
-  --color-slate: #93aecf;
+  /* River water. `water` carries white text (5.7:1); `water-pale` carries ink. */
+  --color-water: #3d6e6a;
+  --color-water-pale: #9dbcb8;
+  --color-on-water: #e2edeb;
 
-  /* Explicit fallbacks: the webfont subset doesn't cover every glyph, and the
-     page should still look intentional if it fails to load. */
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "SF Mono",
-    Menlo, Consolas, "Liberation Mono", monospace;
-  /* Display. Serif fallbacks first so a failed webfont still lands on a serif
-     rather than dropping the headings back into the body sans. */
-  --font-display: var(--font-instrument-serif), "Iowan Old Style", Palatino,
-    Georgia, "Times New Roman", serif;
+  /* JPS gauge paint, used only as marks that mean something: green for the
+     open, current reading; red for alternate metres and high-water marks;
+     amber only for focus and links on the dark fields. There is no threshold
+     strip — these readings have no thresholds to claim. `danger-ink` is the
+     red darkened until it carries small text. */
+  --color-level-ok: #2f8f4e;
+  --color-level-alert: #f2b318;
+  --color-level-danger: #d7322a;
+  --color-danger-ink: #b3241d;
 
-  --text-2xs: 0.6875rem;
-  --text-2xs--line-height: 1rem;
+  --font-sans: var(--font-archivo), "Helvetica Neue", Arial, system-ui, sans-serif;
+  /* Readings: dates, counts, levels. A condensed face so figures stack in
+     narrow columns and read as measurements rather than prose. */
+  --font-reading: var(--font-barlow-condensed), "Arial Narrow", "Roboto Condensed",
+    system-ui, sans-serif;
+
+  --ease-water: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
-  * {
-    border-color: var(--color-line);
-  }
-
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 4.5rem;
     -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--color-ink) var(--color-enamel);
+    scrollbar-width: thin;
+  }
+
+  @media (min-width: 64rem) {
+    html {
+      scroll-padding-top: 1.5rem;
+    }
   }
 
   body {
-    /* `clip` rather than `hidden`: it stops decorative transforms (the pulsing
-       status rings) from creating a horizontal scrollbar without turning the
-       body into a scroll container, so `position: fixed` and smooth scrolling
-       keep working. */
     overflow-x: clip;
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--color-enamel);
+    color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: "cv11", "ss01";
     text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--color-accent) 28%, transparent);
+    background-color: var(--color-water);
     color: #fff;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  /* On the ink and water fields the ink ring disappears; amber is the one
+     paint colour that reads on both. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-level-alert);
+  }
+
+  a {
+    text-underline-offset: 0.22em;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -77,153 +90,20 @@
     *,
     *::before,
     *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
+      animation-duration: 0.001ms !important;
     }
   }
 }
 
-/* ---------- utilities ---------- */
-
-@utility grid-bg {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 56px 56px;
+/* Display measure: the statement is set wide, so stretch it on the variable
+   width axis rather than tracking it out. */
+@utility stretch-wide {
+  font-stretch: 118%;
 }
 
-@utility tabular {
-  font-variant-numeric: tabular-nums;
-}
-
-/* ---------- animations ---------- */
-
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.85);
-    opacity: 0.7;
-  }
-  70%,
-  100% {
-    transform: scale(2.1);
-    opacity: 0;
-  }
-}
-
-@keyframes reveal-up {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes span-grow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes packet {
-  0% {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-  12%,
-  88% {
-    opacity: 1;
-  }
-  100% {
-    offset-distance: 100%;
-    opacity: 0;
-  }
-}
-
-@keyframes caret {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-.pulse-ring::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  background-color: currentColor;
-  animation: pulse-ring 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.caret {
-  animation: caret 1.1s step-end infinite;
-}
-
-/* scroll reveal — starts hidden, released by IntersectionObserver */
-[data-reveal] {
-  opacity: 0;
-}
-
-[data-reveal][data-visible="true"] {
-  animation: reveal-up 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: var(--reveal-delay, 0ms);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
-    opacity: 1;
-  }
-}
-
-.span-bar {
-  transform-origin: left center;
-}
-
-[data-visible="true"] .span-bar {
-  animation: span-grow 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-  animation-delay: var(--bar-delay, 0ms);
-}
-
-/* expand / collapse without JS height measuring */
-.collapsible {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.34s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.collapsible[data-open="true"] {
-  grid-template-rows: 1fr;
-}
-
-.collapsible > div {
-  overflow: hidden;
-  min-height: 0;
-}
-
-/* thin scrollbars inside panels */
-.thin-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-line-2) transparent;
-}
-
-.no-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+@utility stretch-semi {
+  font-stretch: 110%;
 }
 
 /* ---------- print: emit a clean, ATS-friendly résumé ---------- */
@@ -248,97 +128,13 @@
     display: block !important;
   }
 
-  [data-reveal] {
-    opacity: 1 !important;
-    animation: none !important;
-  }
-
   a {
     color: #000 !important;
     text-decoration: none;
-  }
-
-  .print-panel {
-    border: none !important;
-    background: none !important;
-    padding: 0 !important;
-    box-shadow: none !important;
   }
 
   section {
     break-inside: avoid;
     padding: 0 0 10pt !important;
   }
-}
-
-
-/* Hallmark · macrostructure: Long Document (rotated from Editorial Spine; routes preserved)
-   Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V4 */
-
-/* Three named easings so no transition falls back to browser-default `ease`.
-   `exit` is deliberately faster than `enter`: things should leave quicker than
-   they arrive, or dismissing something feels like it is resisting you. */
-:root {
-  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
-  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
-
-  /* The section-head rule. A hairline that starts at the accent and dies out,
-     replacing the numbered `01 / route` eyebrow — it marks a section without
-     asking to be read as content. */
-  --rule-height: 1px;
-  --rule-fade: color-mix(in oklab, var(--color-accent) 55%, transparent);
-}
-
-/* Section head: heading and rule share a baseline row, description below.
-   Collapses to one column under 640px (gate 52) and never lets a long display
-   word force a horizontal scrollbar (gate 51). */
-.section-head-rule {
-  height: var(--rule-height);
-  background: linear-gradient(
-    to right,
-    var(--rule-fade),
-    var(--color-line) 40%,
-    transparent
-  );
-}
-
-.section-head h2 {
-  font-style: normal;
-  overflow-wrap: anywhere;
-  min-width: 0;
-}
-
-/* ---------------------------------------------------------------------------
-   Eight chromatic hues down to two.
-
-   The palette was accent, ok, info, violet, teal, rose, lime and slate. On a
-   near-black ground that many hues stops being a palette and becomes a legend:
-   the reader has to learn a key before any colour tells them anything, which is
-   what a component-library demo looks like rather than a considered page.
-
-   Amber stays (it is load-bearing and chosen), and `ok` stays because green
-   carries real meaning here — live sync state, an unarchived repo, a passing
-   span. Everything else resolves to neutrals.
-
-   Overridden rather than deleted, on purpose. `lib/resume.ts` refers to these
-   tokens in 24 places, and Tailwind derives `text-teal` and `bg-teal/8` from the
-   same custom property, so redefining the value retires the hue everywhere at
-   once without touching a single call site or the copy around it.
-
-   The three that carry the comfort ladder are a descending ramp, not arbitrary
-   greys: comfortMeta maps daily→accent, fluent→teal, working→info,
-   learning→violet, so those read as one scale getting quieter as the claim gets
-   weaker. The rest sit at muted and dim, where position and weight do the
-   distinguishing instead of hue — which is what the stacked strata in the
-   topology and the ordered rows in the language panel already do.
-   --------------------------------------------------------------------------- */
-@theme {
-  --color-teal: #a8b3c2;
-  --color-info: #7e8a99;
-  --color-violet: #5f6a78;
-
-  --color-rose: #929aa8;
-  --color-lime: #7e8a99;
-  --color-slate: #6f7a88;
 }

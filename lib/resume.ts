@@ -4,6 +4,13 @@
  * time-related lives here as `YYYY-MM` and is turned into geometry by lib/trace.ts.
  */
 
+/** Career start as `YYYY-MM`; the summary's year count is derived from it. */
+const CAREER_START = "2020-12";
+export const careerYears = Math.round(
+  (Date.now() - Date.UTC(Number(CAREER_START.slice(0, 4)), Number(CAREER_START.slice(5)) - 1)) /
+    (365.25 * 86_400_000),
+);
+
 export const profile = {
   name: "Luqman Haqeem",
   handle: "luqman-haqeem",
@@ -21,10 +28,10 @@ export const profile = {
   linkedin: "https://linkedin.com/in/luqman-haqeem-7713991b8",
   linkedinLabel: "linkedin.com/in/luqman-haqeem",
   /** Career start — the root span's t0. */
-  careerStart: "2020-12",
+  careerStart: CAREER_START,
   status: "Open to backend / platform roles",
   summary:
-    "Full-stack developer with ~5 years building end-to-end products — comfortable on the front end when a product needs it, strongest where the data is: profiling slow queries, designing for millions of records, and keeping things reliable once load arrives. Two years of TypeScript/Node.js after three years of PHP, now on LLM review pipelines and AWS across datasets of 10M+ records.",
+    `Full-stack developer with ~${careerYears} years building end-to-end products — comfortable on the front end when a product needs it, strongest where the data is: profiling slow queries, designing for millions of records, and keeping things reliable once load arrives. Two years of TypeScript/Node.js after three years of PHP, now on LLM review pipelines and AWS across datasets of 10M+ records.`,
   tagline: [
     "I work at both ends of the stack.",
     "Backend is where I'm strongest — finding the slow query,",
@@ -96,6 +103,11 @@ export type Role = {
   context: string[];
   /** The actual systems built, as child spans. */
   projects: RoleProject[];
+  /**
+   * An era this role marks the peak of, painted on the page as a high-water
+   * mark. The years come from `start` and `end`, never from this string.
+   */
+  highWater?: string;
   color: string;
 };
 
@@ -274,6 +286,7 @@ export const roles: Role[] = [
         kind: "build",
       },
     ],
+    highWater: "the PHP era",
     color: "var(--color-teal)",
   },
   {
@@ -798,7 +811,7 @@ export const buildNotes: Record<string, BuildNote> = {
   portfolio: {
     title: "This site",
     blurb:
-      "The page you're reading. My career renders as a distributed trace because that's the work — companies as parent spans, the systems I built as their children, positioned by real dates.",
+      "The page you're reading. It's laid out against a river staff gauge, the same kind my river-level monitor reads from, and every date and count on it comes from data rather than being typed into a layout.",
     highlights: [
       "Repo list, commit counts and language-per-year pulled live from the GitHub API, so it goes stale on its own if I stop shipping",
       "Prerendered on Cloudflare Workers with an R2 incremental cache and a Durable Object running revalidation in the background",
