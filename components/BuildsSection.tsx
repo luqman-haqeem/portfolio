@@ -1,11 +1,4 @@
-import {
-  buildNotes,
-  lineages,
-  profile,
-  projects,
-  type Project,
-  type Shot,
-} from "@/lib/resume";
+import { buildNotes, lineages, projects, type Shot } from "@/lib/resume";
 import {
   findRepo,
   meaningfulLanguages,
@@ -14,425 +7,221 @@ import {
   type GithubData,
   type Repo,
 } from "@/lib/github";
-import ExternalLink from "./ExternalLink";
-import {
-  ArrowIcon,
-  CornerArrow,
-  DataLabel,
-  Marginalia,
-  Section,
-  SectionHeading,
-  StatusDot,
-} from "./ui";
+import { OutArrow, Reading, SectionHead } from "./ui";
 
-export default function BuildsSection({ data }: { data: GithubData }) {
-  // Same active-repo selection the "now" section uses, so the two agree.
-  const { all: repos, featured } = selectActive(data, 2);
-  const activeNames = new Set(featured.map((r) => r.name));
+/** Only the last three years are showcased; older repos get one quiet line. */
+const WINDOW_MS = 3 * 365.25 * 24 * 60 * 60 * 1000;
 
-  /**
-   * Only the last three years get a card. Older repos are still in `data.repos`
-   * on purpose — the language-per-year chart needs the 2020-2022 PHP bars to
-   * evidence the move to TypeScript and Python, and the "proof" chips in the
-   * stack section still link to them on GitHub. This filter is about what gets
-   * showcased, not about pretending the history isn't there.
-   *
-   * Rolling rather than a fixed date, so it keeps itself honest.
-   */
-  const cutoff =
-    new Date(data.now).getTime() - 3 * 365.25 * 24 * 60 * 60 * 1000;
-  const recent = repos.filter(
-    (r) => new Date(r.pushedAt).getTime() >= cutoff,
+function Screenshot({ shot, href }: { shot: Shot; href?: string }) {
+  // Pre-sized WebP, served as-is rather than through an optimiser.
+  // eslint-disable-next-line @next/next/no-img-element
+  const img = <img src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" className="block h-auto w-full" />;
+  return href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="block border-2 border-ink bg-plate hover:border-water">
+      {img}
+    </a>
+  ) : (
+    <div className="border-2 border-ink bg-plate">{img}</div>
   );
-  const archived = repos.filter(
-    (r) => new Date(r.pushedAt).getTime() < cutoff,
+}
+
+function RepoReading({ repo, now }: { repo: Repo; now: string }) {
+  const langs = meaningfulLanguages(repo, 3);
+  return (
+    <Reading as="p" className="text-[15px] font-medium opacity-75 normal-case">
+      {[repo.commitCount != null ? `${repo.commitCount} commits` : null, `pushed ${relativeTime(repo.pushedAt, now)}`, langs.join(" · ") || null]
+        .filter(Boolean)
+        .join(" · ")}
+    </Reading>
   );
+}
 
-  /** Shipped products whose source isn't public — they'd be invisible otherwise. */
-  const closedSource = projects.filter(
-    (p) => !p.repo || !findRepo(data.repos, p.repo),
+function OutLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold underline decoration-2 hover:text-water">
+      {children}
+      <OutArrow />
+    </a>
   );
+}
 
-  /**
-   * One grid, newest first, with closed-source products slotted in after the
-   * repo named by their `pinAfter`. Keeping them in a separate group below
-   * everything buried a live product under a 2020 student project.
-   */
-  const ordered: ({ kind: "repo"; repo: Repo } | { kind: "product"; project: Project })[] =
-    [];
-  for (const repo of recent) {
-    ordered.push({ kind: "repo", repo });
-    for (const project of closedSource) {
-      if (project.pinAfter === repo.name) {
-        ordered.push({ kind: "product", project });
-      }
-    }
-  }
-  for (const project of closedSource) {
-    if (!project.pinAfter || !recent.some((r) => r.name === project.pinAfter)) {
-      ordered.push({ kind: "product", project });
-    }
-  }
+export default function BuildsSection({ github }: { github: GithubData }) {
+  const { all } = selectActive(github, 2);
+  const cutoff = new Date(github.now).getTime() - WINDOW_MS;
+  const recent = all.filter((r) => new Date(r.pushedAt).getTime() >= cutoff);
+  const older = all.filter((r) => new Date(r.pushedAt).getTime() < cutoff);
+  const commits = recent.reduce((n, r) => n + (r.commitCount ?? 0), 0);
+  // A repo whose count GitHub didn't return is a gap, not a zero.
+  const uncounted = recent.filter((r) => r.commitCount == null).length;
 
-  const totalCommits = recent.reduce((sum, r) => sum + (r.commitCount ?? 0), 0);
+  const lineage = lineages[0];
+  const lineageRepos = new Set(lineage?.generations.map((g) => g.repo) ?? []);
+  const lineageProject = projects.find((p) => p.repo && lineageRepos.has(p.repo));
+  const lineageNote = lineageProject?.repo ? buildNotes[lineageProject.repo] : undefined;
+
+  const closedSource = projects.filter((p) => !p.repo || !findRepo(github.repos, p.repo));
+  const others = recent.filter((r) => !lineageRepos.has(r.name));
 
   return (
-    <Section id="builds" width="wide" pace="normal">
-      <SectionHeading
-        title="Everything I've built in the open"
-        description={
-          <>
-            Not just the two projects polished enough for a résumé — the
-            learning builds and the side things nobody asked for too.{" "}
-            {recent.length} public repos and {totalCommits.toLocaleString()}{" "}
-            commits from the last three years.
-          </>
-        }
-        aside={
-          <Marginalia as="span" className="hidden sm:inline">
-            {recent.length + closedSource.length} builds · newest first
-          </Marginalia>
-        }
-      />
+    <section id="builds" aria-labelledby="builds-title" className="px-5 py-24 sm:px-10 sm:py-32 lg:pr-16 xl:pr-24">
+      <SectionHead
+        id="builds"
+        title="Things I built outside work"
+        reading={`${recent.length} public repos · ${commits.toLocaleString("en")}${uncounted ? "+" : ""} commits · last 3 yrs`}
+      >
+        Repo counts and dates come live from GitHub{github.live ? "" : " (currently the committed snapshot)"}
+        {uncounted ? `; ${uncounted} repo${uncounted === 1 ? "" : "s"} had no commit count, so the total is a floor` : ""}. The
+        write-ups are mine.
+      </SectionHead>
 
-      {/* items-start: without it every card stretches to the tallest in its row,
-          and a card with no screenshot ends up with a couple of hundred pixels
-          of dead space under its last chip. */}
-      <div className="grid items-start gap-5 lg:grid-cols-2">
-        {ordered.map((entry, i) =>
-          entry.kind === "repo" ? (
-            <RepoCard
-              key={entry.repo.name}
-              repo={entry.repo}
-              now={data.now}
-              active={activeNames.has(entry.repo.name)}
-              delay={i * 60}
-            />
-          ) : (
-            <ProductCard
-              key={entry.project.id}
-              project={entry.project}
-              delay={i * 60}
-            />
-          ),
-        )}
-      </div>
-
-      {archived.length > 0 ? (
-        <Marginalia className="mt-6" data-reveal>
-          {archived.length} older {archived.length === 1 ? "repo" : "repos"} sit
-          outside that window and aren&apos;t listed — student-era PHP I&apos;d
-          rather not be judged on, still public on{" "}
-          <ExternalLink
-            href={`${profile.github}?tab=repositories`}
-            logAs="github repositories"
-            className="text-muted underline decoration-line-2 underline-offset-2 transition-colors hover:text-accent"
-          >
-            GitHub
-          </ExternalLink>{" "}
-          if you want the whole history.
-        </Marginalia>
-      ) : null}
-
-      {/* --------------------------- rebuild lineage --------------------------- */}
-      <div className="mt-16 border-t border-line pt-12">
-        {lineages.map((lineage, li) => (
-          <div key={lineage.problem} className={li > 0 ? "mt-14" : ""}>
-            <div className="mb-8" data-reveal>
-              <h3 className="text-xl font-semibold tracking-tight text-text">
-                {lineage.problem}
-              </h3>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-                {lineage.why}
+      {/* --- the long-running one: three rewrites read as levels on one gauge --- */}
+      {lineage && (
+        <article className="mt-14 grid gap-x-14 gap-y-10 xl:grid-cols-[1fr_1.05fr]" aria-labelledby="lineage-title">
+          <div>
+            <h3 id="lineage-title" className="stretch-semi text-[clamp(1.8rem,3vw,2.5rem)] leading-[1.05] font-extrabold text-balance">
+              {lineage.problem}
+            </h3>
+            <p className="mt-4 max-w-[58ch] text-[17px] leading-relaxed">{lineage.why}</p>
+            {lineageNote?.shot && (
+              <div className="mt-8">
+                <Screenshot shot={lineageNote.shot} href={lineageNote.liveUrl} />
+              </div>
+            )}
+            {lineageNote?.liveUrl && (
+              <p className="mt-4 text-[16px]">
+                <OutLink href={lineageNote.liveUrl}>{lineageNote.liveLabel ?? "Open it"}</OutLink>
               </p>
-            </div>
-
-            <div className="relative">
-              {/* rail the generations sit on, desktop only */}
-              <div
-                className="absolute top-1.5 left-1 hidden h-px bg-line sm:block"
-                style={{ right: "0.25rem" }}
-                aria-hidden="true"
-              />
-
-              <ol className="grid gap-6 sm:grid-cols-3 sm:gap-5">
-                {lineage.generations.map((gen, i) => (
-                  <li
-                    key={`${gen.repo}-${gen.label}`}
-                    className="relative"
-                    data-reveal
-                    style={
-                      { "--reveal-delay": `${i * 90}ms` } as React.CSSProperties
-                    }
-                  >
-                    <span
-                      className={`absolute top-0 left-0 size-3 rounded-full border-2 ${
-                        gen.current
-                          ? "border-ok bg-ok/30"
-                          : "border-line-2 bg-bg"
-                      }`}
-                      aria-hidden="true"
-                    />
-
-                    <div className="pt-7 pl-0 sm:pt-8">
-                      <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-                        <span
-                          className={`font-mono text-sm ${
-                            gen.current ? "text-ok" : "text-muted"
-                          }`}
-                        >
-                          {gen.label}
-                        </span>
-                        <span className="font-mono text-2xs text-dim">
-                          {gen.period}
-                        </span>
-                        {gen.current ? (
-                          <span className="rounded border border-ok/25 bg-ok/8 px-1.5 text-2xs text-ok">
-                            current
-                          </span>
-                        ) : null}
-                      </div>
-
-                      <p className="mt-2 font-mono text-xs leading-relaxed text-text">
-                        {gen.stack}
-                      </p>
-                      {gen.host ? (
-                        <Marginalia className="mt-0.5">
-                          on {gen.host}
-                        </Marginalia>
-                      ) : null}
-
-                      <p className="mt-3 text-sm leading-relaxed text-muted">
-                        {gen.note}
-                      </p>
-
-                      <ExternalLink
-                        href={`${profile.github}/${gen.repo}`}
-                        logAs={`repo/${gen.repo}`}
-                        className="mt-3 inline-flex items-center gap-1 font-mono text-xs text-dim transition-colors hover:text-accent"
-                      >
-                        {gen.repo}
-                        <ArrowIcon />
-                      </ExternalLink>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            )}
           </div>
-        ))}
-      </div>
-    </Section>
-  );
-}
 
-/**
- * Plain <img> on purpose: these assets are already 1200x750 WebP at the size
- * the cards render them, so routing them through the image optimiser would add
- * a request-time hop for no gain.
- */
-function Screenshot({ shot }: { shot: Shot }) {
-  return (
-    <div className="border-b border-line bg-panel-2">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={shot.src}
-        alt={shot.alt}
-        width={shot.width}
-        height={shot.height}
-        loading="lazy"
-        decoding="async"
-        className="aspect-[16/10] w-full object-cover object-top opacity-90 transition-opacity duration-300 hover:opacity-100"
-      />
-    </div>
-  );
-}
+          <ol className="border-l-2 border-ink" aria-label="Rewrites, newest first">
+            {[...lineage.generations].reverse().map((g) => {
+              const repo = findRepo(github.repos, g.repo);
+              return (
+                <li key={g.label} className="relative pb-10 pl-7 last:pb-0">
+                  <span
+                    className={`absolute top-3 -left-0.5 h-[3px] ${g.current ? "w-6 bg-level-ok" : "w-4 bg-ink"}`}
+                    aria-hidden="true"
+                  />
+                  <div className="flex flex-wrap items-baseline gap-x-4">
+                    <Reading className="text-[28px] leading-none font-bold">{g.label}</Reading>
+                    <Reading className="text-[17px] font-semibold">{g.period}</Reading>
+                    {g.current && <Reading className="text-[15px] font-bold">current</Reading>}
+                  </div>
+                  <p className="mt-2 font-semibold">
+                    {g.stack}
+                    {g.host ? <span className="font-normal opacity-75"> on {g.host}</span> : null}
+                  </p>
+                  <p className="mt-2 max-w-[60ch] text-[16px] leading-relaxed">{g.note}</p>
+                  {repo && (
+                    <p className="mt-2">
+                      <a href={repo.url} target="_blank" rel="noopener noreferrer" className="font-reading text-[15px] font-semibold tracking-[0.04em] underline decoration-2 hover:text-water">
+                        {repo.name}
+                      </a>
+                    </p>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </article>
+      )}
 
-function ProductCard({
-  project,
-  delay,
-}: {
-  project: Project;
-  delay: number;
-}) {
-  return (
-    <article
-      className="flex flex-col overflow-hidden rounded-xl border border-line bg-panel"
-      data-reveal
-      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
-    >
-      {project.shot ? <Screenshot shot={project.shot} /> : null}
-
-      {/* The slug and its state used to sit in a `border-b bg-panel-2/40` strip
-          above the screenshot: a title bar with the traffic lights taken off,
-          which is the same claim-to-be-software the last pass removed the dots
-          for. It is metadata about the card's subject, so it reads inside the
-          card with everything else it describes. */}
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center gap-2">
-          <StatusDot color="bg-ok" />
-          <DataLabel className="truncate text-muted">{project.slug}</DataLabel>
-          <span className="ml-auto shrink-0 rounded border border-line-2 px-1.5 py-0.5 text-2xs text-dim">
-            source not public
-          </span>
-        </div>
-
-        <h3 className="mt-3 text-lg font-semibold tracking-tight text-text">
-          {project.name}
-        </h3>
-        <p className="mt-1.5 text-sm" style={{ color: project.accent }}>
-          {project.tagline}
-        </p>
-        <p className="mt-3 text-sm leading-relaxed text-muted">
-          {project.detail}
-        </p>
-
-        <ul className="mt-4 space-y-1.5">
-          {project.highlights.map((h) => (
-            <li key={h} className="flex gap-2 text-xs leading-relaxed text-text">
-              <CornerArrow className="mt-0.5 shrink-0 text-dim" />
-              <span>{h}</span>
+      {lineageNote?.highlights && (
+        <ul className="mt-12 grid gap-x-10 gap-y-3 border-t-2 border-ink pt-6 md:grid-cols-2">
+          {lineageNote.highlights.map((h) => (
+            <li key={h} className="flex gap-3 text-[16px] leading-relaxed">
+              <span className="mt-[0.7em] h-[3px] w-4 shrink-0 bg-ink" aria-hidden="true" />
+              {h}
             </li>
           ))}
         </ul>
+      )}
 
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {project.stack.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 text-2xs text-muted"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+      {/* --- everything else, newest first, as a ruled record --- */}
+      <ol className="mt-24">
+        {closedSource.map((p) => (
+          <li key={p.id} className="grid gap-x-12 gap-y-6 border-t-2 border-ink py-10 lg:grid-cols-[1fr_1fr]">
+            <div>
+              <h3 className="stretch-semi text-[clamp(1.6rem,2.6vw,2rem)] leading-tight font-bold">{p.name}</h3>
+              <Reading as="p" className="mt-1 text-[16px] font-semibold text-water">
+                {p.status} · closed source
+              </Reading>
+              <p className="mt-4 max-w-[60ch] text-[17px] leading-relaxed">{p.detail}</p>
+              <ul className="mt-5 space-y-2">
+                {p.highlights.map((h) => (
+                  <li key={h} className="flex gap-3 text-[16px] leading-relaxed">
+                    <span className="mt-[0.7em] h-[3px] w-4 shrink-0 bg-ink" aria-hidden="true" />
+                    {h}
+                  </li>
+                ))}
+              </ul>
+              <Reading as="p" className="mt-5 text-[15px] font-medium opacity-75 normal-case">
+                {p.stack.join(" · ")}
+              </Reading>
+              <p className="mt-4 text-[16px]">
+                <OutLink href={p.url}>{p.slug}</OutLink>
+              </p>
+            </div>
+            {p.shot && <Screenshot shot={p.shot} href={p.url} />}
+          </li>
+        ))}
 
-        <ExternalLink
-          href={project.url}
-          logAs={project.slug}
-          className="mt-auto inline-flex items-center gap-1.5 self-start pt-5 font-mono text-xs text-ok transition-colors hover:text-accent"
-        >
-          open {project.slug}
-          <ArrowIcon />
-        </ExternalLink>
-      </div>
-    </article>
-  );
-}
+        {others.map((repo) => {
+          const note = buildNotes[repo.name];
+          return (
+            <li key={repo.name} className="grid gap-x-12 gap-y-4 border-t-2 border-ink py-10 lg:grid-cols-[1fr_1fr]">
+              <div>
+                <h3 className="stretch-semi text-[clamp(1.6rem,2.6vw,2rem)] leading-tight font-bold">{note?.title ?? repo.name}</h3>
+                <RepoReading repo={repo} now={github.now} />
+                <p className="mt-4 max-w-[60ch] text-[17px] leading-relaxed">
+                  {note?.blurb ?? repo.description ?? "No description on GitHub yet."}
+                </p>
+                <p className="mt-4 text-[16px]">
+                  <OutLink href={repo.url}>{repo.name} on GitHub</OutLink>
+                </p>
+              </div>
+              <div>
+                {note?.highlights && (
+                  <ul className="space-y-2">
+                    {note.highlights.map((h) => (
+                      <li key={h} className="flex gap-3 text-[16px] leading-relaxed">
+                        <span className="mt-[0.7em] h-[3px] w-4 shrink-0 bg-ink" aria-hidden="true" />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {note?.caveat && (
+                  <p className="mt-6 max-w-[60ch] border-t border-ink/25 pt-4 text-[16px] leading-relaxed">
+                    <Reading className="mr-2 font-bold text-danger-ink">Note</Reading>
+                    {note.caveat}
+                  </p>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
 
-function RepoCard({
-  repo,
-  now,
-  active,
-  delay,
-}: {
-  repo: Repo;
-  now: string;
-  active: boolean;
-  delay: number;
-}) {
-  const note = buildNotes[repo.name];
-  const languages = meaningfulLanguages(repo);
-  const stale =
-    new Date(now).getTime() - new Date(repo.pushedAt).getTime() >
-    365 * 86_400_000;
-
-  return (
-    <article
-      className="flex flex-col overflow-hidden rounded-xl border border-line bg-panel"
-      data-reveal
-      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
-    >
-      {note?.shot ? <Screenshot shot={note.shot} /> : null}
-
-      {/* Same as ProductCard: the repo name and its freshness moved out of a
-          header strip and into the body, where they belong to the thing they
-          describe rather than framing it. */}
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center gap-2">
-          <StatusDot
-            color={repo.archived || stale ? "bg-dim" : "bg-ok"}
-            pulse={!repo.archived && !stale}
-          />
-          <DataLabel className="truncate text-muted">{repo.name}</DataLabel>
-          {active ? (
-            <span className="shrink-0 rounded border border-ok/25 bg-ok/8 px-1.5 py-0.5 text-2xs text-ok">
-              active
-            </span>
-          ) : null}
-          <DataLabel className="ml-auto shrink-0">
-            {repo.archived ? "archived" : relativeTime(repo.pushedAt, now)}
-          </DataLabel>
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h3 className="text-lg font-semibold tracking-tight text-text">
-            {note?.title ?? repo.name}
-          </h3>
-          {repo.commitCount ? (
-            <span className="font-mono text-2xs text-dim">
-              {repo.commitCount} commits
-            </span>
-          ) : null}
-        </div>
-
-        <p className="mt-3 text-sm leading-relaxed text-muted">
-          {note?.blurb ?? repo.description ?? "No description yet."}
-        </p>
-
-        {note?.highlights?.length ? (
-          <ul className="mt-4 space-y-1.5">
-            {note.highlights.map((h) => (
-              <li
-                key={h}
-                className="flex gap-2 text-xs leading-relaxed text-text"
-              >
-                <CornerArrow className="mt-0.5 shrink-0 text-dim" />
-                <span>{h}</span>
+      {older.length > 0 && (
+        <div className="border-t-2 border-ink pt-6">
+          <Reading as="p" className="text-[15px] font-bold opacity-75">Older than three years</Reading>
+          <ul className="mt-3 space-y-3">
+            {older.map((repo) => (
+              <li key={repo.name} className="max-w-[80ch] text-[16px] leading-relaxed">
+                <a href={repo.url} target="_blank" rel="noopener noreferrer" className="font-semibold underline decoration-2 hover:text-water">
+                  {buildNotes[repo.name]?.title ?? repo.name}
+                </a>{" "}
+                <Reading className="text-[15px] font-medium opacity-75 normal-case">
+                  ({repo.createdAt.slice(0, 4)}{repo.commitCount != null ? ` · ${repo.commitCount} commits` : ""})
+                </Reading>
+                {buildNotes[repo.name]?.blurb ? ` ${buildNotes[repo.name].blurb}` : repo.description ? ` ${repo.description}` : ""}
               </li>
             ))}
           </ul>
-        ) : null}
-
-        {note?.caveat ? (
-          <p className="mt-4 rounded-lg border border-line bg-panel-2/50 p-3 text-xs leading-relaxed text-muted">
-            <span className="text-2xs text-accent">note — </span>
-            {note.caveat}
-          </p>
-        ) : null}
-
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {languages.map((lang) => (
-            <span
-              key={lang}
-              className="rounded-md border border-line-2 bg-panel-2 px-2 py-0.5 text-2xs text-muted"
-            >
-              {lang}
-            </span>
-          ))}
         </div>
-
-        <div className="mt-auto flex flex-wrap items-center gap-2 pt-5">
-          <ExternalLink
-            href={repo.url}
-            logAs={`repo/${repo.name}`}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-line-2 bg-panel-2 px-3 py-1.5 text-xs text-text transition-colors hover:border-accent/40 hover:text-accent"
-          >
-            source
-            <ArrowIcon />
-          </ExternalLink>
-          {note?.liveUrl ?? repo.homepage ? (
-            <ExternalLink
-              href={note?.liveUrl ?? repo.homepage!}
-              logAs={note?.liveLabel ?? repo.homepage!}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-ok/25 bg-ok/8 px-3 py-1.5 text-xs text-ok transition-colors hover:bg-ok/15"
-            >
-              live
-              <ArrowIcon />
-            </ExternalLink>
-          ) : null}
-        </div>
-      </div>
-    </article>
+      )}
+    </section>
   );
 }

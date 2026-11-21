@@ -1,13 +1,14 @@
-# luqman.service
+# Luqman Haqeem — portfolio
 
 Personal portfolio for **Luqman Haqeem**, backend-focused full-stack developer.
 
-Instead of the usual hero-image-and-card-grid, the site is built as an **observability dashboard**, because that's the work:
+The site is laid out against a **river staff gauge** — the painted scale JPS bolts to bridge piers, and the one the river-level monitor in the builds section reads from. The idea it carries: measure before you claim.
 
-- **Career trace** — companies are parent spans in a distributed-trace waterfall; the systems built inside them are child spans. Bar length is duration, bar position is when, so overlapping work (the DevWiz engagement inside the Cloone senior role) is visible rather than hidden. Expanding a company separates the *job context* ("led a team of 3") from the *work* (19 named systems, each with its own stack and outcome) — because those are different kinds of fact. Child spans deliberately have no bars: there are no reliable per-system dates, and inventing them would devalue the parent timeline.
-- **Stack topology** — skills grouped by request path instead of alphabetically. Every node is clickable and links to the jobs and projects where it was actually used; nodes with no production usage say so instead of padding the list.
-- **Session console** — press `` ` `` or click `console`. It logs real events from your own visit (page load, viewport, sections viewed, spans expanded). Nothing is simulated and nothing leaves the tab — there is no analytics on this site.
-- **Two ways to read it** — a `plain text` toggle in the career trace renders a normal résumé for anyone who just wants the facts, and the page prints to a clean, ATS-friendly document.
+- **The gauge** — a sticky staff gauge down the left edge (laid flat as a strip on narrow screens). Each section is one metre on the plate, the labels are the navigation, and the water rises to the section you're reading.
+- **Work** — every role with real dates, durations and the named systems built in it. Overlapping work (DevWiz alongside Cloone) is flagged rather than hidden. Each system expands to what it was and its stack.
+- **Calibration** — how sure I am of each language, drawn as the weight of the graduations, beside GitHub's own byte counts by the year each repo started.
+- **Builds** — the river monitor's three rewrites as levels on one record, then every public repo from the last three years, live from GitHub.
+- **No tracking** — no analytics, cookies or third-party requests, and the page prints to a clean, ATS-friendly résumé.
 
 ## Run
 
@@ -50,9 +51,9 @@ All résumé content lives in one typed file: **`lib/resume.ts`**. Nothing is ha
 | Per-repo write-ups, keyed by GitHub repo name | `buildNotes` |
 | Rewrite history of a long-running project | `lineages` |
 
-Dates drive the waterfall geometry automatically — `lib/trace.ts` turns `YYYY-MM` strings into bar offsets, durations, year ticks and overlap detection. Adding a role is enough; no layout changes needed.
+Dates drive everything automatically — `lib/trace.ts` turns `YYYY-MM` strings into periods, durations and overlap detection. Adding a role is enough; no layout changes needed.
 
-The `usedIn` arrays are what make the stack inspector work. Each entry is a `roles[].id` or `projects[].id`.
+`skillLayers` and its `usedIn` arrays no longer render on screen since the gauge redesign; they still feed the printed résumé. Each `usedIn` entry is a `roles[].id` or `projects[].id`.
 
 ## Deploy (Cloudflare Workers)
 
@@ -160,11 +161,11 @@ Note the deploy step runs `npm run deploy`, not `opennextjs-cloudflare deploy` �
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · zero runtime dependencies beyond the framework.
 
-Most of the page is server-rendered. Client components are limited to the parts that genuinely need interactivity: the trace waterfall, the stack inspector, the status bar, the session console, and the live uptime clock.
+Most of the page is server-rendered. The only client components are the gauge (it follows scroll position) and the print button.
 
 ## Accessibility notes
 
-- Expandable spans are real `<button>`s with `aria-expanded` / `aria-controls`.
-- `prefers-reduced-motion` disables reveal, pulse and flow animations.
-- Skip link, visible focus rings, and a keyboard-reachable console toggle.
+- Each system under a role is a native `<details>` disclosure.
+- `prefers-reduced-motion` holds the gauge's water still.
+- Skip link, visible focus rings, and gauge navigation that works by keyboard.
 - No horizontal overflow down to 320px wide.
