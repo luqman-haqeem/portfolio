@@ -29,14 +29,10 @@ export const profile = {
   linkedinLabel: "linkedin.com/in/luqman-haqeem",
   /** Career start — the root span's t0. */
   careerStart: CAREER_START,
-  status: "Open to backend / platform roles",
+  status: "Open to software development and DevOps roles",
   summary:
-    `Full-stack developer with ~${careerYears} years building end-to-end products — comfortable on the front end when a product needs it, strongest where the data is: profiling slow queries, designing for millions of records, and keeping things reliable once load arrives. Two years of TypeScript/Node.js after three years of PHP, now on LLM review pipelines and AWS across datasets of 10M+ records.`,
-  tagline: [
-    "I work at both ends of the stack.",
-    "Backend is where I'm strongest — finding the slow query,",
-    "handling millions of records, staying up under load.",
-  ],
+    `Backend-focused full-stack developer with ~${careerYears} years of building products end to end. Strongest where the data is: slow queries, large datasets and keeping things reliable under load.`,
+  tagline: ["I build the tools I wish existed."],
   runtimes: ["TypeScript / Node.js", "Python / FastAPI", "AWS"],
 } as const;
 
@@ -112,46 +108,6 @@ export type Role = {
 };
 
 export const roles: Role[] = [
-  {
-    id: "apmt",
-    company: "APMT (Am Pro Movers Transportation)",
-    service: "APMT",
-    title: "Web Developer Intern",
-    location: "Malaysia",
-    start: "2020-12",
-    end: "2021-02",
-    employment: "Internship",
-    summary:
-      "Three months at a movers company, and the first time code I wrote was used by people whose job depended on it.",
-    context: [
-      "First professional codebase. No team — I shipped straight to the tools dispatchers used that day.",
-    ],
-    projects: [
-      {
-        slug: "lorry-tracking",
-        name: "Real-time lorry tracking",
-        what: "Live location for the fleet, so dispatchers could answer \"where is my delivery\" without phoning the driver.",
-        stack: ["PHP", "Laravel", "MySQL"],
-        outcome: "real-time",
-        kind: "build",
-      },
-      {
-        slug: "reservations",
-        name: "Online reservation management",
-        what: "Customer-facing booking flow with an admin side behind it for confirming and rescheduling.",
-        stack: ["PHP", "Laravel"],
-        kind: "build",
-      },
-      {
-        slug: "blog-cms",
-        name: "Blog publishing tool",
-        what: "A small CMS so marketing could publish without a developer in the loop.",
-        stack: ["PHP", "Laravel"],
-        kind: "build",
-      },
-    ],
-    color: "var(--color-slate)",
-  },
   {
     id: "cloone",
     company: "Cloone Corporation Sdn Bhd",
@@ -288,39 +244,6 @@ export const roles: Role[] = [
     ],
     highWater: "the PHP era",
     color: "var(--color-teal)",
-  },
-  {
-    id: "devwiz",
-    company: "DevWiz",
-    service: "DevWiz",
-    title: "Part-time Software Developer",
-    location: "Malaysia",
-    start: "2023-09",
-    end: "2023-10",
-    employment: "Part-time · concurrent",
-    summary:
-      "A two-month side engagement, run in parallel with the Cloone role. Small scope, measurable brief.",
-    context: [
-      "Ran alongside a full-time job — deliberately scoped to two clear problems rather than open-ended work.",
-    ],
-    projects: [
-      {
-        slug: "calendar-queries",
-        name: "Booking calendar query tuning",
-        what: "Profiled and rewrote the queries behind a booking calendar. An index and a reshaped join, not a rewrite.",
-        stack: ["SQL", "PHP"],
-        outcome: "-50% retrieval time",
-        kind: "impact",
-      },
-      {
-        slug: "view-receipt",
-        name: "Checkout receipt access",
-        what: "Added a View Receipt step so customers got proof of payment immediately instead of waiting on an email.",
-        stack: ["PHP"],
-        kind: "build",
-      },
-    ],
-    color: "var(--color-rose)",
   },
   {
     id: "cheil",
@@ -518,9 +441,8 @@ export const skillLayers: SkillLayer[] = [
       { name: "Express.js", usedIn: ["cheil"] },
       { name: "Python", usedIn: ["inmagine"] },
       { name: "FastAPI", usedIn: ["inmagine"] },
-      { name: "Hono", usedIn: [""], note: "Lightweight edge-runtime API framework" },
-      { name: "PHP", usedIn: ["cloone", "devwiz", "apmt"] },
-      { name: "Laravel", usedIn: ["apmt"] },
+      { name: "PHP", usedIn: ["cloone"] },
+      { name: "Laravel", usedIn: [] },
       { name: "CodeIgniter 3 / 4", usedIn: ["cloone"] },
       { name: "REST API design", usedIn: ["inmagine", "cheil", "cloone"] },
     ],
@@ -558,11 +480,11 @@ export const skillLayers: SkillLayer[] = [
     hint: "State, cache and objects",
     accent: "var(--color-lime)",
     nodes: [
-      { name: "MySQL", usedIn: ["cloone", "apmt"] },
+      { name: "MySQL", usedIn: ["cloone"] },
       { name: "PostgreSQL", usedIn: ["simpanresit"] },
       { name: "Redis", usedIn: ["cheil"] },
       { name: "AWS S3", usedIn: ["cheil"] },
-      { name: "AWS RDS", usedIn: [""], note: "Managed relational hosting" },
+      { name: "AWS RDS", usedIn: [], note: "Managed relational hosting" },
       { name: "Supabase", usedIn: ["simpanresit"] },
       { name: "Convex", usedIn: ["riverlevel"] },
     ],
@@ -621,12 +543,8 @@ export const projects: Project[] = [
     status: "live",
     tagline: "AI receipt scanning for Malaysian income tax claims",
     detail:
-      "A web app for storing tax receipts and supporting personal income tax claims, with AI-powered receipt scanning that reads a photo and suggests the right relief category.",
-    highlights: [
-      "LLM receipt scanning + tax relief category suggestions via OpenRouter",
-      "Supabase Edge Functions with row-level security for per-user data isolation",
-      "Netlify hosting fronted by Cloudflare DNS",
-    ],
+      "Keep your tax receipts in one place for your income tax claim. Snap a photo and AI reads it and picks the right relief category.",
+    highlights: [],
     stack: ["Next.js", "Supabase", "OpenRouter", "Shadcn/ui", "Netlify", "Cloudflare"],
     accent: "var(--color-accent)",
   },
@@ -652,7 +570,6 @@ export const projects: Project[] = [
       "Convex",
       "Tailwind CSS",
       "Shadcn/ui",
-      "Vitest",
       "Netlify",
     ],
     accent: "var(--color-info)",
@@ -662,7 +579,7 @@ export const projects: Project[] = [
 export const education = {
   school: "Selangor Islamic University",
   qualification: "Diploma in Computer Science",
-  period: "2018 – 2020",
+  period: "2018 — 2020",
 };
 
 export const certifications = [
@@ -811,15 +728,8 @@ export const buildNotes: Record<string, BuildNote> = {
   portfolio: {
     title: "This site",
     blurb:
-      "The page you're reading. It's laid out against a river staff gauge, the same kind my river-level monitor reads from, and every date and count on it comes from data rather than being typed into a layout.",
-    highlights: [
-      "Repo list, commit counts and language-per-year pulled live from the GitHub API, so it goes stale on its own if I stop shipping",
-      "Prerendered on Cloudflare Workers with an R2 incremental cache and a Durable Object running revalidation in the background",
-      "No analytics, no cookies, no third-party requests — and no email or phone number anywhere in the source",
-    ],
+      "The page you're reading. Laid out like a river staff gauge, with the project list and counts pulled live from GitHub.",
     accent: "var(--color-lime)",
-    caveat:
-      "Listing it here is not modesty-proofing: if I claim to care about honest data, the site making that claim should be readable end to end.",
   },
   "water-level": {
     title: "River Level Monitoring",
@@ -832,10 +742,8 @@ export const buildNotes: Record<string, BuildNote> = {
     blurb:
       "Live water levels for every JPS station in Selangor, with camera feeds, danger-level push alerts and offline support. I built it because I live in Selangor and \"is the river rising?\" is a question with a real answer that nobody had made easy to check.",
     highlights: [
-      "284 commits across three rewrites — Laravel, then Next.js, now Vite + TanStack Router on a reactive Convex backend",
-      "PWA with offline caching, error boundaries, and OneSignal alerts when a station crosses its danger threshold",
-      "Spent a week in September auditing my own code: closed 9 public write endpoints, fixed an SSRF in the image proxy and OG spoofing",
-      "Vitest + Testing Library + MSW, with a CI step that dry-runs the Convex schema before merge",
+      "Live readings for every JPS station in Selangor, with camera feeds",
+      "Push alerts when a station crosses its danger level, and it works offline",
     ],
     accent: "var(--color-info)",
     liveUrl: "https://riverlevel.netlify.app/stations",
@@ -844,26 +752,14 @@ export const buildNotes: Record<string, BuildNote> = {
   "career-agent": {
     title: "Career Agent",
     blurb:
-      "A private Telegram bot that remembers my career, turns real experiences into structured CV points, rates how well a job actually fits, and writes tailored résumés — with a hard rule that it never invents experience I don't have.",
-    highlights: [
-      "Metrics carry provenance — verified, self-reported or estimate — so nothing silently inflates",
-      "A corrections log means any fact I've fixed stays fixed, and gaps get flagged instead of faked",
-      "Learns from my Apply / Skip decisions to rank future matches, but only ever learns preferences",
-      "Pulls JobStreet listings through its search API rather than scraping, and runs two job threads at a time",
-      "83 commits, 12+ test files, pytest, Docker, LaTeX résumé templates via Jinja2",
-    ],
-    caveat:
-      "Auto-apply is deliberately left out. A bot spraying applications is not a feature, it's a way to waste other people's time.",
+      "A Telegram bot that keeps track of my career, scores how well a job fits me, and writes a tailored résumé for it. It never invents experience I don't have.",
     accent: "var(--color-accent)",
   },
-  // Below the three-year display window in /builds, so this does not currently
-  // render. Kept because the window is rolling and the write-up is still
-  // accurate if it ever widens.
-  "voting-system": {
-    title: "KUIS E-Voting",
+  "palang-ic": {
+    title: "Palang IC",
     blurb:
-      "My diploma final-year project — an online voting system modelled on how my college actually ran its elections. 185 commits, and I kept coming back to fix bugs long after it was graded.",
-    accent: "var(--color-lime)",
+      "Marks copies of your MyKad for one purpose only, so they can't be reused. Runs entirely in your browser: no upload, no account.",
+    accent: "var(--color-info)",
   },
   WaterLevel: {
     title: "River monitoring, v1",
@@ -885,13 +781,14 @@ export type Lineage = {
     host?: string;
     note: string;
     current?: boolean;
+    wip?: boolean;
   }[];
 };
 
 export const lineages: Lineage[] = [
   {
     problem: "Are the rivers in Selangor rising?",
-    why: "Four years, three stacks, one question. Every rewrite happened because the previous version hit a wall I could name — not because a new framework got popular.",
+    why: "My longest-running project, now on its fourth version. Each rewrite fixed something the last one couldn't do.",
     generations: [
       {
         repo: "WaterLevel",
@@ -899,7 +796,7 @@ export const lineages: Lineage[] = [
         period: "Dec 2022",
         stack: "Laravel · jQuery · MySQL",
         host: "Render free tier",
-        note: "Scraped the JPS portal on a schedule, with Google SSO to keep sign-up painless and OneSignal alerting people when their station hit a danger level. Then the free tier started sleeping after 15 minutes idle — and the moment you need a flood dashboard is the moment nobody has visited it.",
+        note: "Read the JPS portal on a schedule and alerted people when their station hit danger level. The free host slept after 15 idle minutes, which is no good for a flood dashboard.",
       },
       {
         repo: "water-level",
@@ -907,7 +804,7 @@ export const lineages: Lineage[] = [
         period: "Aug 2024",
         stack: "Next.js · React",
         host: "Vercel",
-        note: "Always awake and much faster. But I was polling for data I wanted to be live, which meant fighting the framework instead of using it.",
+        note: "Always on and much faster, but it kept asking for data that should have arrived on its own.",
       },
       {
         repo: "water-level",
@@ -915,8 +812,16 @@ export const lineages: Lineage[] = [
         period: "Aug 2026",
         stack: "Vite · TanStack Router · Convex",
         host: "Netlify",
-        note: "A reactive backend, so station readings push instead of being polled. Added offline support, danger-level alerts and an actual test suite.",
+        note: "Readings now push to the page as they change, with offline support and danger-level alerts.",
         current: true,
+      },
+      {
+        repo: "water-level",
+        label: "v4",
+        period: "In progress",
+        stack: "Cloudflare Workers · R2",
+        note: "The JPS site slows down or goes offline during floods, exactly when people need it. V4 serves readings and camera images from a snapshot on Cloudflare R2, so the site stays up under a traffic spike and still shows the last known levels when JPS is down.",
+        wip: true,
       },
     ],
   },

@@ -17,7 +17,7 @@ export default function ReachSection({ syncedAt, live }: { syncedAt: string; liv
   return (
     <section id="reach" aria-labelledby="reach-title" className="on-dark bg-ink px-5 pt-24 pb-10 text-enamel sm:px-10 sm:pt-32 lg:pr-16 xl:pr-24">
       <h2 id="reach-title" className="stretch-wide max-w-[16ch] text-[clamp(2.4rem,5.4vw,4.6rem)] leading-[0.95] font-extrabold tracking-[-0.02em] text-balance">
-        Easiest to reach me through GitHub or LinkedIn.
+        Message me on LinkedIn.
       </h2>
 
       <p className="mt-6 text-[clamp(1.1rem,1.6vw,1.35rem)] text-enamel/85">
@@ -26,8 +26,8 @@ export default function ReachSection({ syncedAt, live }: { syncedAt: string; liv
 
       <ul className="mt-10 flex flex-col gap-5 text-[clamp(1.3rem,2.2vw,1.75rem)] font-semibold sm:flex-row sm:flex-wrap sm:gap-x-14">
         {[
-          [profile.github, profile.githubLabel],
           [profile.linkedin, profile.linkedinLabel],
+          [profile.github, profile.githubLabel],
         ].map(([href, label]) => (
           <li key={href}>
             <a

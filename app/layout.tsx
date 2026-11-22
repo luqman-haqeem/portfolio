@@ -25,7 +25,7 @@ const barlowCondensed = Barlow_Condensed({
 });
 
 const title = `${profile.name} — ${profile.role}`;
-const description = `Full-stack developer in Malaysia, strongest on the backend — slow queries, millions of records, systems that stay up under load. ~${careerYears} years, now building LLM review pipelines on AWS. Career, languages and builds, each with the dates and counts behind it.`;
+const description = `Backend-focused full-stack developer in Malaysia, ~${careerYears} years in. Side projects with live GitHub data: a Selangor flood monitor on its third stack, a tax-receipt app and more.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: `%s — ${profile.name}`,
   },
   description,
-  applicationName: profile.service,
+  applicationName: profile.name,
   authors: [{ name: profile.name, url: profile.github }],
   keywords: [
     "backend developer",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     type: "profile",
     locale: "en_MY",
-    siteName: profile.service,
+    siteName: profile.name,
   },
   twitter: {
     card: "summary_large_image",
@@ -91,7 +91,6 @@ const personSchema = {
     "Python",
     "FastAPI",
     "AWS",
-    "Distributed systems",
     "LLM integration",
   ],
 };

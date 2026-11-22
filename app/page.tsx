@@ -1,5 +1,4 @@
 import BuildsSection from "@/components/BuildsSection";
-import CalibrationSection from "@/components/CalibrationSection";
 import GaugeRail from "@/components/GaugeRail";
 import PrintResume from "@/components/PrintResume";
 import ReachSection from "@/components/ReachSection";
@@ -21,9 +20,8 @@ export default async function Home() {
       <div className="lg:grid lg:grid-cols-[12.5rem_1fr]" data-print="hide">
         <GaugeRail />
         <main id="main" className="min-w-0">
-          <ReadingSection github={github} />
+          <ReadingSection />
           <WorkSection />
-          <CalibrationSection github={github} />
           <BuildsSection github={github} />
           <ReachSection syncedAt={github.syncedAt} live={github.live} />
         </main>
