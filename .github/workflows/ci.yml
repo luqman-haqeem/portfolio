@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 concurrency:
@@ -22,7 +23,9 @@ jobs:
       - name: Types
         run: npx tsc --noEmit
       - name: Lint
-        run: npx eslint .
+        run: npx eslint . --max-warnings=0
+      - name: Test
+        run: npm test
 
   deploy:
     needs: check
@@ -36,7 +39,8 @@ jobs:
     # `secrets` context is not available in a job-level `if`, so the variable is
     # the gate — and it's required for deploys anyway, since the sitemap and OG
     # image need an absolute origin.
-    if: ${{ vars.SITE_URL != '' }}
+    # Never deploy from a pull request — PRs only run the check job.
+    if: ${{ vars.SITE_URL != '' && github.event_name != 'pull_request' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
