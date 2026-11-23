@@ -12,18 +12,17 @@ import { useEffect, useState } from "react";
  */
 
 export const LEVELS = [
-  { id: "top", label: "Reading" },
-  { id: "work", label: "Work" },
-  { id: "calibration", label: "Languages" },
-  { id: "builds", label: "Builds" },
-  { id: "reach", label: "Reach" },
+  { id: "top", label: "Intro" },
+  { id: "work", label: "Experience" },
+  { id: "builds", label: "Projects" },
+  { id: "reach", label: "Contact" },
 ] as const;
 
 const MAX = LEVELS.length;
 /**
  * The plate face, drawn the way JPS paints one: alternating "E" blocks, each a
  * spine with three arms, swapping side block by block, and the metres painted
- * alternately black and red. One E per 10 cm, so five metres stay legible at
+ * alternately black and red. One E per 10 cm, so the metres stay legible at
  * rail height (a real plate's 5 cm E's would be under 2px here).
  */
 function GaugeFace() {
@@ -165,11 +164,11 @@ export default function GaugeRail() {
         data-print="hide"
       >
         <ol className="flex items-stretch justify-between overflow-x-auto px-4 [scrollbar-width:none] sm:px-8">
-          {LEVELS.slice(1).map((l, i) => (
+          {LEVELS.map((l, i) => (
             <li key={l.id}>
               <a
                 href={`#${l.id}`}
-                aria-current={active === i + 1 ? "location" : undefined}
+                aria-current={active === i ? "location" : undefined}
                 className="block border-b-[3px] border-transparent py-3 font-reading text-[15px] font-bold tracking-[0.06em] whitespace-nowrap uppercase opacity-65 aria-[current]:border-ink aria-[current]:opacity-100"
               >
                 {l.label}

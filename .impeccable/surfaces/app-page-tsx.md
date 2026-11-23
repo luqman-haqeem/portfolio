@@ -10,7 +10,7 @@ related_targets: []
 Scope: the whole one-page portfolio at `/`. Mode: Experience. The visitor's success is leaving knowing who Luqman is and how he thinks.
 
 Audience: broad (peers, collaborators, recruiters). Job: understand him and what he has actually built, and reach him through GitHub or LinkedIn.
-Must keep: builds list and language eras (live GitHub data). May cut or rework: session console, skill→usage links, plain-text toggle, print résumé.
+Must keep: builds list (live GitHub data). Showcase, not résumé (owner, 2026-11-22): order is intro → experience (one line per role, never the projects done inside a company) → side projects → contact; the languages section is removed. May cut or rework: session console, skill→usage links, plain-text toggle, print résumé.
 Avoid: generic dev template, too gimmicky, too corporate, dark hacker look.
 Chosen via: the /prototype comparison (variant A).
 

@@ -67,7 +67,7 @@ export default function BuildsSection({ github }: { github: GithubData }) {
       <SectionHead
         id="builds"
         title="Things I built outside work"
-        reading={`${recent.length} public repos · ${commits.toLocaleString("en")}${uncounted ? "+" : ""} commits · last 3 yrs`}
+        reading={`${recent.length} public repos · ${commits.toLocaleString("en")}${uncounted ? "+" : ""} commits · pushed in the last 3 yrs`}
       >
         Repo counts and dates come live from GitHub{github.live ? "" : " (currently the committed snapshot)"}
         {uncounted ? `; ${uncounted} repo${uncounted === 1 ? "" : "s"} had no commit count, so the total is a floor` : ""}. The
@@ -106,14 +106,14 @@ export default function BuildsSection({ github }: { github: GithubData }) {
                   <div className="flex flex-wrap items-baseline gap-x-4">
                     <Reading className="text-[28px] leading-none font-bold">{g.label}</Reading>
                     <Reading className="text-[17px] font-semibold">{g.period}</Reading>
-                    {g.current && <Reading className="text-[15px] font-bold">current</Reading>}
+                    {g.current && <Reading className="text-[15px] font-bold">live</Reading>}
                   </div>
                   <p className="mt-2 font-semibold">
                     {g.stack}
                     {g.host ? <span className="font-normal opacity-75"> on {g.host}</span> : null}
                   </p>
                   <p className="mt-2 max-w-[60ch] text-[16px] leading-relaxed">{g.note}</p>
-                  {repo && (
+                  {repo && !g.wip && (
                     <p className="mt-2">
                       <a href={repo.url} target="_blank" rel="noopener noreferrer" className="font-reading text-[15px] font-semibold tracking-[0.04em] underline decoration-2 hover:text-water">
                         {repo.name}
@@ -148,14 +148,14 @@ export default function BuildsSection({ github }: { github: GithubData }) {
                 {p.status} · closed source
               </Reading>
               <p className="mt-4 max-w-[60ch] text-[17px] leading-relaxed">{p.detail}</p>
-              <ul className="mt-5 space-y-2">
+              {p.highlights.length > 0 && <ul className="mt-5 space-y-2">
                 {p.highlights.map((h) => (
                   <li key={h} className="flex gap-3 text-[16px] leading-relaxed">
                     <span className="mt-[0.7em] h-[3px] w-4 shrink-0 bg-ink" aria-hidden="true" />
                     {h}
                   </li>
                 ))}
-              </ul>
+              </ul>}
               <Reading as="p" className="mt-5 text-[15px] font-medium opacity-75 normal-case">
                 {p.stack.join(" · ")}
               </Reading>
