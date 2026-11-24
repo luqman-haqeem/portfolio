@@ -16,6 +16,9 @@ const eslintConfig = defineConfig([
     ".open-next/**",
     ".wrangler/**",
     "cloudflare-env.d.ts",
+    // Vendored agent-skill scripts — third-party, not site code.
+    ".claude/**",
+    ".github/skills/**",
   ]),
 ]);
 
